@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, NavLink, useParams } from 'react-router-dom'
 import { missions, skills, experiments, memories, milestones, articles, socialLinks, type SkillCategory, type ExperimentCategory, type MemoryCategory, type MilestoneCategory, type JournalCategory } from '../content/portfolio'
 import { LabCanvasWidget } from '../components/LabCanvasWidget'
 
@@ -26,7 +26,7 @@ function PageFrame({ eyebrow, title, intro, children }: PageFrameProps) {
       <header className="site-header">
         <Link className="wordmark" to="/">thedeepanshu<span className="wordmark-dot">.</span></Link>
         <nav className="site-nav" aria-label="Primary navigation">
-          {navigation.map(([label, path]) => <Link key={path} to={path}>{label}</Link>)}
+          {navigation.map(([label, path]) => <NavLink key={path} to={path}>{label}</NavLink>)}
         </nav>
         <span className="system-status"><i /> system online</span>
       </header>

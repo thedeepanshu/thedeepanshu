@@ -1,9 +1,19 @@
-import { lazy, Suspense } from 'react'
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { useEffect, lazy, Suspense } from 'react'
+import { BrowserRouter, Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
 import { AboutPage, ArsenalPage, BeyondPage, JourneyPage, LabPage, MissionsPage, MissionDetailPage, JournalPage, SignalPage } from './pages/Pages'
 
 const HeroScene = lazy(() => import('./scenes/HeroScene').then(({ HeroScene }) => ({ default: HeroScene })))
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+  }, [pathname])
+
+  return null
+}
 
 function HomePage() {
   return (
@@ -13,13 +23,13 @@ function HomePage() {
           thedeepanshu<span className="wordmark-dot">.</span>
         </a>
         <nav className="site-nav" aria-label="Primary navigation">
-          <Link to="/about">Origin</Link>
-          <Link to="/missions">Missions</Link>
-          <Link to="/arsenal">Arsenal</Link>
-          <Link to="/journey">Journey</Link>
-          <Link to="/lab">Lab</Link>
-          <Link to="/beyond">Beyond</Link>
-          <Link to="/signal">Signal</Link>
+          <NavLink to="/about">Origin</NavLink>
+          <NavLink to="/missions">Missions</NavLink>
+          <NavLink to="/arsenal">Arsenal</NavLink>
+          <NavLink to="/journey">Journey</NavLink>
+          <NavLink to="/lab">Lab</NavLink>
+          <NavLink to="/beyond">Beyond</NavLink>
+          <NavLink to="/signal">Signal</NavLink>
         </nav>
         <span className="system-status"><i /> system online</span>
       </header>
@@ -88,6 +98,7 @@ function HomePage() {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />

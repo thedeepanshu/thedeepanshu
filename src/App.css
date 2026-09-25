@@ -17,8 +17,9 @@
 .wordmark-dot, .mission-card h2 span { color: var(--cyan); }
 .site-nav { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
 .site-nav a, .system-status, .eyebrow, .section-kicker, .section-heading > span, .mission-type, .site-footer p { color: var(--muted); font-family: 'Courier New', monospace; font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; }
-.site-nav a { text-decoration: none; transition: color .25s ease; padding: 4px 0; }
-.site-nav a:hover, .site-nav a:focus-visible { color: var(--cyan); }
+.site-nav a { text-decoration: none; transition: color .25s ease; padding: 4px 0; position: relative; }
+.site-nav a:hover, .site-nav a:focus-visible, .site-nav a.active { color: var(--cyan); }
+.site-nav a.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); border-radius: 2px; }
 .system-status { align-items: center; display: flex; gap: 8px; }
 .system-status i { background: var(--cyan); border-radius: 50%; box-shadow: 0 0 12px var(--cyan); height: 6px; width: 6px; }
 
