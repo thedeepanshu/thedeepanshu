@@ -1,9 +1,11 @@
 import { lazy, Suspense } from 'react'
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import './App.css'
+import { AboutPage, ArsenalPage, BeyondPage, JourneyPage, LabPage, MissionsPage, JournalPage, SignalPage } from './pages/Pages'
 
 const HeroScene = lazy(() => import('./scenes/HeroScene').then(({ HeroScene }) => ({ default: HeroScene })))
 
-function App() {
+function HomePage() {
   return (
     <main className="portfolio-shell">
       <header className="site-header">
@@ -11,9 +13,9 @@ function App() {
           thedeepanshu<span className="wordmark-dot">.</span>
         </a>
         <nav className="site-nav" aria-label="Primary navigation">
-          <a href="#origin">Origin</a>
-          <a href="#missions">Missions</a>
-          <a href="#signal">Signal</a>
+          <Link to="/about">Origin</Link>
+          <Link to="/missions">Missions</Link>
+          <Link to="/signal">Signal</Link>
         </nav>
         <span className="system-status"><i /> system online</span>
       </header>
@@ -74,6 +76,24 @@ function App() {
         <a href="mailto:hello@thedeepanshu.dev">Let&apos;s build something alive <span>↗</span></a>
       </footer>
     </main>
+  )
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/missions" element={<MissionsPage />} />
+        <Route path="/arsenal" element={<ArsenalPage />} />
+        <Route path="/journey" element={<JourneyPage />} />
+        <Route path="/lab" element={<LabPage />} />
+        <Route path="/beyond" element={<BeyondPage />} />
+        <Route path="/journal" element={<JournalPage />} />
+        <Route path="/signal" element={<SignalPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
