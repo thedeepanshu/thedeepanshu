@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { missions, skills, experiments, memories, milestones, articles, type SkillCategory, type ExperimentCategory, type MemoryCategory, type MilestoneCategory, type JournalCategory } from '../content/portfolio'
+import { missions, skills, experiments, memories, milestones, articles, socialLinks, type SkillCategory, type ExperimentCategory, type MemoryCategory, type MilestoneCategory, type JournalCategory } from '../content/portfolio'
 import { LabCanvasWidget } from '../components/LabCanvasWidget'
 
 type PageFrameProps = {
@@ -736,6 +736,168 @@ export function JournalPage() {
 }
 
 export function SignalPage() {
-  return <PageFrame eyebrow="008 / contact" title={<>Send a <em>signal.</em></>} intro="Have a project, an experiment, or a strange idea worth exploring? I would like to hear about it."><div className="signal-panel"><span>available for selected collaborations</span><a href="mailto:hello@thedeepanshu.dev">hello@thedeepanshu.dev <b>↗</b></a></div></PageFrame>
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    projectType: 'Full System Architecture',
+    message: '',
+  })
+  const [dispatchStatus, setDispatchStatus] = useState<'idle' | 'transmitting' | 'sent'>('idle')
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!formData.name || !formData.email || !formData.message) return
+
+    setDispatchStatus('transmitting')
+    setTimeout(() => {
+      setDispatchStatus('sent')
+    }, 1200)
+  }
+
+  return (
+    <PageFrame eyebrow="008 / contact" title={<>Send a <em>signal.</em></>} intro="Have a project, a 3D WebGL experiment, an AI interface, or a creative vision worth exploring? Let's build something alive.">
+      <div className="signal-container">
+        {/* Availability Bar */}
+        <div className="signal-stats-bar">
+          <div className="stat-pill">
+            <span>Availability Status</span>
+            <strong className="status-highlight">● Open for Selected Collaborations</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Response Metric</span>
+            <strong>&lt; 24 Hours Response Time</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Current Location</span>
+            <strong>UTC +05:30 • Digital Studio</strong>
+          </div>
+        </div>
+
+        {/* 2-Column Terminal Layout */}
+        <div className="signal-layout">
+          {/* Left Column: Form */}
+          <div className="signal-terminal-panel">
+            <div className="terminal-header">
+              <span className="terminal-title">TERMINAL DISPATCH // INBOUND SIGNAL</span>
+              <span className="terminal-dot" />
+            </div>
+
+            {dispatchStatus === 'sent' ? (
+              <div className="dispatch-success-box">
+                <span className="success-tag">&gt; SIGNAL ACKNOWLEDGED</span>
+                <h3>Transmission Received</h3>
+                <p>Thank you, {formData.name}. Your signal has been routed to my primary terminal queue. I will respond within 24 hours.</p>
+                <button className="primary-action inline-action" onClick={() => {
+                  setFormData({ name: '', email: '', projectType: 'Full System Architecture', message: '' })
+                  setDispatchStatus('idle')
+                }}>
+                  Send another signal <span>↗</span>
+                </button>
+              </div>
+            ) : (
+              <form className="signal-form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="name">Your Name / Identity</label>
+                  <input
+                    id="name"
+                    type="text"
+                    required
+                    placeholder="e.g. Alex Mercer"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="email">Return Signal Coordinate (Email)</label>
+                  <input
+                    id="email"
+                    type="email"
+                    required
+                    placeholder="e.g. alex@studio.dev"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="projectType">Project Scope / Category</label>
+                  <select
+                    id="projectType"
+                    value={formData.projectType}
+                    onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
+                  >
+                    <option value="Full System Architecture">Full System Architecture</option>
+                    <option value="3D WebGL Interface">3D WebGL / Spatial Interface</option>
+                    <option value="Spatial AI Experience">Spatial AI / Agentic UI</option>
+                    <option value="Design & Strategy">Design Systems & Product Strategy</option>
+                    <option value="General Inquiry">General Inquiry / Open Chat</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="message">Signal Brief / Project Vision</label>
+                  <textarea
+                    id="message"
+                    rows={5}
+                    required
+                    placeholder="Tell me about your goals, timeline, and vision..."
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="primary-action submit-btn"
+                  disabled={dispatchStatus === 'transmitting'}
+                >
+                  {dispatchStatus === 'transmitting' ? 'Transmitting Signal...' : 'Transmit Signal ↗'}
+                </button>
+              </form>
+            )}
+          </div>
+
+          {/* Right Column: Direct Channels & Telemetry */}
+          <div className="signal-sidebar">
+            <div className="coordinates-panel">
+              <p className="sidebar-label">/ DIRECT CHANNELS &amp; COORDINATES</p>
+
+              <div className="social-grid">
+                {socialLinks.map((link) => (
+                  <a
+                    className="social-tile"
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    key={link.name}
+                  >
+                    <div>
+                      <span className="tile-platform">{link.platform}</span>
+                      <strong className="tile-name">{link.name}</strong>
+                      <small className="tile-handle">{link.handle}</small>
+                    </div>
+                    <span className="tile-arrow">↗</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* System Telemetry Box */}
+            <div className="telemetry-box">
+              <span className="telemetry-title">&gt; SYSTEM TELEMETRY LOG</span>
+              <pre className="telemetry-log">
+{`> CORE STATUS: OPERATIONAL
+> ENCRYPTION: TLS 1.3 ACTIVE
+> PORT: 443 OPEN
+> BUFFER: 0% DROPPED
+> ROUTING: DIRECT TO INBOX`}
+              </pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </PageFrame>
+  )
 }
 

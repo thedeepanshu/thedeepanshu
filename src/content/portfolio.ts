@@ -617,6 +617,22 @@ export const articles: JournalArticle[] = [
   },
 ]
 
+export type SocialLink = {
+  name: string
+  handle: string
+  url: string
+  platform: string
+}
+
+export const socialLinks: SocialLink[] = [
+  { name: 'Direct Email', handle: 'hello@thedeepanshu.dev', url: 'mailto:hello@thedeepanshu.dev', platform: 'Primary Channel' },
+  { name: 'WhatsApp', handle: '+91 70151 20411', url: 'https://wa.me/917015120411', platform: 'Instant Signal' },
+  { name: 'GitHub', handle: '@thedeepanshu', url: 'https://github.com/thedeepanshu', platform: 'Code Repositories' },
+  { name: 'LinkedIn', handle: '@thedeepanshu', url: 'https://www.linkedin.com/in/deepanshu-saini-a97229206/', platform: 'Professional Network' },
+  { name: 'Instagram', handle: '@deep22.01', url: 'https://instagram.com/deep22.01', platform: 'Off-Duty Realm' },
+]
+
+
 
 
 
