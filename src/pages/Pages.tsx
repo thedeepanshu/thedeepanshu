@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { missions, skills, experiments, memories, milestones, type SkillCategory, type ExperimentCategory, type MemoryCategory, type MilestoneCategory } from '../content/portfolio'
+import { missions, skills, experiments, memories, milestones, articles, type SkillCategory, type ExperimentCategory, type MemoryCategory, type MilestoneCategory, type JournalCategory } from '../content/portfolio'
 import { LabCanvasWidget } from '../components/LabCanvasWidget'
 
 type PageFrameProps = {
@@ -42,10 +42,6 @@ function PageFrame({ eyebrow, title, intro, children }: PageFrameProps) {
       </footer>
     </main>
   )
-}
-
-function ChapterList({ items }: { items: string[] }) {
-  return <div className="chapter-list">{items.map((item, index) => <div className="chapter-row" key={item}><span>0{index + 1}</span><strong>{item}</strong><b>↗</b></div>)}</div>
 }
 
 export function AboutPage() {
@@ -595,7 +591,148 @@ export function BeyondPage() {
 }
 
 export function JournalPage() {
-  return <PageFrame eyebrow="007 / field notes" title={<>Thoughts from the <em>signal.</em></>} intro="Notes on building, designing, learning, and staying curious in a fast-moving medium."><ChapterList items={['Why interfaces should have atmosphere', 'Learning to think in systems', 'Building for the feeling']} /></PageFrame>
+  const [activeCategory, setActiveCategory] = useState<JournalCategory>('all')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [openSlug, setOpenSlug] = useState<string | null>(null)
+
+  const categories: { id: JournalCategory; label: string }[] = [
+    { id: 'all', label: 'All Notes' },
+    { id: 'ui-atmosphere', label: 'UI Atmosphere' },
+    { id: 'systems-thinking', label: 'Systems Thinking' },
+    { id: 'ai-design', label: 'AI & Design' },
+  ]
+
+  const featuredArticle = articles.find((a) => a.featured) || articles[0]
+
+  const filteredArticles = articles.filter((art) => {
+    const matchesCat = activeCategory === 'all' || art.category === activeCategory
+    const matchesSearch = art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          art.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchesCat && matchesSearch
+  })
+
+  return (
+    <PageFrame eyebrow="007 / field notes" title={<>Thoughts from the <em>signal.</em></>} intro="Reflections on systems design, spatial interfaces, software craftsmanship, and building products with personality.">
+      <div className="journal-container">
+        {/* Journal Stats Bar */}
+        <div className="journal-stats-bar">
+          <div className="stat-pill">
+            <span>Archive Size</span>
+            <strong>{articles.length} Published Field Notes</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Primary Focus</span>
+            <strong>Software Craft & Atmosphere</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Reading Time</span>
+            <strong>~15 Min Total Archive</strong>
+          </div>
+        </div>
+
+        {/* Search & Filter Toolbar */}
+        <div className="journal-toolbar">
+          <div className="journal-search-box">
+            <span>SEARCH /</span>
+            <input
+              type="text"
+              placeholder="Search field notes by keyword..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          <div className="journal-filter-bar">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                className={`filter-btn ${activeCategory === cat.id ? 'active' : ''}`}
+                onClick={() => setActiveCategory(cat.id)}
+              >
+                <span>/</span> {cat.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Featured Note Spotlight (if no search filter active) */}
+        {!searchQuery && activeCategory === 'all' && (
+          <section className="featured-article-card">
+            <div className="featured-meta">
+              <span className="spotlight-tag">FEATURED SPOTLIGHT</span>
+              <span className="featured-date">{featuredArticle.date} • {featuredArticle.readTime}</span>
+            </div>
+            <h2 className="featured-title">{featuredArticle.title}</h2>
+            <p className="featured-excerpt">{featuredArticle.excerpt}</p>
+            <div className="featured-takeaways">
+              <strong>Key Insight:</strong>
+              <p>&ldquo;{featuredArticle.takeaways[0]}&rdquo;</p>
+            </div>
+            <button
+              className="primary-action inline-action"
+              onClick={() => setOpenSlug(openSlug === featuredArticle.slug ? null : featuredArticle.slug)}
+            >
+              {openSlug === featuredArticle.slug ? 'Close reading mode [-]' : 'Read full field note ↗'}
+            </button>
+
+            {openSlug === featuredArticle.slug && (
+              <div className="article-reader-drawer">
+                {featuredArticle.content.map((p, idx) => (
+                  <p key={idx}>{p}</p>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* Articles List */}
+        <div className="articles-list">
+          {filteredArticles.map((art) => (
+            <article className="article-card" key={art.slug}>
+              <div className="article-card-header">
+                <div>
+                  <span className="article-category">{art.categoryLabel}</span>
+                  <h3 className="article-title">{art.title}</h3>
+                </div>
+                <span className="article-date">{art.date} • {art.readTime}</span>
+              </div>
+
+              <p className="article-excerpt">{art.excerpt}</p>
+
+              {/* Takeaways list */}
+              <div className="article-takeaways-block">
+                <span>Key Takeaways:</span>
+                <ul>
+                  {art.takeaways.map((t, idx) => (
+                    <li key={idx}><span>✦</span> {t}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Reader Toggle Button */}
+              <div className="article-card-footer">
+                <button
+                  className="read-toggle-btn"
+                  onClick={() => setOpenSlug(openSlug === art.slug ? null : art.slug)}
+                >
+                  {openSlug === art.slug ? 'Hide note content [-]' : 'Read full note [+]'}
+                </button>
+              </div>
+
+              {/* Full Article Drawer */}
+              {openSlug === art.slug && (
+                <div className="article-reader-drawer">
+                  {art.content.map((paragraph, idx) => (
+                    <p key={idx}>{paragraph}</p>
+                  ))}
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </div>
+    </PageFrame>
+  )
 }
 
 export function SignalPage() {

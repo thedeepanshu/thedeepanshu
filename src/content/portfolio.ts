@@ -539,6 +539,85 @@ export const milestones: Milestone[] = [
   },
 ]
 
+export type JournalCategory = 'all' | 'systems-thinking' | 'ui-atmosphere' | 'engineering' | 'ai-design'
+
+export type JournalArticle = {
+  slug: string
+  title: string
+  category: Exclude<JournalCategory, 'all'>
+  categoryLabel: string
+  date: string
+  readTime: string
+  excerpt: string
+  content: string[]
+  takeaways: string[]
+  featured?: boolean
+}
+
+export const articles: JournalArticle[] = [
+  {
+    slug: 'why-interfaces-should-have-atmosphere',
+    title: 'Why Interfaces Should Have Atmosphere',
+    category: 'ui-atmosphere',
+    categoryLabel: 'UI Atmosphere',
+    date: 'Jan 2026',
+    readTime: '4 min read',
+    featured: true,
+    excerpt: 'Most modern web applications look clean, but feel sterile. Adding depth, motion, lighting, and visual weight turns a utility into an experience.',
+    content: [
+      'In the rush toward extreme flat minimalism, digital products lost their sense of space. Buttons became borderless rectangles; backgrounds flattened into plain white or grey; interfaces stopped feeling like physical or digital objects.',
+      'Atmosphere does not mean visual noise. It means intent. It means using volumetric gradients, subtle scanlines, glass backdrop blurs, and responsive lighting to give an interface a pulse.',
+      'When an interactive surface responds to mouse hover with lighting rather than just color flips, the user subconsciously perceives physical presence. That emotional connection transforms software from a tool into a destination.',
+    ],
+    takeaways: [
+      'Visual atmosphere increases engagement and perceived software quality.',
+      'Use lighting & spatial depth rather than flat color swaps.',
+      'Performance budgeting ensures atmospheric graphics run at 60fps.',
+    ],
+  },
+  {
+    slug: 'learning-to-think-in-systems',
+    title: 'Learning to Think in Systems',
+    category: 'systems-thinking',
+    categoryLabel: 'Systems Thinking',
+    date: 'Dec 2025',
+    readTime: '6 min read',
+    featured: false,
+    excerpt: 'Writing code is easy; architecting systems that scale gracefully across state, UI components, and team collaboration is where real engineering happens.',
+    content: [
+      'When you start coding, you focus on functions and syntax. As you build larger applications, you realize that software is a graph of interconnected dependencies.',
+      'Thinking in systems means designing data flows where state mutation is predictable, UI components are decoupled from raw API shapes, and CSS design tokens ensure global visual consistency.',
+      'By treating your codebase as a living machine with clear boundaries, you eliminate entire classes of visual regressions and runtime crashes before they happen.',
+    ],
+    takeaways: [
+      'Decouple component rendering logic from raw API models.',
+      'Centralize styling tokens to guarantee architectural consistency.',
+      'Prioritize predictable single-direction data flow.',
+    ],
+  },
+  {
+    slug: 'building-for-the-feeling',
+    title: 'Building for the Feeling: Emotion in Software',
+    category: 'ai-design',
+    categoryLabel: 'AI & Design',
+    date: 'Nov 2025',
+    readTime: '5 min read',
+    featured: false,
+    excerpt: 'As AI models commoditize code generation, the defining differentiator for software will be craftsmanship, personality, and emotional resonance.',
+    content: [
+      'AI tools can write boilerplate and pass unit tests in seconds. What they cannot do is feel. They do not know what it feels like to land on a page that surprises you with cinematic energy.',
+      'Craftsmanship is the deliberate choice to polish the 1% micro-interactions: the way an avatar drifts, the sound of a keypress, the timing of a spring animation, the exact HSL glow of a button.',
+      'The future of software belongs to builders who combine technical rigor with creative direction—engineers who build experiences that leave a lasting mark.',
+    ],
+    takeaways: [
+      'AI automates syntax; human craftsmanship defines delight.',
+      'Micro-animations create high-perceived value and brand identity.',
+      'Build products with a strong, opinionated personality.',
+    ],
+  },
+]
+
+
 
 
 

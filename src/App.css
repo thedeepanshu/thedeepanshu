@@ -307,6 +307,60 @@ h1 em { color: var(--cyan); font-style: normal; }
   .node-dot { display: none; }
 }
 
+.journal-container { display: flex; flex-direction: column; gap: 50px; }
+.journal-stats-bar { border-bottom: 1px solid var(--line); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); padding: 22px 0; gap: 20px; }
+
+.journal-toolbar { display: flex; flex-direction: column; gap: 20px; }
+.journal-search-box { background: rgba(14, 25, 31, .7); border: 1px solid var(--line); padding: 12px 18px; display: flex; align-items: center; gap: 14px; }
+.journal-search-box span { color: var(--cyan); font-family: 'Courier New', monospace; font-size: .65rem; text-transform: uppercase; letter-spacing: .12em; }
+.journal-search-box input { background: none; border: none; outline: none; color: var(--ink); font-family: inherit; font-size: 1rem; width: 100%; }
+.journal-search-box input::placeholder { color: var(--muted); }
+.journal-filter-bar { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.featured-article-card { background: linear-gradient(145deg, rgba(23, 56, 64, .7), rgba(9, 16, 20, .9)); border: 1px solid rgba(126, 244, 219, .45); padding: 36px; display: flex; flex-direction: column; gap: 20px; }
+.featured-meta { display: flex; justify-content: space-between; align-items: center; }
+.spotlight-tag { background: rgba(40, 215, 255, .15); border: 1px solid var(--cyan); color: var(--cyan); font-family: 'Courier New', monospace; font-size: .6rem; padding: 4px 10px; letter-spacing: .1em; }
+.featured-date { color: var(--muted); font-family: 'Courier New', monospace; font-size: .65rem; }
+
+.featured-title { color: var(--ink); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; letter-spacing: -.06em; margin: 0; line-height: 1.1; }
+.featured-excerpt { color: #b0c7ca; font-size: 1.15rem; line-height: 1.6; margin: 0; max-width: 900px; }
+
+.featured-takeaways { background: rgba(7, 16, 20, .8); border: 1px solid var(--line); padding: 18px; display: flex; flex-direction: column; gap: 6px; }
+.featured-takeaways strong { color: var(--cyan); font-family: 'Courier New', monospace; font-size: .65rem; text-transform: uppercase; letter-spacing: .1em; }
+.featured-takeaways p { color: var(--ink); font-size: 1rem; font-style: italic; margin: 0; }
+
+.inline-action { align-self: flex-start; cursor: pointer; }
+
+.articles-list { display: flex; flex-direction: column; gap: 28px; }
+.article-card { background: linear-gradient(145deg, rgba(14, 25, 31, .85), rgba(7, 12, 15, .95)); border: 1px solid var(--line); padding: 30px; display: flex; flex-direction: column; gap: 18px; transition: border-color .25s ease; }
+.article-card:hover { border-color: rgba(126, 244, 219, .4); }
+
+.article-card-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.article-category { color: var(--cyan); font-family: 'Courier New', monospace; font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; display: block; margin-bottom: 4px; }
+.article-title { color: var(--ink); font-size: 1.8rem; font-weight: 400; letter-spacing: -.05em; margin: 0; }
+.article-date { color: var(--muted); font-family: 'Courier New', monospace; font-size: .65rem; text-transform: uppercase; }
+
+.article-excerpt { color: #9aabad; font-size: 1rem; line-height: 1.6; margin: 0; }
+
+.article-takeaways-block { border-top: 1px solid rgba(255, 255, 255, .06); padding-top: 14px; }
+.article-takeaways-block span { color: var(--muted); font-family: 'Courier New', monospace; font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; display: block; margin-bottom: 8px; }
+.article-takeaways-block ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.article-takeaways-block li { color: #b4c7c9; font-size: .9rem; display: flex; gap: 10px; align-items: center; }
+.article-takeaways-block li span { color: var(--cyan); font-size: .75rem; }
+
+.article-card-footer { display: flex; justify-content: flex-end; border-top: 1px solid rgba(255, 255, 255, .06); padding-top: 14px; }
+.read-toggle-btn { background: none; border: 1px dashed var(--line); color: var(--cyan); cursor: pointer; font-family: 'Courier New', monospace; font-size: .65rem; padding: 8px 14px; text-transform: uppercase; transition: border-color .25s ease; }
+.read-toggle-btn:hover { border-color: var(--cyan); }
+
+.article-reader-drawer { background: #05090c; border: 1px solid rgba(126, 244, 219, .3); padding: 28px; display: flex; flex-direction: column; gap: 16px; margin-top: 10px; border-radius: 4px; }
+.article-reader-drawer p { color: #d6e7e9; font-size: 1.05rem; line-height: 1.75; margin: 0; }
+
+@media (max-width: 900px) {
+  .journal-stats-bar { grid-template-columns: 1fr; }
+  .article-card-header { flex-direction: column; gap: 8px; }
+}
+
+
 
 
 
