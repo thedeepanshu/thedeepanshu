@@ -15,6 +15,10 @@ function HomePage() {
         <nav className="site-nav" aria-label="Primary navigation">
           <Link to="/about">Origin</Link>
           <Link to="/missions">Missions</Link>
+          <Link to="/arsenal">Arsenal</Link>
+          <Link to="/journey">Journey</Link>
+          <Link to="/lab">Lab</Link>
+          <Link to="/beyond">Beyond</Link>
           <Link to="/signal">Signal</Link>
         </nav>
         <span className="system-status"><i /> system online</span>

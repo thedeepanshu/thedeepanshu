@@ -15,9 +15,9 @@
 .site-header { align-items: center; border-bottom: 1px solid var(--line); display: flex; height: 84px; justify-content: space-between; }
 .wordmark { color: var(--ink); font-size: 1.02rem; font-weight: 600; letter-spacing: -.04em; text-decoration: none; }
 .wordmark-dot, .mission-card h2 span { color: var(--cyan); }
-.site-nav { display: flex; gap: 34px; }
+.site-nav { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
 .site-nav a, .system-status, .eyebrow, .section-kicker, .section-heading > span, .mission-type, .site-footer p { color: var(--muted); font-family: 'Courier New', monospace; font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; }
-.site-nav a { text-decoration: none; transition: color .25s ease; }
+.site-nav a { text-decoration: none; transition: color .25s ease; padding: 4px 0; }
 .site-nav a:hover, .site-nav a:focus-visible { color: var(--cyan); }
 .system-status { align-items: center; display: flex; gap: 8px; }
 .system-status i { background: var(--cyan); border-radius: 50%; box-shadow: 0 0 12px var(--cyan); height: 6px; width: 6px; }

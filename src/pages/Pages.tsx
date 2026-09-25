@@ -26,7 +26,7 @@ function PageFrame({ eyebrow, title, intro, children }: PageFrameProps) {
       <header className="site-header">
         <Link className="wordmark" to="/">thedeepanshu<span className="wordmark-dot">.</span></Link>
         <nav className="site-nav" aria-label="Primary navigation">
-          {navigation.slice(0, 3).map(([label, path]) => <Link key={path} to={path}>{label}</Link>)}
+          {navigation.map(([label, path]) => <Link key={path} to={path}>{label}</Link>)}
         </nav>
         <span className="system-status"><i /> system online</span>
       </header>
