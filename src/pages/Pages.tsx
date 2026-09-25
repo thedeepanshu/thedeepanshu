@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { missions, skills, experiments, memories, type SkillCategory, type ExperimentCategory, type MemoryCategory } from '../content/portfolio'
+import { missions, skills, experiments, memories, milestones, type SkillCategory, type ExperimentCategory, type MemoryCategory, type MilestoneCategory } from '../content/portfolio'
 import { LabCanvasWidget } from '../components/LabCanvasWidget'
 
 type PageFrameProps = {
@@ -279,7 +279,108 @@ export function ArsenalPage() {
 }
 
 export function JourneyPage() {
-  return <PageFrame eyebrow="004 / timeline" title={<>The <em>journey.</em></>} intro="Milestones are useful. The direction between them matters more."><ChapterList items={['The first line of code', 'Learning to build in public', 'The next chapter is loading']} /></PageFrame>
+  const [activeCategory, setActiveCategory] = useState<MilestoneCategory>('all')
+
+  const categories: { id: MilestoneCategory; label: string }[] = [
+    { id: 'all', label: 'All Milestones' },
+    { id: 'engineering', label: 'Engineering' },
+    { id: 'spatial-3d', label: '3D & Spatial' },
+    { id: 'ai-systems', label: 'AI & Systems' },
+    { id: 'creative-growth', label: 'Creative Growth' },
+  ]
+
+  const filteredMilestones = activeCategory === 'all'
+    ? milestones
+    : milestones.filter((m) => m.category === activeCategory)
+
+  return (
+    <PageFrame eyebrow="004 / timeline" title={<>The <em>journey.</em></>} intro="Milestones mark progress, but the direction between them defines the craft. A chronological log of growth.">
+      <div className="journey-container">
+        {/* Journey Stats Bar */}
+        <div className="journey-stats-bar">
+          <div className="stat-pill">
+            <span>Timeline Arc</span>
+            <strong>2023 — 2026+ Horizon</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Core Disciplines</span>
+            <strong>React + WebGL + Spatial AI</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Current Milestone</span>
+            <strong>thedeepanshu v3 Active</strong>
+          </div>
+        </div>
+
+        {/* Filter Navigation Bar */}
+        <div className="journey-filter-bar">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className={`filter-btn ${activeCategory === cat.id ? 'active' : ''}`}
+              onClick={() => setActiveCategory(cat.id)}
+            >
+              <span>/</span> {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Vertical Timeline Structure */}
+        <div className="timeline-wrapper">
+          <div className="timeline-spine" />
+
+          <div className="timeline-list">
+            {filteredMilestones.map((ms) => (
+              <div className="timeline-item" key={ms.id}>
+                {/* Node indicator */}
+                <div className="timeline-node">
+                  <div className="node-dot" />
+                  <span className="node-year">{ms.year}</span>
+                  {ms.quarter && <span className="node-quarter">{ms.quarter}</span>}
+                </div>
+
+                {/* Milestone card */}
+                <article className={`milestone-card ${ms.status === 'current milestone' ? 'milestone-current' : ''}`}>
+                  <div className="milestone-header">
+                    <span className="milestone-category">{ms.categoryLabel}</span>
+                    <span className="milestone-status">{ms.status}</span>
+                  </div>
+
+                  <h3 className="milestone-title">{ms.title}</h3>
+                  <p className="milestone-summary">{ms.summary}</p>
+                  <p className="milestone-narrative">{ms.narrative}</p>
+
+                  {/* Achievements */}
+                  {ms.achievements.length > 0 && (
+                    <div className="milestone-block">
+                      <span className="block-label">Key Achievements:</span>
+                      <ul className="milestone-list">
+                        {ms.achievements.map((ach, idx) => (
+                          <li key={idx}><span>↗</span> {ach}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Skills Unlocked */}
+                  {ms.skillsUnlocked.length > 0 && (
+                    <div className="milestone-skills">
+                      <span className="skills-label">Skills Unlocked:</span>
+                      <div className="skills-pills">
+                        {ms.skillsUnlocked.map((skill) => (
+                          <span className="skill-pill" key={skill}>{skill}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </article>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </PageFrame>
+  )
 }
 
 export function LabPage() {

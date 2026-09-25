@@ -261,5 +261,52 @@ h1 em { color: var(--cyan); font-style: normal; }
   .beyond-grid { grid-template-columns: 1fr; }
 }
 
+.journey-container { display: flex; flex-direction: column; gap: 50px; }
+.journey-stats-bar { border-bottom: 1px solid var(--line); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); padding: 22px 0; gap: 20px; }
+.journey-filter-bar { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.timeline-wrapper { position: relative; padding-left: 140px; margin-top: 10px; }
+.timeline-spine { position: absolute; left: 110px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--cyan), rgba(139, 92, 255, .6), rgba(40, 215, 255, .2)); }
+
+.timeline-list { display: flex; flex-direction: column; gap: 40px; }
+.timeline-item { position: relative; }
+
+.timeline-node { position: absolute; left: -140px; top: 24px; display: flex; flex-direction: column; align-items: flex-end; width: 100px; text-align: right; }
+.node-dot { position: absolute; right: -36px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); z-index: 2; }
+.node-year { color: var(--cyan); font-family: 'Courier New', monospace; font-size: 1.1rem; font-weight: 600; }
+.node-quarter { color: var(--muted); font-family: 'Courier New', monospace; font-size: .65rem; text-transform: uppercase; }
+
+.milestone-card { background: linear-gradient(145deg, rgba(14, 25, 31, .85), rgba(7, 12, 15, .95)); border: 1px solid var(--line); padding: 30px; display: flex; flex-direction: column; gap: 16px; transition: border-color .25s ease, transform .25s ease; }
+.milestone-card:hover { border-color: rgba(126, 244, 219, .45); transform: translateX(6px); }
+.milestone-current { border-color: var(--cyan); background: linear-gradient(145deg, rgba(20, 45, 52, .9), rgba(8, 16, 20, .95)); }
+
+.milestone-header { display: flex; justify-content: space-between; align-items: center; }
+.milestone-category { color: var(--muted); font-family: 'Courier New', monospace; font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; }
+.milestone-status { border: 1px solid rgba(40, 215, 255, .4); color: var(--cyan); font-family: 'Courier New', monospace; font-size: .55rem; padding: 3px 8px; text-transform: uppercase; letter-spacing: .08em; }
+
+.milestone-title { color: var(--ink); font-size: 1.7rem; font-weight: 400; letter-spacing: -.05em; margin: 0; }
+.milestone-summary { color: var(--cyan); font-size: 1.05rem; line-height: 1.5; margin: 0; }
+.milestone-narrative { color: #9aabad; font-size: .95rem; line-height: 1.65; margin: 0; }
+
+.milestone-block { border-top: 1px solid rgba(255, 255, 255, .06); padding-top: 14px; }
+.block-label { color: var(--muted); font-family: 'Courier New', monospace; font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; display: block; margin-bottom: 8px; }
+.milestone-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.milestone-list li { color: #b4c7c9; font-size: .9rem; display: flex; gap: 10px; align-items: center; }
+.milestone-list li span { color: var(--cyan); font-size: .8rem; }
+
+.milestone-skills { border-top: 1px solid rgba(255, 255, 255, .06); padding-top: 14px; }
+.skills-label { color: var(--muted); font-family: 'Courier New', monospace; font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; display: block; margin-bottom: 8px; }
+.skills-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-pill { background: rgba(126, 244, 219, .06); border: 1px solid var(--line); color: #b0c2c4; font-family: 'Courier New', monospace; font-size: .6rem; padding: 4px 8px; }
+
+@media (max-width: 900px) {
+  .journey-stats-bar { grid-template-columns: 1fr; }
+  .timeline-wrapper { padding-left: 0; }
+  .timeline-spine { display: none; }
+  .timeline-node { position: static; width: auto; text-align: left; margin-bottom: 10px; flex-direction: row; gap: 10px; align-items: center; }
+  .node-dot { display: none; }
+}
+
+
 
 

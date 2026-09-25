@@ -436,6 +436,110 @@ export const memories: Memory[] = [
   },
 ]
 
+export type MilestoneCategory = 'all' | 'engineering' | 'spatial-3d' | 'ai-systems' | 'creative-growth'
+
+export type Milestone = {
+  id: string
+  year: string
+  quarter?: string
+  title: string
+  category: Exclude<MilestoneCategory, 'all'>
+  categoryLabel: string
+  summary: string
+  narrative: string
+  achievements: string[]
+  skillsUnlocked: string[]
+  status: string
+}
+
+export const milestones: Milestone[] = [
+  {
+    id: 'm1-genesis',
+    year: '2023',
+    quarter: 'Q1',
+    title: 'The First Spark & System Architecture',
+    category: 'engineering',
+    categoryLabel: 'Engineering',
+    summary: 'Discovered the joy of software craftsmanship, transitioning from simple scripts to full-stack application development.',
+    narrative: 'Began building complex web applications with React and TypeScript, focusing on strict type safety, modular design systems, and state management.',
+    achievements: [
+      'Built first complete React + TypeScript web app from scratch',
+      'Mastered component lifecycle optimization and custom hooks',
+      'Established disciplined Git & open-source workflow',
+    ],
+    skillsUnlocked: ['React', 'TypeScript', 'CSS Modules', 'Git'],
+    status: 'completed',
+  },
+  {
+    id: 'm2-spatial-webgl',
+    year: '2024',
+    quarter: 'Q3',
+    title: 'Entering the 3D & WebGL Dimension',
+    category: 'spatial-3d',
+    categoryLabel: '3D & Spatial',
+    summary: 'Shifted focus from flat 2D interfaces to real-time 3D spatial web environments.',
+    narrative: 'Deep-dived into Three.js, React Three Fiber, GLSL shaders, and Blender modeling. Learned how to create immersive 60fps WebGL scenes without sacrificing browser performance.',
+    achievements: [
+      'Rendered procedural GLSL fragment shaders in React Three Fiber',
+      'Created custom 3D low-poly character & vehicle models in Blender',
+      'Optimized 3D asset pipelines using Draco and Meshopt compression',
+    ],
+    skillsUnlocked: ['Three.js', 'React Three Fiber', 'GLSL', 'Blender'],
+    status: 'completed',
+  },
+  {
+    id: 'm3-ai-intelligence',
+    year: '2025',
+    quarter: 'Q2',
+    title: 'AI Workflows & Intelligent Systems',
+    category: 'ai-systems',
+    categoryLabel: 'AI & Systems',
+    summary: 'Merged spatial UI design with multi-agent AI execution pipelines.',
+    narrative: 'Explored how generative AI and LLMs could be integrated into spatial web apps. Designed node-graph visualizers that render real-time agent reasoning, prompt chains, and confidence streams.',
+    achievements: [
+      'Architected multi-agent thought visualizer canvas',
+      'Integrated real-time streaming AI APIs into React UI state',
+      'Designed human-centric AI control surfaces',
+    ],
+    skillsUnlocked: ['AI Agent Pipelines', 'LLM API Integration', 'Node Graphs', 'Spatial AI'],
+    status: 'completed',
+  },
+  {
+    id: 'm4-thedeepanshu-v3',
+    year: '2026',
+    quarter: 'Q1',
+    title: 'The Portfolio World (thedeepanshu v3)',
+    category: 'creative-growth',
+    categoryLabel: 'Creative Growth',
+    summary: 'Synthesized engineering, 3D WebGL, anime sci-fi aesthetics, and AI touch into a unified digital portfolio universe.',
+    narrative: 'Built this exact portfolio system—a multi-chapter digital experience featuring an interactive 3D hero workshop, case studies, capabilities matrix, live shader sandbox, and personal archive.',
+    achievements: [
+      'Shipped code-split lazy 3D scene architecture under 250kB main JS',
+      'Built 8 multi-page chapter routes with shared PageFrame shell',
+      'Designed custom HSL CSS glassmorphism & HUD overlay system',
+    ],
+    skillsUnlocked: ['Full System Architecture', 'Performance Budgeting', 'UI Atmosphere', 'Brand Identity'],
+    status: 'current milestone',
+  },
+  {
+    id: 'm5-horizon',
+    year: '2026+',
+    quarter: 'Q3',
+    title: 'The Next Horizon: Spatial AI & WebGL Products',
+    category: 'creative-growth',
+    categoryLabel: 'Creative Growth',
+    summary: 'Looking ahead to founding next-generation spatial AI tools and immersive product experiences.',
+    narrative: 'Continuing R&D in WebGPU, procedural shader art, agentic automation frameworks, and collaborative web platforms.',
+    achievements: [
+      'R&D in WebGPU & Compute Shaders',
+      'Building public spatial web tools and open-source libraries',
+    ],
+    skillsUnlocked: ['WebGPU', 'Compute Shaders', 'Product Leadership'],
+    status: 'loading horizon',
+  },
+]
+
+
 
 
 
