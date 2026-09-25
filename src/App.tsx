@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import './App.css'
-import { AboutPage, ArsenalPage, BeyondPage, JourneyPage, LabPage, MissionsPage, JournalPage, SignalPage } from './pages/Pages'
+import { AboutPage, ArsenalPage, BeyondPage, JourneyPage, LabPage, MissionsPage, MissionDetailPage, JournalPage, SignalPage } from './pages/Pages'
 
 const HeroScene = lazy(() => import('./scenes/HeroScene').then(({ HeroScene }) => ({ default: HeroScene })))
 
@@ -64,11 +64,13 @@ function HomePage() {
 
       <section className="missions-preview" id="missions">
         <div className="section-heading"><p className="section-kicker">/ 002 — selected missions</p><span>scroll to discover</span></div>
-        <div className="mission-card">
-          <span className="mission-number">01</span>
-          <div><p className="mission-type">immersive interface / 2026</p><h2>Coming soon<span>.</span></h2></div>
-          <span className="mission-arrow">↗</span>
-        </div>
+        <Link to="/missions/portfolio-system" className="mission-card-link">
+          <div className="mission-card">
+            <span className="mission-number">01</span>
+            <div><p className="mission-type">immersive interface / 2026</p><h2>The portfolio system<span>.</span></h2></div>
+            <span className="mission-arrow">↗</span>
+          </div>
+        </Link>
       </section>
 
       <footer className="site-footer" id="signal">
@@ -86,6 +88,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/missions" element={<MissionsPage />} />
+        <Route path="/missions/:slug" element={<MissionDetailPage />} />
         <Route path="/arsenal" element={<ArsenalPage />} />
         <Route path="/journey" element={<JourneyPage />} />
         <Route path="/lab" element={<LabPage />} />
