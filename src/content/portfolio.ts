@@ -255,4 +255,86 @@ export const skills: Skill[] = [
   },
 ]
 
+export type ExperimentCategory = 'all' | 'shaders' | 'canvas-generative' | 'spatial-ui' | 'ai-prototypes'
+
+export type Experiment = {
+  id: string
+  number: string
+  title: string
+  category: Exclude<ExperimentCategory, 'all'>
+  categoryLabel: string
+  status: string
+  description: string
+  technologies: string[]
+  date: string
+  preset: 'particle-field' | 'cyber-grid' | 'aurora-pulse'
+  codeSnippet?: string
+  demoUrl?: string
+  sourceUrl?: string
+}
+
+export const experiments: Experiment[] = [
+  {
+    id: 'particle-field-exp',
+    number: '01',
+    title: 'Reactive Particle Constellation',
+    category: 'canvas-generative',
+    categoryLabel: 'Generative Canvas',
+    status: 'live interactive',
+    description: 'An interactive HTML5 Canvas particle physics system that reacts to cursor movement, calculating distance vectors and drawing glowing energy connections.',
+    technologies: ['Canvas 2D API', 'Vector Physics', 'Trigonometry', 'React'],
+    date: '2026',
+    preset: 'particle-field',
+    codeSnippet: `// Distance vector physics snippet\nconst dx = p1.x - p2.x;\nconst dy = p1.y - p2.y;\nconst dist = Math.sqrt(dx * dx + dy * dy);\nif (dist < 120) {\n  ctx.strokeStyle = \`rgba(40, 215, 255, \${1 - dist / 120})\`;\n  ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();\n}`,
+    demoUrl: 'https://lab.thedeepanshu.dev/particles',
+    sourceUrl: 'https://github.com/thedeepanshu/particle-constellation',
+  },
+  {
+    id: 'cyber-grid-exp',
+    number: '02',
+    title: 'Procedural Synthwave Cyber Grid',
+    category: 'shaders',
+    categoryLabel: 'Shader Art',
+    status: 'prototype v2',
+    description: 'A 3D perspective grid calculation rendering neon scanlines and animated horizon pulse waves using procedural math loops.',
+    technologies: ['WebGL 2.0', 'GLSL Shaders', 'Perspective Math', 'Three.js'],
+    date: '2026',
+    preset: 'cyber-grid',
+    codeSnippet: `// Perspective grid scanline transform\nconst offset = (time * 60) % 40;\nfor (let y = 0; y < height; y += 40) {\n  const perspectiveY = (y + offset) * (y / height);\n  ctx.strokeRect(0, perspectiveY, width, 1);\n}`,
+    demoUrl: 'https://lab.thedeepanshu.dev/cybergrid',
+    sourceUrl: 'https://github.com/thedeepanshu/cyber-grid-shader',
+  },
+  {
+    id: 'aurora-pulse-exp',
+    number: '03',
+    title: 'Volumetric Aurora Plasma Aura',
+    category: 'spatial-ui',
+    categoryLabel: 'Spatial UI',
+    status: 'r&d alpha',
+    description: 'Multi-layer radial plasma noise gradients oscillating with dynamic color shifts to create organic glowing aura backdrops.',
+    technologies: ['CSS Variables', 'Canvas API', 'Perlin Noise', 'Framer Motion'],
+    date: '2026',
+    preset: 'aurora-pulse',
+    codeSnippet: `// Plasma color oscillation\nconst r = Math.sin(time * 0.002) * 127 + 128;\nconst g = Math.cos(time * 0.003) * 127 + 128;\nconst b = Math.sin(time * 0.001) * 127 + 128;\ngradient.addColorStop(0, \`rgba(\${r}, \${g}, 255, 0.6)\`);`,
+    demoUrl: 'https://lab.thedeepanshu.dev/aurora',
+    sourceUrl: 'https://github.com/thedeepanshu/aurora-plasma',
+  },
+  {
+    id: 'spatial-ai-node-exp',
+    number: '04',
+    title: 'Spatial AI Node Thought Graph',
+    category: 'ai-prototypes',
+    categoryLabel: 'AI Prototypes',
+    status: 'concept active',
+    description: 'A node-graph layout visualizer rendering real-time agent execution chains, confidence states, and dynamic data links.',
+    technologies: ['React 19', 'TypeScript', 'Spatial Graph', 'RxJS'],
+    date: '2026',
+    preset: 'particle-field',
+    codeSnippet: `// Agent execution node state link\ninterface AgentNode {\n  id: string;\n  status: 'thinking' | 'resolved' | 'error';\n  confidence: number;\n  connections: string[];\n}`,
+    demoUrl: 'https://lab.thedeepanshu.dev/ai-graph',
+    sourceUrl: 'https://github.com/thedeepanshu/spatial-ai-graph',
+  },
+]
+
+
 

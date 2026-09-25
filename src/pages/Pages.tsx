@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { missions, skills, type SkillCategory } from '../content/portfolio'
+import { missions, skills, experiments, type SkillCategory, type ExperimentCategory } from '../content/portfolio'
+import { LabCanvasWidget } from '../components/LabCanvasWidget'
 
 type PageFrameProps = {
   eyebrow: string
@@ -282,7 +283,118 @@ export function JourneyPage() {
 }
 
 export function LabPage() {
-  return <PageFrame eyebrow="005 / experiments" title={<>Welcome to the <em>lab.</em></>} intro="Unfinished ideas, strange prototypes, and technical experiments that may become something more."><ChapterList items={['Generative interfaces', 'Character systems', 'Spatial web experiments']} /></PageFrame>
+  const [activeCategory, setActiveCategory] = useState<ExperimentCategory>('all')
+  const [openSnippetId, setOpenSnippetId] = useState<string | null>(null)
+
+  const categories: { id: ExperimentCategory; label: string }[] = [
+    { id: 'all', label: 'All Experiments' },
+    { id: 'shaders', label: 'Shader Art' },
+    { id: 'canvas-generative', label: 'Generative Canvas' },
+    { id: 'spatial-ui', label: 'Spatial UI' },
+    { id: 'ai-prototypes', label: 'AI Prototypes' },
+  ]
+
+  const filteredExperiments = activeCategory === 'all'
+    ? experiments
+    : experiments.filter((e) => e.category === activeCategory)
+
+  return (
+    <PageFrame eyebrow="005 / experiments" title={<>Welcome to the <em>lab.</em></>} intro="Unfinished ideas, live canvas widgets, shader tests, and spatial web prototypes built for exploration.">
+      <div className="lab-container">
+        {/* Lab Stats Bar */}
+        <div className="lab-stats-bar">
+          <div className="stat-pill">
+            <span>Live Sandbox</span>
+            <strong>{experiments.length} Active Experiments</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Graphics Engine</span>
+            <strong>HTML5 Canvas + WebGL 2.0</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Status</span>
+            <strong>R&D Pipeline Open</strong>
+          </div>
+        </div>
+
+        {/* Filter Navigation */}
+        <div className="lab-filter-bar">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className={`filter-btn ${activeCategory === cat.id ? 'active' : ''}`}
+              onClick={() => setActiveCategory(cat.id)}
+            >
+              <span>/</span> {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Experiments Grid */}
+        <div className="lab-grid">
+          {filteredExperiments.map((exp) => (
+            <article className="lab-card" key={exp.id}>
+              {/* Header */}
+              <div className="lab-card-header">
+                <div>
+                  <span className="lab-number">EXP / {exp.number}</span>
+                  <h3 className="lab-title">{exp.title}</h3>
+                </div>
+                <span className="lab-status-badge">{exp.status}</span>
+              </div>
+
+              {/* Live Canvas Widget Preview */}
+              <div className="lab-canvas-wrapper">
+                <LabCanvasWidget preset={exp.preset} />
+              </div>
+
+              {/* Description */}
+              <p className="lab-desc">{exp.description}</p>
+
+              {/* Technologies */}
+              <div className="lab-tags">
+                {exp.technologies.map((tech) => (
+                  <span className="lab-tag" key={tech}>{tech}</span>
+                ))}
+              </div>
+
+              {/* Actions & Code Toggle */}
+              <div className="lab-card-footer">
+                <div className="lab-links">
+                  {exp.demoUrl && (
+                    <a className="lab-link-btn" href={exp.demoUrl} target="_blank" rel="noopener noreferrer">
+                      Launch demo <span>↗</span>
+                    </a>
+                  )}
+                  {exp.sourceUrl && (
+                    <a className="lab-link-btn secondary" href={exp.sourceUrl} target="_blank" rel="noopener noreferrer">
+                      Code <span>↗</span>
+                    </a>
+                  )}
+                </div>
+
+                {exp.codeSnippet && (
+                  <button
+                    className="code-toggle-btn"
+                    onClick={() => setOpenSnippetId(openSnippetId === exp.id ? null : exp.id)}
+                  >
+                    {openSnippetId === exp.id ? 'Hide snippet [-]' : 'View snippet [+]'}
+                  </button>
+                )}
+              </div>
+
+              {/* Code Snippet Drawer */}
+              {openSnippetId === exp.id && exp.codeSnippet && (
+                <div className="lab-snippet-drawer">
+                  <pre><code>{exp.codeSnippet}</code></pre>
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </div>
+    </PageFrame>
+  )
 }
 
 export function BeyondPage() {
