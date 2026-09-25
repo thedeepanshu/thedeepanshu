@@ -336,5 +336,106 @@ export const experiments: Experiment[] = [
   },
 ]
 
+export type MemoryCategory = 'all' | 'life' | 'anime-art' | 'music' | 'inspirations'
+
+export type Memory = {
+  id: string
+  number: string
+  title: string
+  category: Exclude<MemoryCategory, 'all'>
+  categoryLabel: string
+  type: 'image-frame' | 'quote-card' | 'music-player' | 'media-clip'
+  quoteOrCaption: string
+  subtitle?: string
+  details?: string
+  tags: string[]
+  trackUrl?: string
+  gradientStyle?: string
+}
+
+export const memories: Memory[] = [
+  {
+    id: 'cyberpunk-neon-art',
+    number: '01',
+    title: 'Neon Skyline & Sci-Fi Realism',
+    category: 'anime-art',
+    categoryLabel: 'Anime & Art',
+    type: 'image-frame',
+    quoteOrCaption: 'Atmosphere is not an afterthought; it is the soul of spatial design.',
+    subtitle: 'Cyberpunk Edgerunners & Akira World Building',
+    details: 'Visual inspiration drawn from high-contrast Japanese animation, volumetric neon fog, and industrial futuristic architecture.',
+    tags: ['Anime Aesthetics', 'Cyberpunk', 'Volumetric Light', 'World Building'],
+    gradientStyle: 'linear-gradient(135deg, rgba(40, 215, 255, 0.25), rgba(139, 92, 255, 0.25))',
+  },
+  {
+    id: 'night-city-code',
+    number: '02',
+    title: 'Midnight Coding Sessions',
+    category: 'life',
+    categoryLabel: 'Life & Frames',
+    type: 'image-frame',
+    quoteOrCaption: 'The quiet hours between 1 AM and 4 AM are where complex architectures become clear.',
+    subtitle: 'Workspace Atmosphere',
+    details: 'Dark room, mechanical keyboard clacks, ambient synthwave loops, and terminal logs scrolling by.',
+    tags: ['Night Owl', 'Flow State', 'Setup', 'Deep Work'],
+    gradientStyle: 'linear-gradient(135deg, rgba(16, 32, 40, 0.9), rgba(8, 14, 18, 0.95))',
+  },
+  {
+    id: 'synthwave-soundtrack',
+    number: '03',
+    title: 'Pulse Wave Resonance',
+    category: 'music',
+    categoryLabel: 'Music & Playlists',
+    type: 'music-player',
+    quoteOrCaption: 'BPM 110 • Synthwave / Darksynth / Lofi Beats',
+    subtitle: 'Track: Midnight Signal (Extended Loop)',
+    details: 'Continuous ambient beats driving focus during 3D WebGL shader programming.',
+    tags: ['Synthwave', 'Darksynth', 'Lofi Focus', '110 BPM'],
+    trackUrl: 'https://open.spotify.com',
+    gradientStyle: 'linear-gradient(135deg, rgba(139, 92, 255, 0.3), rgba(240, 77, 255, 0.2))',
+  },
+  {
+    id: 'dieter-rams-ethos',
+    number: '04',
+    title: 'Good Design is as Little Design as Possible',
+    category: 'inspirations',
+    categoryLabel: 'Inspirations',
+    type: 'quote-card',
+    quoteOrCaption: 'Minimalism is not the absence of density; it is the presence of intent.',
+    subtitle: 'Dieter Rams & Functional Futurism',
+    details: 'Striving for interfaces that feel powerful without being cluttered, balancing sci-fi density with usability.',
+    tags: ['Design Philosophy', 'Minimalism', 'Functionalism', 'Intentionality'],
+    gradientStyle: 'linear-gradient(135deg, rgba(40, 215, 255, 0.15), rgba(16, 26, 31, 0.9))',
+  },
+  {
+    id: 'ghost-in-the-shell-ui',
+    number: '05',
+    title: 'Tactical HUD & Interface Density',
+    category: 'anime-art',
+    categoryLabel: 'Anime & Art',
+    type: 'image-frame',
+    quoteOrCaption: 'The Net is vast and infinite.',
+    subtitle: 'Ghost in the Shell (1995)',
+    details: 'Studying futuristic military HUD overlays, telemetry data feeds, and wireframe mesh renders.',
+    tags: ['Ghost in the Shell', 'Tactical UI', 'HUD Design', 'Telemetry'],
+    gradientStyle: 'linear-gradient(135deg, rgba(114, 242, 184, 0.2), rgba(16, 32, 40, 0.9))',
+  },
+  {
+    id: 'ambient-lofi-beats',
+    number: '06',
+    title: 'Rainy Tokyo Night Ambience',
+    category: 'music',
+    categoryLabel: 'Music & Playlists',
+    type: 'music-player',
+    quoteOrCaption: 'BPM 85 • Chillhop & Ambient Rain',
+    subtitle: 'Track: Electric Horizon',
+    details: 'Relaxing soundscapes for late-night refactoring and documentation writing.',
+    tags: ['Ambient', 'Chillhop', 'Rain Soundscape', '85 BPM'],
+    trackUrl: 'https://open.spotify.com',
+    gradientStyle: 'linear-gradient(135deg, rgba(40, 215, 255, 0.2), rgba(139, 92, 255, 0.15))',
+  },
+]
+
+
 
 

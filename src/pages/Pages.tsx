@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { missions, skills, experiments, type SkillCategory, type ExperimentCategory } from '../content/portfolio'
+import { missions, skills, experiments, memories, type SkillCategory, type ExperimentCategory, type MemoryCategory } from '../content/portfolio'
 import { LabCanvasWidget } from '../components/LabCanvasWidget'
 
 type PageFrameProps = {
@@ -398,7 +398,99 @@ export function LabPage() {
 }
 
 export function BeyondPage() {
-  return <PageFrame eyebrow="006 / life archive" title={<>Beyond the <em>code.</em></>} intro="Photos, videos, places, music, and the small influences that quietly shape the work."><div className="memory-grid"><div className="memory-card memory-card-large"><span>memory / 001</span><strong>Life in frames</strong></div><div className="memory-card"><span>memory / 002</span><strong>Things that inspire me</strong></div><div className="memory-card memory-card-accent"><span>memory / 003</span><strong>More soon</strong></div></div></PageFrame>
+  const [activeCategory, setActiveCategory] = useState<MemoryCategory>('all')
+
+  const categories: { id: MemoryCategory; label: string }[] = [
+    { id: 'all', label: 'All Archives' },
+    { id: 'anime-art', label: 'Anime & Art' },
+    { id: 'life', label: 'Life & Frames' },
+    { id: 'music', label: 'Music & Sound' },
+    { id: 'inspirations', label: 'Inspirations' },
+  ]
+
+  const filteredMemories = activeCategory === 'all'
+    ? memories
+    : memories.filter((m) => m.category === activeCategory)
+
+  return (
+    <PageFrame eyebrow="006 / life archive" title={<>Beyond the <em>code.</em></>} intro="Photos, music, aesthetic references, design philosophies, and the personal world behind the systems.">
+      <div className="beyond-container">
+        {/* Archive Stats Bar */}
+        <div className="beyond-stats-bar">
+          <div className="stat-pill">
+            <span>Personal World</span>
+            <strong>{memories.length} Archived Moments</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Aesthetic Domain</span>
+            <strong>Anime Sci-Fi & Cyberpunk</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Soundscape</span>
+            <strong>Synthwave + Ambient Lofi</strong>
+          </div>
+        </div>
+
+        {/* Filter Navigation Bar */}
+        <div className="beyond-filter-bar">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className={`filter-btn ${activeCategory === cat.id ? 'active' : ''}`}
+              onClick={() => setActiveCategory(cat.id)}
+            >
+              <span>/</span> {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Memory Archive Grid */}
+        <div className="beyond-grid">
+          {filteredMemories.map((mem) => (
+            <article
+              className="memory-card-enhanced"
+              key={mem.id}
+              style={{ background: mem.gradientStyle || 'linear-gradient(140deg, #122a31, #0d151c)' }}
+            >
+              {/* Header */}
+              <div className="memory-header">
+                <span className="memory-num">FRAME / {mem.number}</span>
+                <span className="memory-cat">{mem.categoryLabel}</span>
+              </div>
+
+              {/* Title & Subtitle */}
+              <div className="memory-body">
+                {mem.subtitle && <p className="memory-subtitle">{mem.subtitle}</p>}
+                <h3 className="memory-title">{mem.title}</h3>
+                <blockquote className="memory-quote">&ldquo;{mem.quoteOrCaption}&rdquo;</blockquote>
+                {mem.details && <p className="memory-details">{mem.details}</p>}
+              </div>
+
+              {/* Music Player Bar (if music type) */}
+              {mem.type === 'music-player' && (
+                <div className="music-player-widget">
+                  <div className="music-wave-bars">
+                    <span className="bar" />
+                    <span className="bar" />
+                    <span className="bar" />
+                    <span className="bar" />
+                  </div>
+                  <span className="music-status">Now Playing Atmosphere</span>
+                </div>
+              )}
+
+              {/* Tags */}
+              <div className="memory-tags">
+                {mem.tags.map((tag) => (
+                  <span className="memory-tag" key={tag}>{tag}</span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </PageFrame>
+  )
 }
 
 export function JournalPage() {
