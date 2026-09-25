@@ -128,3 +128,131 @@ export const missions: Mission[] = [
   },
 ]
 
+export type SkillCategory = 'all' | 'frontend' | 'spatial-3d' | 'ai-systems' | 'motion-ux' | 'tooling'
+
+export type Skill = {
+  id: string
+  name: string
+  category: Exclude<SkillCategory, 'all'>
+  categoryLabel: string
+  level: string
+  experience: string
+  description: string
+  tags: string[]
+  status: string
+}
+
+export const skills: Skill[] = [
+  {
+    id: 'react-ts',
+    name: 'React 19 & TypeScript',
+    category: 'frontend',
+    categoryLabel: 'Core Frontend',
+    level: 'Mastery',
+    experience: 'Core Engine',
+    description: 'Type-safe component architectures, custom hooks pipelines, state orchestration, and performance tuning.',
+    tags: ['React 19', 'TypeScript 5', 'JSX/TSX', 'Custom Hooks'],
+    status: 'active core',
+  },
+  {
+    id: 'three-webgl',
+    name: 'Three.js & WebGL',
+    category: 'spatial-3d',
+    categoryLabel: '3D & Spatial',
+    level: 'Advanced',
+    experience: '3D Scenes',
+    description: 'Real-time 3D graphics rendering, dynamic lighting, camera path animators, particle arrays, and custom mesh primitives.',
+    tags: ['Three.js', 'React Three Fiber', 'Drei', 'Postprocessing'],
+    status: 'active core',
+  },
+  {
+    id: 'ai-workflows',
+    name: 'AI Agent Architectures',
+    category: 'ai-systems',
+    categoryLabel: 'AI & Intelligence',
+    level: 'Active R&D',
+    experience: 'Intelligent UI',
+    description: 'Integrating LLM thought streams, spatial node graphs, prompt pipelines, and multi-agent workflow visualizations.',
+    tags: ['AI Agents', 'Spatial UI', 'LLM Integration', 'Prompt Engineering'],
+    status: 'r&d focus',
+  },
+  {
+    id: 'framer-gsap',
+    name: 'Framer Motion & GSAP',
+    category: 'motion-ux',
+    categoryLabel: 'Motion & UX',
+    level: 'Mastery',
+    experience: 'Cinematic Motion',
+    description: 'Complex scroll-triggered sequences, morphing layouts, micro-animations, physics-based springs, and Lenis smooth scroll.',
+    tags: ['Framer Motion', 'GSAP ScrollTrigger', 'Lenis', 'Cinematic Transitions'],
+    status: 'active core',
+  },
+  {
+    id: 'vite-tooling',
+    name: 'Vite & Build Pipelines',
+    category: 'tooling',
+    categoryLabel: 'Build & Tooling',
+    level: 'Production',
+    experience: 'Build System',
+    description: 'Code-splitting optimization, dynamic bundle chunking, ESLint rulesets, and zero-config HMR environments.',
+    tags: ['Vite', 'Rollup', 'ESLint', 'Prettier'],
+    status: 'production ready',
+  },
+  {
+    id: 'glsl-shaders',
+    name: 'GLSL Fragment Shaders',
+    category: 'spatial-3d',
+    categoryLabel: '3D & Spatial',
+    level: 'Intermediate',
+    experience: 'Shader Physics',
+    description: 'Writing custom GPU fragment and vertex shaders for procedural noise, cyber grids, volumetric lighting, and glowing aura effects.',
+    tags: ['GLSL', 'Fragment Shaders', 'Vertex Physics', 'Uniforms'],
+    status: 'r&d focus',
+  },
+  {
+    id: 'design-systems',
+    name: 'CSS Tokens & Glassmorphism',
+    category: 'motion-ux',
+    categoryLabel: 'Motion & UX',
+    level: 'Mastery',
+    experience: 'Styling Engine',
+    description: 'Architecting design system tokens with raw HSL CSS variables, glass backdrop blurs, neon accents, and responsive layouts.',
+    tags: ['Vanilla CSS', 'HSL Tokens', 'Glassmorphism', 'Responsive UX'],
+    status: 'active core',
+  },
+  {
+    id: 'nextjs-ssr',
+    name: 'Next.js & Server Systems',
+    category: 'frontend',
+    categoryLabel: 'Core Frontend',
+    level: 'Production',
+    experience: 'Full Stack',
+    description: 'Server components, route handlers, SSG/ISR caching strategies, SEO metadata generators, and edge middleware.',
+    tags: ['Next.js', 'React Server Components', 'Edge API', 'SEO'],
+    status: 'production ready',
+  },
+  {
+    id: 'perf-optimization',
+    name: 'Performance & Lighthouse',
+    category: 'tooling',
+    categoryLabel: 'Build & Tooling',
+    level: 'Advanced',
+    experience: 'Optimization',
+    description: '60fps frame budgeting, memory leak audit, asset compression (WebP/AVIF/Draco), memoization strategies, and Core Web Vitals.',
+    tags: ['Core Web Vitals', 'Code-Splitting', 'Lazy Loading', 'Lighthouse 100'],
+    status: 'active core',
+  },
+  {
+    id: 'creative-code',
+    name: 'Generative & Canvas API',
+    category: 'spatial-3d',
+    categoryLabel: '3D & Spatial',
+    level: 'Advanced',
+    experience: 'Generative Code',
+    description: 'Procedural particle systems, mathematical trigonometry motion curves, interactive canvas spotlight, and audio-reactive visuals.',
+    tags: ['Canvas 2D API', 'Trigonometry', 'Audio-Reactive', 'Generative Art'],
+    status: 'experimental',
+  },
+]
+
+

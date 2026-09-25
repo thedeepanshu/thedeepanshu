@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { missions } from '../content/portfolio'
+import { missions, skills, type SkillCategory } from '../content/portfolio'
 
 type PageFrameProps = {
   eyebrow: string
@@ -202,7 +202,79 @@ export function MissionDetailPage() {
 }
 
 export function ArsenalPage() {
-  return <PageFrame eyebrow="003 / capabilities" title={<>The <em>arsenal.</em></>} intro="The tools, systems, and instincts behind the work."><div className="skill-grid">{['React + TypeScript', 'Three.js + WebGL', 'AI systems', 'Motion design', 'Product thinking', 'Creative coding', 'Design systems', 'Performance'].map((skill, index) => <div className="skill-tile" key={skill}><span>0{index + 1}</span><strong>{skill}</strong><small>active system</small></div>)}</div></PageFrame>
+  const [activeCategory, setActiveCategory] = useState<SkillCategory>('all')
+
+  const categories: { id: SkillCategory; label: string }[] = [
+    { id: 'all', label: 'All Systems' },
+    { id: 'frontend', label: 'Core Frontend' },
+    { id: 'spatial-3d', label: '3D & Spatial' },
+    { id: 'ai-systems', label: 'AI & Intelligence' },
+    { id: 'motion-ux', label: 'Motion & UX' },
+    { id: 'tooling', label: 'Build & Tooling' },
+  ]
+
+  const filteredSkills = activeCategory === 'all'
+    ? skills
+    : skills.filter((s) => s.category === activeCategory)
+
+  return (
+    <PageFrame eyebrow="003 / capabilities" title={<>The <em>arsenal.</em></>} intro="The technical systems, graphics engines, and design methodologies powering my work.">
+      <div className="arsenal-container">
+        {/* System Stats Bar */}
+        <div className="arsenal-stats-bar">
+          <div className="stat-pill">
+            <span>Total Capabilities</span>
+            <strong>{skills.length} Systems Active</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Primary Engine</span>
+            <strong>React 19 + TypeScript + R3F</strong>
+          </div>
+          <div className="stat-pill">
+            <span>Current R&D Focus</span>
+            <strong>GLSL Shaders & AI Workflows</strong>
+          </div>
+        </div>
+
+        {/* Filter Navigation Bar */}
+        <div className="arsenal-filter-bar">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className={`filter-btn ${activeCategory === cat.id ? 'active' : ''}`}
+              onClick={() => setActiveCategory(cat.id)}
+            >
+              <span>/</span> {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Enhanced Skill Grid */}
+        <div className="arsenal-grid">
+          {filteredSkills.map((skill, index) => (
+            <div className="skill-card-enhanced" key={skill.id}>
+              <div className="skill-card-header">
+                <span className="skill-index">0{index + 1}</span>
+                <span className="skill-category-tag">{skill.categoryLabel}</span>
+                <span className="skill-status-tag">{skill.status}</span>
+              </div>
+              <h3 className="skill-card-title">{skill.name}</h3>
+              <p className="skill-card-desc">{skill.description}</p>
+              <div className="skill-card-meta">
+                <span>Level: <strong>{skill.level}</strong></span>
+                <span>Focus: <strong>{skill.experience}</strong></span>
+              </div>
+              <div className="skill-card-tags">
+                {skill.tags.map((tag) => (
+                  <span className="skill-tag" key={tag}>{tag}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </PageFrame>
+  )
 }
 
 export function JourneyPage() {
