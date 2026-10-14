@@ -1,0 +1,18 @@
+/* ── VESSEL//AI narrator ── */
+.narrator { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); background: rgba(7, 11, 14, .72); border: 1px solid rgba(126, 244, 219, .22); bottom: 26px; display: grid; font-family: 'Courier New', monospace; gap: 6px; left: 44px; max-width: min(380px, calc(100vw - 180px)); opacity: 0; padding: 10px 14px 11px; pointer-events: none; position: fixed; transform: translateY(8px); transition: opacity .45s ease, transform .45s ease; z-index: 95; }
+.narrator.is-visible { opacity: 1; transform: none; }
+.narrator::before { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); content: ''; height: 100%; left: -1px; position: absolute; top: 0; width: 2px; }
+.narrator-tag { align-items: center; color: var(--purple); display: flex; font-size: .54rem; gap: 7px; letter-spacing: .2em; }
+.narrator-tag i { animation: hud-pulse 1.2s ease-in-out infinite; background: var(--purple); border-radius: 50%; height: 5px; width: 5px; }
+.narrator-text { color: var(--ink); font-size: .72rem; letter-spacing: .04em; line-height: 1.5; min-height: 1.5em; }
+.narrator-text::after { animation: boot-blink .8s steps(2) infinite; color: var(--cyan); content: '▌'; margin-left: 2px; }
+
+html[data-boot='active'] .narrator { visibility: hidden; }
+
+@media (max-width: 900px) {
+  .narrator { bottom: 16px; left: 16px; max-width: calc(100vw - 120px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .narrator { transform: none; transition-duration: .2s; }
+  .narrator-tag i, .narrator-text::after { animation: none; }
+}

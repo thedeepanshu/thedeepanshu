@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { deckById } from './decks'
-import { motion, useVessel, type BootPhase } from './store'
+import { deckInView, motion, useVessel, type BootPhase } from './store'
 import { buildSwarmTargets } from './swarmTargets'
 
 const vertexShader = /* glsl */ `
@@ -100,6 +100,7 @@ const launchedPhases: BootPhase[] = ['boarding', 'done']
  */
 export function Swarm({ count }: { count: number }) {
   const material = useRef<THREE.ShaderMaterial>(null)
+  const pointsRef = useRef<THREE.Points>(null)
   const nameFrameSet = useRef(false)
   const frames = useRef(0)
   const viewport = useThree((state) => state.size)
@@ -144,6 +145,9 @@ export function Swarm({ count }: { count: number }) {
     const u = material.current?.uniforms
     if (!u) return
     const { bootPhase, reducedMotion } = useVessel.getState()
+    // 42k points are the heaviest thing in the scene: only draw them while the
+    // welcome sequence uses them, while the ship is still forming, or on the Bridge.
+    if (pointsRef.current) pointsRef.current.visible = bootPhase !== 'done' || u.uLaunch.value < 1 || deckInView('bridge')
     const time = clock.elapsedTime
     frames.current++
 
@@ -191,7 +195,7 @@ export function Swarm({ count }: { count: number }) {
   })
 
   return (
-    <points geometry={geometry} frustumCulled={false}>
+    <points ref={pointsRef} geometry={geometry} frustumCulled={false}>
       <shaderMaterial
         ref={material}
         vertexShader={vertexShader}

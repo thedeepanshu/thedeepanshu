@@ -26,6 +26,9 @@ type VesselState = {
   /** Comms array: how complete the contact form is (0–1), and a counter bumped on each send. */
   signalCharge: number
   signalShots: number
+  /** Latest line from the ship's AI; `id` changes even when the text repeats. */
+  narration: { id: number; text: string } | null
+  consoleOpen: boolean
   setDeck: (deck: DeckId) => void
   setTier: (tier: QualityTier) => void
   setReducedMotion: (reducedMotion: boolean) => void
@@ -39,6 +42,8 @@ type VesselState = {
   setActiveMemory: (id: string | null) => void
   setSignalCharge: (charge: number) => void
   fireSignal: () => void
+  narrate: (text: string) => void
+  setConsoleOpen: (open: boolean) => void
 }
 
 function detectTier(): QualityTier {
@@ -77,6 +82,10 @@ export const useVessel = create<VesselState>((set) => ({
   setActiveMemory: (activeMemory) => set({ activeMemory }),
   setSignalCharge: (signalCharge) => set({ signalCharge }),
   fireSignal: () => set((state) => ({ signalShots: state.signalShots + 1 })),
+  narration: null,
+  consoleOpen: false,
+  narrate: (text) => set((state) => ({ narration: { id: (state.narration?.id ?? 0) + 1, text } })),
+  setConsoleOpen: (consoleOpen) => set({ consoleOpen }),
 }))
 
 /**

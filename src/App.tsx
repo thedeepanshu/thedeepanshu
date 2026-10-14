@@ -1,10 +1,12 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useRef } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
 import './vessel.css'
 import { BootSequence } from './components/BootSequence'
 import { CursorEffect } from './components/CursorEffect'
 import { HudFrame } from './components/HudFrame'
+import { Narrator } from './components/Narrator'
+import { ShipConsole } from './components/ShipConsole'
 import { ScrollToTop } from './components/ScrollToTop'
 import { SiteHeader } from './components/SiteHeader'
 import { SoundToggle } from './components/SoundToggle'
@@ -32,9 +34,21 @@ const World = lazy(() => import('./world/World'))
 function DeckView() {
   const location = useLocation()
   const held = useVessel((state) => state.bootPhase !== 'boarding' && state.bootPhase !== 'done')
+  const view = useRef<HTMLDivElement>(null)
+  const firstRoute = useRef(true)
+
+  // After a warp, move focus to the new deck's content so keyboard and screen
+  // reader users start where sighted users do (not on the link they pressed).
+  useEffect(() => {
+    if (firstRoute.current) {
+      firstRoute.current = false
+      return
+    }
+    view.current?.focus({ preventScroll: true })
+  }, [location.pathname])
 
   return (
-    <div className={`deck-view${held ? ' deck-view--held' : ''}`} key={location.pathname} inert={held}>
+    <div ref={view} id="content" tabIndex={-1} className={`deck-view${held ? ' deck-view--held' : ''}`} key={location.pathname} inert={held}>
       <Routes location={location}>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -53,6 +67,7 @@ function DeckView() {
 function App() {
   return (
     <BrowserRouter>
+      <a className="skip-link" href="#content">Skip to content</a>
       <DeckSync />
       <ScrollToTop />
       <Suspense fallback={null}>
@@ -62,6 +77,8 @@ function App() {
       <CursorEffect />
       <SiteHeader />
       <SoundToggle />
+      <ShipConsole />
+      <Narrator />
       <DeckView />
       <BootSequence />
     </BrowserRouter>
