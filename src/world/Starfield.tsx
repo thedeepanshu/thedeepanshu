@@ -34,7 +34,8 @@ const pointsVertex = /* glsl */ `
     vec4 mvPosition = viewMatrix * vec4(worldPos, 1.0);
     gl_Position = projectionMatrix * mvPosition;
     float size = mix(0.6, 2.4, pow(aSeed, 3.0));
-    gl_PointSize = size * uPixelRatio * (120.0 / -mvPosition.z);
+    // Capped: a star passing right by the camera would otherwise fill the screen.
+    gl_PointSize = min(size * uPixelRatio * (120.0 / max(-mvPosition.z, 0.1)), 48.0 * uPixelRatio);
     float twinkle = 0.65 + 0.35 * sin(uTime * (0.6 + aSeed * 2.4) + aSeed * 90.0);
     vAlpha = edgeFade(worldPos) * twinkle;
     vec3 white = vec3(0.92, 0.97, 1.0);

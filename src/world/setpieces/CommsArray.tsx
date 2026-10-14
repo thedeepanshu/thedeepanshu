@@ -31,7 +31,7 @@ const dishFragment = /* glsl */ `
   void main() {
     vec2 grid = abs(fract(vec2(vUv.x * 36.0, vUv.y * 10.0)) - 0.5);
     float line = 1.0 - smoothstep(0.0, 0.06, min(grid.x, grid.y));
-    float rim = pow(1.0 - abs(dot(normalize(vNormal), vec3(0.0, 0.0, 1.0))), 2.0);
+    float rim = pow(max(0.0, 1.0 - abs(dot(normalize(vNormal), vec3(0.0, 0.0, 1.0)))), 2.0);
     float pulse = 0.5 + 0.5 * sin(uTime * 3.0 - vUv.y * 12.0);
     vec3 color = mix(vec3(0.51, 0.72, 1.0), vec3(0.49, 0.96, 0.86), uCharge);
     float alpha = (0.05 + line * (0.25 + uCharge * 0.45 * pulse) + rim * 0.25) * uDim;
@@ -65,7 +65,7 @@ const beamFragment = /* glsl */ `
     float trail = smoothstep(head - 0.5, head, along) * (1.0 - smoothstep(head, head + 0.02, along));
     // The stretch nearest the dish keeps glowing while the shot is out.
     float muzzle = (1.0 - smoothstep(0.0, 0.14, along)) * (1.0 - smoothstep(0.35, 0.9, uFire)) * step(uFire, 0.999);
-    float core = pow(1.0 - abs(vUv.x - 0.5) * 2.0, 1.5);
+    float core = pow(max(0.0, 1.0 - abs(vUv.x - 0.5) * 2.0), 1.5);
     float fade = 1.0 - smoothstep(0.6, 1.0, uFire);
     gl_FragColor = vec4(vec3(0.7, 1.0, 0.95), (trail * fade + muzzle * 0.8) * core * uDim);
   }

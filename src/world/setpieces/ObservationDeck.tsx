@@ -21,7 +21,7 @@ const atmosphereFragment = /* glsl */ `
   uniform float uDim;
   varying vec3 vNormal;
   void main() {
-    float rim = pow(1.0 - abs(dot(normalize(vNormal), vec3(0.0, 0.0, 1.0))), 3.0);
+    float rim = pow(max(0.0, 1.0 - abs(dot(normalize(vNormal), vec3(0.0, 0.0, 1.0)))), 3.0);
     gl_FragColor = vec4(vec3(0.49, 0.85, 1.0), rim * 0.9 * uDim);
   }
 `

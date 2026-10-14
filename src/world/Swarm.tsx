@@ -57,7 +57,8 @@ const vertexShader = /* glsl */ `
     // Cursor pushes particles away in screen space, scaled by depth so the
     // effect feels the same size at any distance.
     vec4 clip = projectionMatrix * mv;
-    vec2 ndc = clip.xy / clip.w;
+    // Guard the divide: particles crossing the camera plane would give inf/NaN.
+    vec2 ndc = clip.xy / max(clip.w, 1e-4);
     vec2 d = (ndc - uPointer) * vec2(uAspect, 1.0);
     float dist = length(d);
     float push = uPointerForce * smoothstep(0.32, 0.0, dist) * step(0.0, clip.w);
