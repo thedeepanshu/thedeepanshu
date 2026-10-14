@@ -1,0 +1,70 @@
+/* ── Vessel: persistent world, HUD frame and deck transitions ── */
+
+.world-layer {
+  animation: world-arrive 1.6s ease-out both;
+  inset: 0;
+  pointer-events: none;
+  position: fixed;
+  z-index: 0;
+}
+.world-layer canvas { display: block; }
+@keyframes world-arrive { from { opacity: 0; } to { opacity: 1; } }
+
+/* Page content arrives as the warp settles. */
+.deck-view { animation: deck-arrive .8s cubic-bezier(.2, .75, .25, 1) .9s both; }
+@keyframes deck-arrive {
+  from { filter: blur(8px); opacity: 0; transform: translateY(14px) scale(.995); }
+  to { filter: none; opacity: 1; transform: none; }
+}
+
+/* ── HUD frame ── */
+.hud-frame { color: var(--muted); font-family: 'Courier New', monospace; inset: 0; pointer-events: none; position: fixed; z-index: 90; }
+
+.hud-corner { border-color: rgba(126, 244, 219, .38); border-style: solid; border-width: 0; height: 18px; position: absolute; width: 18px; }
+.hud-corner-tl { border-left-width: 1px; border-top-width: 1px; left: 14px; top: calc(var(--header-h) + 12px); }
+.hud-corner-tr { border-right-width: 1px; border-top-width: 1px; right: 14px; top: calc(var(--header-h) + 12px); }
+.hud-corner-bl { border-bottom-width: 1px; border-left-width: 1px; bottom: 14px; left: 14px; }
+.hud-corner-br { border-bottom-width: 1px; border-right-width: 1px; bottom: 14px; right: 14px; }
+
+.hud-rail { align-items: center; display: flex; font-size: .56rem; gap: 18px; letter-spacing: .14em; position: absolute; text-transform: uppercase; top: 50%; white-space: nowrap; writing-mode: vertical-rl; }
+.hud-rail-left { left: 16px; transform: translateY(-50%) rotate(180deg); }
+.hud-rail-right { right: 16px; transform: translateY(-50%); }
+.hud-rail b { color: var(--cyan); font-weight: 400; }
+.hud-pulse { animation: hud-pulse 1.8s ease-in-out infinite; background: var(--cyan); border-radius: 50%; box-shadow: 0 0 8px var(--cyan); height: 5px; width: 5px; }
+@keyframes hud-pulse { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+
+.hud-signal { align-items: flex-end; display: inline-flex; gap: 2px; }
+.hud-signal i { animation: hud-signal 2.4s ease-in-out infinite; background: var(--cyan); display: block; opacity: .75; width: 2px; }
+.hud-signal i:nth-child(1) { height: 3px; }
+.hud-signal i:nth-child(2) { animation-delay: .15s; height: 5px; }
+.hud-signal i:nth-child(3) { animation-delay: .3s; height: 7px; }
+.hud-signal i:nth-child(4) { animation-delay: .45s; height: 9px; }
+.hud-signal i:nth-child(5) { animation-delay: .6s; background: var(--muted); height: 11px; opacity: .4; }
+@keyframes hud-signal { 0%, 100% { opacity: .75; } 50% { opacity: .3; } }
+
+/* Destination banner, shown for one warp. */
+.hud-warp { align-items: center; animation: hud-warp 1.5s cubic-bezier(.2, .75, .25, 1) both; display: flex; flex-direction: column; gap: 10px; left: 50%; position: absolute; text-transform: uppercase; top: 50%; transform: translate(-50%, -50%); }
+.hud-warp span { color: var(--purple); font-size: .6rem; letter-spacing: .3em; }
+.hud-warp strong { color: var(--ink); font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: clamp(1.2rem, 2.6vw, 2rem); font-weight: 400; letter-spacing: .18em; text-shadow: 0 0 18px rgba(126, 244, 219, .55); }
+@keyframes hud-warp {
+  0% { filter: blur(6px); opacity: 0; letter-spacing: .6em; }
+  25% { filter: blur(0); opacity: 1; letter-spacing: .18em; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .hud-rail { display: none; }
+  .hud-corner { height: 12px; width: 12px; }
+  .hud-corner-tl, .hud-corner-bl { left: 8px; }
+  .hud-corner-tr, .hud-corner-br { right: 8px; }
+  .hud-corner-tl, .hud-corner-tr { top: calc(var(--header-h) + 8px); }
+  .hud-corner-bl, .hud-corner-br { bottom: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-view { animation: deck-arrive-calm .3s ease-out both; }
+  .hud-warp { display: none; }
+  .hud-pulse, .hud-signal i { animation: none; }
+}
+@keyframes deck-arrive-calm { from { opacity: 0; } to { opacity: 1; } }

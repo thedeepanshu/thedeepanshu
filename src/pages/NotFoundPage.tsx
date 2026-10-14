@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { SiteHeader } from '../components/SiteHeader'
 
 export function NotFoundPage() {
   const [countdown, setCountdown] = useState(5)
@@ -22,7 +21,6 @@ export function NotFoundPage() {
 
   return (
     <main className="portfolio-shell inner-page">
-      <SiteHeader />
       <section className="not-found-container">
         <div className="not-found-content">
           {/* Glitch 404 display */}

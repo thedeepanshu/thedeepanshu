@@ -1,11 +1,8 @@
 import { Link } from 'react-router-dom'
-import { SiteHeader } from '../components/SiteHeader'
 
 export function HomePage() {
   return (
     <main className="portfolio-shell">
-      <SiteHeader />
-
       <section className="hero-section" id="top">
         <div className="hero-copy">
           <p className="eyebrow"><span>01</span> digital workshop / future systems</p>

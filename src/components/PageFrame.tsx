@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { SiteHeader } from './SiteHeader'
 
 type PageFrameProps = {
   eyebrow: string
@@ -12,7 +11,6 @@ type PageFrameProps = {
 export function PageFrame({ eyebrow, title, intro, children }: PageFrameProps) {
   return (
     <main className="portfolio-shell inner-page">
-      <SiteHeader />
       <section className="page-intro">
         <p className="section-kicker">/ {eyebrow}</p>
         <h1>{title}</h1>

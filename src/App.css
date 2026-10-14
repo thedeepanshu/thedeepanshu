@@ -4,10 +4,12 @@
   min-height: 100svh;
   overflow-x: clip;
   padding-top: var(--header-h);
+  position: relative;
+  z-index: 1;
+  /* No solid fill: the persistent 3D world shows through behind every page. */
   background:
     radial-gradient(circle at 74% 17%, rgba(52, 83, 118, .22), transparent 26rem),
-    radial-gradient(circle at 16% 40%, rgba(18, 91, 85, .12), transparent 24rem),
-    #070b0e;
+    radial-gradient(circle at 16% 40%, rgba(18, 91, 85, .12), transparent 24rem);
 }
 
 .site-cursor { height: 0; left: 0; opacity: 0; pointer-events: none; position: fixed; top: 0; transform: translate3d(-100px, -100px, 0); transition: opacity .18s ease; width: 0; z-index: 1000; }
