@@ -11,11 +11,13 @@
   --cyan: #7ef4db;
   --blue: #83b7ff;
   --purple: #a17eff;
+  scrollbar-color: #347a78 #080d10;
+  scrollbar-width: thin;
 }
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
 
 body { margin: 0; min-width: 320px; }
 
@@ -24,3 +26,9 @@ a { color: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 
 ::selection { color: #07100f; background: var(--cyan); }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #080d10; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #438c83, #356887); border: 2px solid #080d10; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7ef4db, #83b7ff); }
+::-webkit-scrollbar-corner { background: #080d10; }

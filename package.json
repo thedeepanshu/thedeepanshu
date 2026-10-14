@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "resume": "node scripts/build-resume.mjs",
+    "resume:simple": "node scripts/build-resume.mjs simple",
+    "resume:fancy": "node scripts/build-resume.mjs fancy"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.8",

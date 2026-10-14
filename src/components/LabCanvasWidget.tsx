@@ -142,7 +142,7 @@ export function LabCanvasWidget({ preset }: LabCanvasWidgetProps) {
   return (
     <div className="canvas-widget-container">
       <canvas ref={canvasRef} className="lab-canvas" />
-      <span className="canvas-badge">live 60fps {preset}</span>
+      <span className="canvas-badge">Canvas preview / {preset}</span>
     </div>
   )
 }
