@@ -13,7 +13,7 @@ export type LabelLine = {
   wrap?: boolean
 }
 
-const SANS = "'Space Grotesk', 'Segoe UI', sans-serif"
+export const SANS = "'Space Grotesk Variable', 'Space Grotesk', 'Segoe UI', sans-serif"
 const MONO = "'Courier New', monospace"
 
 /**

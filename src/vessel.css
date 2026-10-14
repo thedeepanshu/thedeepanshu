@@ -45,7 +45,7 @@
 /* Destination banner, shown for one warp. */
 .hud-warp { align-items: center; animation: hud-warp 1.5s cubic-bezier(.2, .75, .25, 1) both; display: flex; flex-direction: column; gap: 10px; left: 50%; position: absolute; text-transform: uppercase; top: 50%; transform: translate(-50%, -50%); }
 .hud-warp span { color: var(--purple); font-size: .6rem; letter-spacing: .3em; }
-.hud-warp strong { color: var(--ink); font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: clamp(1.2rem, 2.6vw, 2rem); font-weight: 400; letter-spacing: .18em; text-shadow: 0 0 18px rgba(126, 244, 219, .55); }
+.hud-warp strong { color: var(--ink); font-family: var(--font-sans); font-size: clamp(1.2rem, 2.6vw, 2rem); font-weight: 400; letter-spacing: .18em; text-shadow: 0 0 18px rgba(126, 244, 219, .55); }
 @keyframes hud-warp {
   0% { filter: blur(6px); opacity: 0; letter-spacing: .6em; }
   25% { filter: blur(0); opacity: 1; letter-spacing: .18em; }

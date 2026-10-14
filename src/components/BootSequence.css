@@ -29,7 +29,7 @@
 /* Progress */
 .boot-progress { align-items: flex-end; bottom: 10vh; display: grid; gap: 4px 16px; grid-template-columns: auto 1fr; left: max(24px, 6vw); opacity: 0; right: max(24px, 6vw); transition: opacity .5s ease; }
 .boot-progress > span:first-child { color: var(--muted); font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; }
-.boot-progress strong { color: var(--ink); font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: clamp(2.6rem, 7vw, 5.5rem); font-variant-numeric: tabular-nums; font-weight: 400; grid-column: 1; grid-row: 2; letter-spacing: -.06em; line-height: .9; }
+.boot-progress strong { color: var(--ink); font-family: var(--font-sans); font-size: clamp(2.6rem, 7vw, 5.5rem); font-variant-numeric: tabular-nums; font-weight: 400; grid-column: 1; grid-row: 2; letter-spacing: -.06em; line-height: .9; }
 .boot-progress-track { align-self: end; background: rgba(193, 220, 224, .14); grid-column: 2; grid-row: 2; height: 1px; margin-bottom: 12px; position: relative; }
 .boot-progress-track span { background: var(--cyan); box-shadow: 0 0 10px var(--cyan); inset: 0; position: absolute; transform: scaleX(0); transform-origin: left; }
 .boot--boot .boot-progress { opacity: 1; }
@@ -43,11 +43,11 @@
 .boot-transmission { align-items: center; color: var(--purple); display: flex; font-size: .66rem; gap: 12px; justify-content: center; letter-spacing: .28em; text-transform: uppercase; top: 27%; }
 .boot-radar { background: conic-gradient(from 0deg, rgba(161, 126, 255, .9), transparent 30%); border: 1px solid rgba(161, 126, 255, .6); border-radius: 50%; display: inline-block; height: 14px; width: 14px; animation: boot-radar 1.4s linear infinite; }
 @keyframes boot-radar { to { transform: rotate(360deg); } }
-.boot-name { color: var(--ink); font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: clamp(2.4rem, 9.5vw, 8.5rem); font-weight: 700; letter-spacing: .08em; line-height: 1; text-shadow: 0 0 24px rgba(126, 244, 219, .45); top: 50%; transform: translate(-50%, -50%); white-space: nowrap; }
+.boot-name { color: var(--ink); font-family: var(--font-sans); font-size: clamp(2.4rem, 9.5vw, 8.5rem); font-weight: 700; letter-spacing: .08em; line-height: 1; text-shadow: 0 0 24px rgba(126, 244, 219, .45); top: 50%; transform: translate(-50%, -50%); white-space: nowrap; }
 .boot-role { color: var(--muted); font-size: .7rem; letter-spacing: .26em; text-transform: uppercase; top: calc(50% + clamp(78px, 12vh, 128px)); }
 .boot-role span { color: var(--cyan); }
 .boot-choice { align-items: center; display: flex; flex-direction: column; gap: 18px; top: calc(50% + clamp(122px, 19vh, 200px)); transform: translate(-50%, 14px); }
-.boot-greeting { color: var(--ink); font-family: 'Space Grotesk', 'Segoe UI', sans-serif; font-size: clamp(1rem, 1.6vw, 1.25rem); margin: 0; }
+.boot-greeting { color: var(--ink); font-family: var(--font-sans); font-size: clamp(1rem, 1.6vw, 1.25rem); margin: 0; }
 .boot-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 .boot-board { align-items: center; background: var(--cyan); border: 1px solid var(--cyan); color: #06100e; display: inline-flex; font-family: 'Courier New', monospace; font-size: .72rem; font-weight: 700; gap: 10px; letter-spacing: .14em; padding: 15px 22px; text-transform: uppercase; transition: box-shadow .25s ease, transform .25s ease, background .25s ease, color .25s ease; }
 .boot-board:hover, .boot-board:focus-visible { box-shadow: 0 0 28px rgba(126, 244, 219, .45); transform: translateY(-2px); }

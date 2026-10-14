@@ -25,7 +25,12 @@ import {
 } from './pages'
 
 // three.js is heavy; the page renders first and the world fades in behind it.
-const World = lazy(() => import('./world/World'))
+// The world also waits for the display font: the particle name and 3D labels are
+// drawn to canvas, which would silently fall back to another font if it weren't ready.
+const World = lazy(() => Promise.all([
+  import('./world/World'),
+  document.fonts.load("700 64px 'Space Grotesk Variable'").catch(() => []),
+]).then(([module]) => module))
 
 /**
  * Remounts the page on each route so it can arrive after the warp. While the

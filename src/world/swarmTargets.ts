@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler.js'
 import { mulberry32 } from './random'
+import { SANS } from './setpieces/labels'
 
 export type SwarmTargets = {
   noise: Float32Array
@@ -30,7 +31,7 @@ function sampleText(text: string, width: number, count: number, random: () => nu
   ctx.fillStyle = '#fff'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
-  ctx.font = "700 200px 'Space Grotesk', 'Segoe UI', sans-serif"
+  ctx.font = `700 200px ${SANS}`
   if ('letterSpacing' in ctx) (ctx as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = '18px'
   ctx.fillText(text, canvas.width / 2, canvas.height / 2)
 
