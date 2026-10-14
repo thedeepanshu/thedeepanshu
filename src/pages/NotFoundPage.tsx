@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useVessel } from '../world/store'
 
 export function NotFoundPage() {
   const [countdown, setCountdown] = useState(5)
   const navigate = useNavigate()
   const location = useLocation()
 
+  // Don't start the return countdown until the visitor has boarded.
+  const boarded = useVessel((state) => state.bootPhase === 'done')
+
   useEffect(() => {
+    if (!boarded) return
     if (countdown <= 0) {
       navigate('/')
       return
@@ -17,7 +22,7 @@ export function NotFoundPage() {
     }, 1000)
 
     return () => clearTimeout(timer)
-  }, [countdown, navigate])
+  }, [boarded, countdown, navigate])
 
   return (
     <main className="portfolio-shell inner-page">

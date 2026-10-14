@@ -3,9 +3,14 @@ import { Link } from 'react-router-dom'
 import { experiments, type ExperimentCategory } from '../content/portfolio'
 import { LabCanvasWidget } from '../components/LabCanvasWidget'
 import { PageFrame } from '../components/PageFrame'
+import { useFocusTracker } from '../hooks/useFocusTracker'
+import { useVessel } from '../world/store'
 
 export function LabPage() {
   const [activeCategory, setActiveCategory] = useState<ExperimentCategory>('all')
+
+  // The reactor pulls the experiment being read to the front of its orbit.
+  useFocusTracker(useVessel((state) => state.setActiveExperiment), activeCategory)
 
   const categories: { id: ExperimentCategory; label: string }[] = [
     { id: 'all', label: 'All experiments' },
@@ -52,7 +57,7 @@ export function LabPage() {
         {/* Experiments Grid */}
         <div className="lab-grid">
           {filteredExperiments.map((exp) => (
-            <article className="lab-card" key={exp.id}>
+            <article className="lab-card" key={exp.id} data-focus-id={exp.id}>
               {/* Header */}
               <div className="lab-card-header">
                 <div>

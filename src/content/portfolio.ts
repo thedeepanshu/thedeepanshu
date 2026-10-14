@@ -569,6 +569,8 @@ export const dossier = {
   name: 'Deepanshu Saini',
   role: 'Frontend Developer',
   specialty: 'React · TypeScript · 3D on the web',
+  /** Served from public/images. Also sampled into the Origin deck's 3D hologram. */
+  portrait: '/images/deepanshu-saini.jpeg',
   stats: [
     { value: '~5 yrs', label: 'shipping production React' },
     { value: '1000s', label: 'of locations on a single map view' },

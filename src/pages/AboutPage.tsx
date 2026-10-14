@@ -20,7 +20,9 @@ export function AboutPage() {
               <span>ID / {dossier.callsign}</span>
               <i aria-hidden="true" />
             </div>
-            <div className="dossier-id-avatar" aria-hidden="true"><span>DS</span></div>
+            <div className="dossier-id-avatar">
+              <img src={dossier.portrait} alt="Portrait of Deepanshu Saini" width={1254} height={1254} decoding="async" />
+            </div>
             <dl>
               <div><dt>Name</dt><dd>{dossier.name}</dd></div>
               <div><dt>Role</dt><dd>{dossier.role}</dd></div>

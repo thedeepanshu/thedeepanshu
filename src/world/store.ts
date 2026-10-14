@@ -21,6 +21,11 @@ type VesselState = {
   activeMission: string | null
   activeSkill: string
   activeMilestone: string | null
+  activeExperiment: string | null
+  activeMemory: string | null
+  /** Comms array: how complete the contact form is (0–1), and a counter bumped on each send. */
+  signalCharge: number
+  signalShots: number
   setDeck: (deck: DeckId) => void
   setTier: (tier: QualityTier) => void
   setReducedMotion: (reducedMotion: boolean) => void
@@ -30,6 +35,10 @@ type VesselState = {
   setActiveMission: (id: string | null) => void
   setActiveSkill: (id: string) => void
   setActiveMilestone: (id: string | null) => void
+  setActiveExperiment: (id: string | null) => void
+  setActiveMemory: (id: string | null) => void
+  setSignalCharge: (charge: number) => void
+  fireSignal: () => void
 }
 
 function detectTier(): QualityTier {
@@ -60,6 +69,14 @@ export const useVessel = create<VesselState>((set) => ({
   setActiveMission: (activeMission) => set({ activeMission }),
   setActiveSkill: (activeSkill) => set({ activeSkill }),
   setActiveMilestone: (activeMilestone) => set({ activeMilestone }),
+  activeExperiment: null,
+  activeMemory: null,
+  signalCharge: 0,
+  signalShots: 0,
+  setActiveExperiment: (activeExperiment) => set({ activeExperiment }),
+  setActiveMemory: (activeMemory) => set({ activeMemory }),
+  setSignalCharge: (signalCharge) => set({ signalCharge }),
+  fireSignal: () => set((state) => ({ signalShots: state.signalShots + 1 })),
 }))
 
 /**

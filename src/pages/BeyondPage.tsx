@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { memories, type MemoryCategory } from '../content/portfolio'
 import { PageFrame } from '../components/PageFrame'
+import { useFocusTracker } from '../hooks/useFocusTracker'
+import { useVessel } from '../world/store'
 
 export function BeyondPage() {
   const [activeCategory, setActiveCategory] = useState<MemoryCategory>('all')
+
+  // The memory being read drifts its glass shard forward on the observation deck.
+  useFocusTracker(useVessel((state) => state.setActiveMemory), activeCategory)
 
   const categories: { id: MemoryCategory; label: string }[] = [
     { id: 'all', label: 'All Archives' },
@@ -57,6 +62,7 @@ export function BeyondPage() {
           {filteredMemories.map((mem) => (
             <article
               className="memory-card-enhanced"
+              data-focus-id={mem.id}
               key={mem.id}
               style={{ background: mem.gradientStyle || 'linear-gradient(140deg, #122a31, #0d151c)' }}
             >

@@ -1,10 +1,21 @@
-import { useState, type FormEvent } from 'react'
-import { socialLinks } from '../content/portfolio'
+import { useEffect, useState, type FormEvent } from 'react'
+import { dossier, socialLinks } from '../content/portfolio'
 import { PageFrame } from '../components/PageFrame'
+import { useVessel } from '../world/store'
 
 export function SignalPage() {
   const [formData, setFormData] = useState({ name: '', email: '', projectType: 'Frontend opportunity', message: '' })
   const [draftOpened, setDraftOpened] = useState(false)
+  const setSignalCharge = useVessel((state) => state.setSignalCharge)
+  const fireSignal = useVessel((state) => state.fireSignal)
+
+  // The comms dish charges as the form fills in: name, a valid-looking email and a message.
+  useEffect(() => {
+    const filled = [formData.name.trim() !== '', /.+@.+\..+/.test(formData.email), formData.message.trim().length > 0]
+    setSignalCharge(draftOpened ? 0 : filled.filter(Boolean).length / filled.length)
+  }, [formData, draftOpened, setSignalCharge])
+
+  useEffect(() => () => setSignalCharge(0), [setSignalCharge])
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -12,6 +23,7 @@ export function SignalPage() {
     const body = encodeURIComponent(`From: ${formData.name}\nReply to: ${formData.email}\n\n${formData.message}`)
     window.location.href = `mailto:hello@thedeepanshu.dev?subject=${subject}&body=${body}`
     setDraftOpened(true)
+    fireSignal()
   }
 
   return (
@@ -26,7 +38,10 @@ export function SignalPage() {
         <div className="signal-layout">
           <div className="signal-terminal-panel">
             <div className="terminal-header">
-              <span className="terminal-title">TERMINAL DISPATCH // INBOUND SIGNAL</span>
+              <span className="terminal-title">
+                <img className="terminal-pilot" src={dossier.portrait} alt="" width={28} height={28} decoding="async" />
+                TERMINAL DISPATCH // PILOT ONLINE
+              </span>
               <span className="terminal-dot" />
             </div>
 

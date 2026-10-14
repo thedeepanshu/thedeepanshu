@@ -13,7 +13,6 @@
 .dossier-id-avatar { align-items: center; aspect-ratio: 1; background: radial-gradient(circle at 50% 40%, rgba(126, 244, 219, .18), transparent 60%), repeating-linear-gradient(0deg, rgba(126, 244, 219, .05) 0 1px, transparent 1px 4px); border: 1px solid rgba(126, 244, 219, .25); display: flex; justify-content: center; margin: 20px 0; overflow: hidden; position: relative; }
 .dossier-id-avatar::after { animation: dossier-scan 3.2s ease-in-out infinite; background: linear-gradient(180deg, transparent, rgba(126, 244, 219, .35), transparent); content: ''; height: 30%; left: 0; position: absolute; right: 0; top: -30%; }
 @keyframes dossier-scan { to { top: 100%; } }
-.dossier-id-avatar span { color: var(--ink); font-size: 4.2rem; letter-spacing: -.06em; opacity: .85; text-shadow: 0 0 22px rgba(126, 244, 219, .5); }
 .dossier-id dl { display: grid; gap: 12px; margin: 0; }
 .dossier-id dl div { border-top: 1px solid var(--line); display: grid; gap: 4px; padding-top: 10px; }
 .dossier-id dt { color: var(--muted); font-family: 'Courier New', monospace; font-size: .58rem; letter-spacing: .14em; text-transform: uppercase; }
