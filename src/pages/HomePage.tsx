@@ -1,18 +1,24 @@
 import { Link } from 'react-router-dom'
+import { missions } from '../content/portfolio'
 
 export function HomePage() {
   return (
     <main className="portfolio-shell">
       <section className="hero-section" id="top">
         <div className="hero-copy">
-          <p className="eyebrow"><span>01</span> digital workshop / future systems</p>
+          <p className="eyebrow"><span>00</span> deck 00 / the bridge</p>
           <h1>Frontend<br /><em>in motion.</em></h1>
           <p className="hero-description">
-            Frontend developer building this portfolio as an anime-inspired 3D experience.
+            I’m Deepanshu, a frontend developer with ~5 years of production React: data-dense dashboards, live maps and real-time interfaces. This ship is where I push the web further.
           </p>
           <div className="hero-actions">
-            <a className="primary-action" href="#missions">See the project <span>↗</span></a>
-            <a className="text-action" href="#origin">About me <span>↓</span></a>
+            <Link className="primary-action" to="/missions">View missions <span>↗</span></Link>
+            <Link className="text-action" to="/about">Read the dossier <span>→</span></Link>
+          </div>
+          <div className="hero-meta">
+            <span>React · TypeScript</span>
+            <span>Three.js · GLSL</span>
+            <span>~5 yrs in production</span>
           </div>
         </div>
       </section>
@@ -21,7 +27,7 @@ export function HomePage() {
         <p className="section-kicker">/ 001 — origin</p>
         <div>
           <h2>Ideas should feel <span>alive.</span></h2>
-          <p>I’m a frontend developer. This portfolio is where I’m bringing that work into an anime-inspired world of motion and 3D.</p>
+          <p>I care about the part of a product people touch: interfaces that make complex data readable and interactions that feel immediate. Years of business dashboards taught me to keep things fast. This ship is where I make them feel alive.</p>
         </div>
       </section>
 
@@ -29,34 +35,40 @@ export function HomePage() {
         <div className="build-intro">
           <p className="section-kicker">/ 002 — inside the build</p>
           <div>
-            <h2>A frontend portfolio, built as a <span>world.</span></h2>
-            <p>Every visual layer is part of the same project: interface, scene, and motion working together.</p>
+            <h2>A portfolio, built as a <span>world.</span></h2>
+            <p>What you’re flying through right now is the work too. Here’s what’s running under the hull.</p>
           </div>
         </div>
         <div className="build-pillars">
           <article>
-            <span>01 / interface</span>
-            <h3>React + TypeScript</h3>
-            <p>Reusable page layouts and route-based navigation form the portfolio’s structure.</p>
+            <span>01 / world</span>
+            <h3>One persistent WebGL world</h3>
+            <p>A single React Three Fiber canvas sits behind every page. Navigating flies the camera between decks with a light-speed warp.</p>
           </article>
           <article>
-            <span>02 / scene</span>
-            <h3>Three.js in React</h3>
-            <p>The hero brings together an original stylized character, a futuristic car, lighting, and a workshop floor.</p>
+            <span>02 / particle core</span>
+            <h3>42,000 particles, one shader</h3>
+            <p>The name you saw while boarding became the ship beside you. The morph runs entirely in a vertex shader, and your cursor pushes the particles around.</p>
           </article>
           <article>
-            <span>03 / motion</span>
-            <h3>Movement with a purpose</h3>
-            <p>The opening reveal introduces the scene and interface in sequence, with a reduced-motion option.</p>
+            <span>03 / sound &amp; care</span>
+            <h3>Built for every visitor</h3>
+            <p>Opt-in ambient sound synthesised with Web Audio, quality tiers for weaker devices, and a calm version for reduced motion.</p>
           </article>
         </div>
       </section>
 
       <section className="missions-preview" id="missions">
-        <div className="section-heading"><p className="section-kicker">/ 003 — current project</p><span>in progress</span></div>
-        <article className="mission-card">
-          <div><p className="mission-type">personal project / in progress</p><h2>thedeepanshu portfolio<span>.</span></h2></div>
-        </article>
+        <div className="section-heading"><p className="section-kicker">/ 003 — mission log</p><span>{missions.length} missions</span></div>
+        <div className="chapter-list mission-chapters">
+          {missions.map((mission) => (
+            <Link className="chapter-row" to="/missions" key={mission.id}>
+              <span>M/{mission.number}</span>
+              <strong>{mission.title}<small>{mission.type}</small></strong>
+              <b aria-hidden="true">↗</b>
+            </Link>
+          ))}
+        </div>
       </section>
 
       <footer className="site-footer" id="signal">

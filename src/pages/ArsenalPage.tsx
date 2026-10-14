@@ -1,9 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { skills, type SkillCategory } from '../content/portfolio'
 import { PageFrame } from '../components/PageFrame'
+import { useVessel } from '../world/store'
 
 export function ArsenalPage() {
   const [activeCategory, setActiveCategory] = useState<SkillCategory>('core-frontend')
+  const setActiveSkill = useVessel((state) => state.setActiveSkill)
+
+  // The star map turns to the selected domain's constellation.
+  useEffect(() => setActiveSkill(activeCategory), [activeCategory, setActiveSkill])
 
   const categories: { id: SkillCategory; label: string }[] = [
     { id: 'all', label: 'All systems' },

@@ -68,3 +68,63 @@
   .hud-pulse, .hud-signal i { animation: none; }
 }
 @keyframes deck-arrive-calm { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Welcome gating: chrome and pages wait until the visitor boards ── */
+html[data-boot='active'] { overflow: hidden; }
+html[data-boot='active'] .site-header,
+html[data-boot='active'] .hud-frame,
+html[data-boot='active'] .sound-toggle { opacity: 0; visibility: hidden; }
+html[data-boot='done'] .site-header,
+html[data-boot='done'] .hud-frame,
+html[data-boot='done'] .sound-toggle { animation: chrome-arrive .9s ease 1.3s both; }
+@keyframes chrome-arrive { from { opacity: 0; } to { opacity: 1; } }
+.deck-view--held { animation: none; opacity: 0; }
+
+/* ── Sound toggle ── */
+.sound-toggle { align-items: center; background: rgba(7, 11, 14, .55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(193, 220, 224, .16); bottom: 26px; color: var(--muted); display: inline-flex; font-family: 'Courier New', monospace; font-size: .56rem; gap: 9px; letter-spacing: .16em; padding: 8px 11px; position: fixed; right: 44px; text-transform: uppercase; transition: border-color .2s ease, color .2s ease; z-index: 95; }
+.sound-toggle:hover, .sound-toggle:focus-visible { border-color: var(--cyan); color: var(--ink); }
+.sound-toggle:focus-visible { outline: 1px solid var(--cyan); outline-offset: 3px; }
+.sound-bars { align-items: center; display: inline-flex; gap: 2px; height: 11px; }
+.sound-bars i { background: currentColor; display: block; height: 2px; width: 2px; }
+.sound-toggle.is-on { color: var(--cyan); }
+.sound-toggle.is-on .sound-bars i { animation: sound-bar .9s ease-in-out infinite alternate; }
+.sound-toggle.is-on .sound-bars i:nth-child(2) { animation-delay: -.3s; }
+.sound-toggle.is-on .sound-bars i:nth-child(3) { animation-delay: -.6s; }
+.sound-toggle.is-on .sound-bars i:nth-child(4) { animation-delay: -.15s; }
+@keyframes sound-bar { from { height: 2px; } to { height: 11px; } }
+
+@media (max-width: 900px) {
+  .sound-toggle { bottom: 16px; right: 22px; }
+  .sound-label { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-boot='done'] .site-header, html[data-boot='done'] .hud-frame, html[data-boot='done'] .sound-toggle { animation-delay: 0s; animation-duration: .3s; }
+  .sound-toggle.is-on .sound-bars i { animation: none; height: 8px; }
+}
+
+/* ── Lab: world-system cards link to where the system runs ── */
+.lab-live-panel { align-content: end; aspect-ratio: 16 / 9; background: radial-gradient(circle at 75% 30%, rgba(126, 244, 219, .16), transparent 45%), radial-gradient(circle at 20% 80%, rgba(161, 126, 255, .16), transparent 45%), repeating-linear-gradient(0deg, rgba(126, 244, 219, .04) 0 1px, transparent 1px 5px), #070b0e; border: 1px solid var(--line); border-radius: 4px; display: grid; gap: 8px; padding: 22px; position: relative; text-decoration: none; transition: border-color .25s ease; }
+.lab-live-panel:hover, .lab-live-panel:focus-visible { border-color: rgba(126, 244, 219, .55); }
+.lab-live-panel strong { color: var(--ink); font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 400; letter-spacing: -.04em; }
+.lab-live-panel strong span { color: var(--cyan); }
+.lab-live-kicker { color: var(--cyan); font-family: 'Courier New', monospace; font-size: .6rem; letter-spacing: .16em; text-transform: uppercase; }
+.lab-live-signal { display: flex; gap: 4px; position: absolute; right: 18px; top: 18px; }
+.lab-live-signal i { animation: hud-pulse 1.6s ease-in-out infinite; background: var(--cyan); border-radius: 50%; height: 6px; width: 6px; }
+.lab-live-signal i:nth-child(2) { animation-delay: .25s; }
+.lab-live-signal i:nth-child(3) { animation-delay: .5s; }
+@media (prefers-reduced-motion: reduce) { .lab-live-signal i { animation: none; } }
+
+/* Dev-only marker for placeholder memories (see `demo: true` in content). */
+.memory-demo-badge { background: #ffb547; color: #1a1205; font-family: 'Courier New', monospace; font-size: .56rem; font-weight: 700; letter-spacing: .12em; padding: 3px 6px; text-transform: uppercase; }
+
+/* Home: mission log rows are links */
+.mission-chapters { margin-top: 40px; }
+.mission-chapters .chapter-row { color: inherit; text-decoration: none; }
+.mission-chapters .chapter-row strong small { color: var(--muted); display: block; font-family: 'Courier New', monospace; font-size: .6rem; letter-spacing: .12em; margin-top: 8px; text-transform: uppercase; }
+.mission-chapters .chapter-row:focus-visible { outline: 1px solid var(--cyan); outline-offset: 4px; }
+.memory-caption { font-style: normal; }
+
+/* ── Frosted glass: content panels let the deck's set piece glow through ── */
+html[data-tier='high'] .mission-brief { backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); background: linear-gradient(135deg, rgba(23, 46, 53, .48), rgba(9, 16, 20, .62)); }
+html[data-tier='high'] .milestone-card { backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); background: linear-gradient(145deg, rgba(14, 25, 31, .55), rgba(7, 12, 15, .7)); }
+html[data-tier='high'] .milestone-current { background: linear-gradient(145deg, rgba(20, 45, 52, .62), rgba(8, 16, 20, .72)); }

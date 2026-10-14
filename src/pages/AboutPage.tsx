@@ -1,5 +1,101 @@
+import { Link } from 'react-router-dom'
+import { dossier } from '../content/portfolio'
+import { resumeData } from '../content/resumeData'
 import { PageFrame } from '../components/PageFrame'
+import './AboutPage.css'
 
 export function AboutPage() {
-  return <PageFrame eyebrow="001 / origin" title={<>Frontend, with <em>feeling.</em></>} intro="I'm a frontend developer creating an anime-inspired portfolio with cinematic 3D visuals and an AI-inspired interface aesthetic."><div className="split-copy"><p className="lead-copy">I enjoy shaping the part of a product people see and use: clear layouts, thoughtful interactions, and details that give an interface its own character.</p><div className="stat-grid"><span><b>01</b>Frontend development</span><span><b>02</b>Interactive web design</span><span><b>03</b>Cinematic portfolio visuals</span></div></div></PageFrame>
+  const [lead, ...story] = dossier.story
+
+  return (
+    <PageFrame
+      eyebrow="001 / pilot dossier"
+      title={<>Frontend, with <em>feeling.</em></>}
+      intro="Frontend developer with ~5 years of production React. I build data-dense interfaces that stay fast, and I'm pushing what the web can feel like."
+    >
+      <div className="dossier">
+        <section className="dossier-file" aria-label="Profile">
+          <aside className="dossier-id">
+            <div className="dossier-id-top">
+              <span>ID / {dossier.callsign}</span>
+              <i aria-hidden="true" />
+            </div>
+            <div className="dossier-id-avatar" aria-hidden="true"><span>DS</span></div>
+            <dl>
+              <div><dt>Name</dt><dd>{dossier.name}</dd></div>
+              <div><dt>Role</dt><dd>{dossier.role}</dd></div>
+              <div><dt>Specialty</dt><dd>{dossier.specialty}</dd></div>
+              <div><dt>Status</dt><dd className="dossier-active">Active</dd></div>
+            </dl>
+          </aside>
+
+          <div className="dossier-story">
+            <p className="lead-copy">{lead}</p>
+            {story.map((paragraph) => <p key={paragraph.slice(0, 24)}>{paragraph}</p>)}
+          </div>
+        </section>
+
+        <section className="dossier-stats" aria-label="At a glance">
+          {dossier.stats.map((stat) => (
+            <div key={stat.label}>
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+            </div>
+          ))}
+        </section>
+
+        <section className="dossier-section">
+          <p className="section-kicker">/ operating principles</p>
+          <div className="dossier-grid">
+            {resumeData.coreCompetencies.map((item, index) => (
+              <article key={item.title}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="dossier-section">
+          <p className="section-kicker">/ how I work</p>
+          <ol className="dossier-process">
+            {dossier.process.map((step, index) => (
+              <li key={step.title}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="dossier-section dossier-columns">
+          <div>
+            <p className="section-kicker">/ current focus</p>
+            <ul className="dossier-list">
+              {dossier.focus.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </div>
+          <div>
+            <p className="section-kicker">/ languages</p>
+            <ul className="dossier-list">
+              {resumeData.languages.map((item) => <li key={item.language}>{item.language} <small>{item.proficiency}</small></li>)}
+            </ul>
+          </div>
+          <div>
+            <p className="section-kicker">/ traits</p>
+            <div className="dossier-traits">
+              {resumeData.strengths.map((trait) => <span key={trait}>{trait}</span>)}
+            </div>
+          </div>
+        </section>
+
+        <div className="dossier-actions">
+          <Link className="primary-action" to="/missions">See the missions <span>↗</span></Link>
+          <Link className="text-action" to="/journey">Read the full journey <span>→</span></Link>
+        </div>
+      </div>
+    </PageFrame>
+  )
 }

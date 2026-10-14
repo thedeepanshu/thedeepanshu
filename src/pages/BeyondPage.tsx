@@ -17,7 +17,7 @@ export function BeyondPage() {
     : memories.filter((m) => m.category === activeCategory)
 
   return (
-    <PageFrame eyebrow="006 / life archive" title={<>Beyond the <em>code.</em></>} intro="A space for photos, videos, and interests outside frontend development.">
+    <PageFrame eyebrow="006 / life archive" title={<>Beyond the <em>code.</em></>} intro="Off-duty logs: the art, ideas and moments that shape how I build.">
       <div className="beyond-container">
         {memories.length === 0 ? (
           <div className="portfolio-empty-state">
@@ -64,13 +64,19 @@ export function BeyondPage() {
               <div className="memory-header">
                 <span className="memory-num">FRAME / {mem.number}</span>
                 <span className="memory-cat">{mem.categoryLabel}</span>
+                {/* Dev-only reminder; never rendered in production builds. */}
+                {import.meta.env.DEV && mem.demo && <span className="memory-demo-badge">Demo · replace</span>}
               </div>
 
               {/* Title & Subtitle */}
               <div className="memory-body">
                 {mem.subtitle && <p className="memory-subtitle">{mem.subtitle}</p>}
                 <h3 className="memory-title">{mem.title}</h3>
-                <blockquote className="memory-quote">&ldquo;{mem.quoteOrCaption}&rdquo;</blockquote>
+                {mem.type === 'quote-card' ? (
+                  <blockquote className="memory-quote">&ldquo;{mem.quoteOrCaption}&rdquo;</blockquote>
+                ) : (
+                  <p className="memory-quote memory-caption">{mem.quoteOrCaption}</p>
+                )}
                 {mem.details && <p className="memory-details">{mem.details}</p>}
               </div>
 

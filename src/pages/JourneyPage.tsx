@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { milestones, type MilestoneCategory } from '../content/portfolio'
 import { PageFrame } from '../components/PageFrame'
+import { useFocusTracker } from '../hooks/useFocusTracker'
+import { useVessel } from '../world/store'
 
 export function JourneyPage() {
   const [activeCategory, setActiveCategory] = useState<MilestoneCategory>('professional-experience')
+
+  // The camera flies along the route to the milestone being read.
+  useFocusTracker(useVessel((state) => state.setActiveMilestone), activeCategory)
 
   const projectCount = (category: MilestoneCategory) =>
     milestones.filter((milestone) => milestone.category === category).length
@@ -54,7 +59,7 @@ export function JourneyPage() {
 
           <div className="timeline-list">
             {filteredMilestones.map((ms) => (
-              <div className="timeline-item" key={ms.id}>
+              <div className="timeline-item" key={ms.id} data-focus-id={ms.id}>
                 {/* Node indicator */}
                 <div className="timeline-node">
                   <div className="node-dot" />

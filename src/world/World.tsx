@@ -1,14 +1,30 @@
-import { Canvas } from '@react-three/fiber'
+import { useRef } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { PerformanceMonitor } from '@react-three/drei'
 import { CameraRig } from './CameraRig'
 import { Effects } from './Effects'
 import { Nebula } from './Nebula'
 import { Starfield } from './Starfield'
+import { Swarm } from './Swarm'
+import { FlightPath } from './setpieces/FlightPath'
+import { Hangar } from './setpieces/Hangar'
+import { StarMap } from './setpieces/StarMap'
 import { useVessel } from './store'
 
 const tierSettings = {
-  high: { dpr: [1, 1.75] as [number, number], stars: 7000, streaks: 1800, octaves: 5 },
-  low: { dpr: [1, 1.25] as [number, number], stars: 2800, streaks: 700, octaves: 3 },
+  high: { dpr: [1, 1.75] as [number, number], stars: 7000, streaks: 1800, octaves: 5, swarm: 42000 },
+  low: { dpr: [1, 1.25] as [number, number], stars: 2800, streaks: 700, octaves: 3, swarm: 16000 },
+}
+
+/** Tells the welcome sequence the world has actually drawn, not just loaded. */
+function ReadySignal() {
+  const sent = useRef(false)
+  useFrame(() => {
+    if (sent.current) return
+    sent.current = true
+    useVessel.getState().setWorldReady()
+  })
+  return null
 }
 
 /**
@@ -31,8 +47,13 @@ export default function World() {
         <PerformanceMonitor onDecline={() => setTier('low')} />
         <Nebula octaves={settings.octaves} />
         <Starfield count={settings.stars} streakCount={settings.streaks} />
+        <Swarm count={settings.swarm} />
+        <Hangar />
+        <StarMap />
+        <FlightPath />
         <CameraRig />
         <Effects tier={tier} />
+        <ReadySignal />
       </Canvas>
     </div>
   )

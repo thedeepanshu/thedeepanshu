@@ -1,20 +1,107 @@
 export type Mission = {
+  id: string
   number: string
   type: string
   title: string
-  summary: string
-  technologies: string[]
+  role: string
+  period: string
   status: string
+  summary: string
+  /** What made the work hard. */
+  challenge: string
+  /** How it was tackled. */
+  approach: string
+  highlights: string[]
+  technologies: string[]
+  link?: { label: string; url: string }
+  /** Shown when the product itself can't be named or linked. */
+  note?: string
 }
 
 export const missions: Mission[] = [
   {
+    id: 'operations-dashboards',
     number: '01',
-    type: 'personal project / in progress',
-    title: 'thedeepanshu portfolio',
-    summary: 'A React portfolio project combining multi-page navigation, a Three.js hero scene, and animated Canvas experiments.',
-    technologies: ['React', 'TypeScript', 'Vite', 'React Router', 'React Three Fiber', 'Three.js', 'Canvas 2D'],
-    status: 'in progress',
+    type: 'Professional / ANRX Solutions',
+    title: 'Operations dashboard platform',
+    role: 'Sole frontend developer',
+    period: 'Oct 2021 – Aug 2026',
+    status: 'Live in production',
+    summary: 'React dashboards that business teams used every day to run large-scale operations: dense data tables, live notifications and maps of thousands of locations.',
+    challenge: 'Large operational datasets had to stay fast and readable in the browser, and the product had to keep evolving while people relied on it all day.',
+    approach: 'Reusable React components, Redux-managed state and memoised data tables with server-side search, filtering, sorting and pagination, delivered in Agile sprints with backend, design and QA.',
+    highlights: [
+      'Data tables with nested rows, server-driven search, filtering, sorting and pagination, kept responsive with memoisation.',
+      'Google Maps interfaces with marker clustering, feature layers, polygon and boundary rendering, and geocoding for thousands of locations.',
+      'Real-time WebSocket notifications with leader election, so a dropped connection is reassigned without duplicate updates.',
+      'Charts and GA4 event tracking for interactions, downloads and engagement, feeding product decisions.',
+      'Figma designs translated into responsive, documented components.',
+    ],
+    technologies: ['React', 'JavaScript', 'Redux', 'Redux Toolkit', 'Context API', 'REST APIs', 'Google Maps API', 'WebSockets', 'Chart.js', 'GA4'],
+    note: 'Internal business application, so there is no public link or screenshots.',
+  },
+  {
+    id: 'platform-rebuild',
+    number: '02',
+    type: 'Professional / ANRX Solutions',
+    title: 'Ground-up platform rebuild',
+    role: 'Frontend developer, with senior engineers',
+    period: 'Within the ANRX role',
+    status: 'Built alongside the live product',
+    summary: 'A rebuild of the operations platform on a modern, typed frontend stack, developed while the previous version stayed in daily use.',
+    challenge: 'Two versions had to move forward at once: the legacy platform still needed fixes and features while the new one was being built.',
+    approach: 'Worked with senior engineers on a TypeScript foundation with schema validation, typed server state and documented, tested components.',
+    highlights: [
+      'TypeScript across the new frontend, with Zod schemas validating data at the edges.',
+      'TanStack Query for server state and Jotai for client state.',
+      'Forms built with React Hook Form and Zod.',
+      'Components documented in Storybook and tested with Jest.',
+      'Kept delivering bug fixes and features on the legacy platform in parallel.',
+    ],
+    technologies: ['TypeScript', 'React', 'Jotai', 'Zod', 'TanStack Query', 'React Hook Form', 'Storybook', 'Jest'],
+    note: 'Internal business application, so there is no public link or screenshots.',
+  },
+  {
+    id: 'alec-ev-hybrid',
+    number: '03',
+    type: 'Client / Independent project',
+    title: 'Alec EV & Hybrid Battery Services',
+    role: 'Solo developer, end to end',
+    period: 'May 2026 – Jun 2026',
+    status: 'Live',
+    summary: 'A 0→1 business website for an EV and hybrid battery service company in Canada, from requirements to deployment and ongoing maintenance.',
+    challenge: 'A small business needed a site that ranks, loads fast and turns visitors into calls and messages, with one developer owning everything.',
+    approach: 'Next.js and Tailwind for a fast, responsive build, technical SEO from day one, and conversion paths wired straight into analytics.',
+    highlights: [
+      'Technical SEO: metadata, canonical URLs, structured data, sitemap and robots.txt, plus Core Web Vitals work and Search Console.',
+      'Lead generation through WhatsApp, contact forms, click-to-call and interactive Google Maps.',
+      'GA4 and Google Ads conversion tracking on every lead action.',
+      'Domain set up on Namecheap, with production deploys automated through Vercel CI/CD.',
+      'Worked directly with the client from requirements through launch and maintenance.',
+    ],
+    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Google Maps', 'GA4', 'Google Ads', 'Search Console', 'Vercel'],
+    link: { label: 'alecevhybrid.com', url: 'https://alecevhybrid.com' },
+  },
+  {
+    id: 'the-vessel',
+    number: '04',
+    type: 'Personal / This website',
+    title: 'The Vessel',
+    role: 'Design and development',
+    period: '2026',
+    status: 'In progress',
+    summary: 'This portfolio: one persistent WebGL world in which every page is a deck of a ship, connected by warp flights.',
+    challenge: 'Make a portfolio feel like a cinematic, explorable place without sacrificing readability, performance on phones or accessibility.',
+    approach: 'A single React Three Fiber canvas behind every route, custom GLSL shaders, quality tiers that adapt to the device, and a calm path for reduced motion.',
+    highlights: [
+      'Starfield and nebula shaders with camera flights and light-speed warp streaks between routes.',
+      'A 42,000-particle core that morphs from static to a name to a starship in the vertex shader.',
+      'A welcome sequence that doubles as the real loader.',
+      'Procedural ambient sound with the Web Audio API, with no audio files.',
+      'Automatic quality downgrade, a reduced-motion version and keyboard-safe overlays.',
+    ],
+    technologies: ['React', 'TypeScript', 'React Three Fiber', 'Three.js', 'GLSL', 'Zustand', 'Web Audio API', 'Vite'],
+    link: { label: 'You are here', url: '/' },
   },
 ]
 
@@ -105,7 +192,7 @@ export const skills: Skill[] = [
   },
 ]
 
-export type ExperimentCategory = 'all' | 'canvas-generative'
+export type ExperimentCategory = 'all' | 'canvas-generative' | 'webgl-world'
 
 export type Experiment = {
   id: string
@@ -116,13 +203,49 @@ export type Experiment = {
   status: string
   description: string
   technologies: string[]
-  preset: 'particle-field' | 'cyber-grid' | 'aurora-pulse'
+  /** Canvas 2D experiments render a live preview in their card. */
+  preset?: 'particle-field' | 'cyber-grid' | 'aurora-pulse'
+  /** World systems run in the site itself; the card links to where to see them. */
+  liveOn?: { label: string; path: string }
 }
 
 export const experiments: Experiment[] = [
   {
-    id: 'particle-field',
+    id: 'warp-starfield',
     number: '01',
+    title: 'Warp starfield',
+    category: 'webgl-world',
+    categoryLabel: 'WebGL / GLSL',
+    status: 'running live',
+    description: 'Seven thousand shader-driven stars wrapped around the camera, so the field never runs out. Streaks follow the camera’s real velocity during a warp jump, and chromatic aberration peaks mid-flight.',
+    technologies: ['Three.js', 'GLSL', 'React Three Fiber', 'Post-processing'],
+    liveOn: { label: 'Jump to any deck to trigger a warp', path: '/journey' },
+  },
+  {
+    id: 'particle-core',
+    number: '02',
+    title: 'Particle core',
+    category: 'webgl-world',
+    categoryLabel: 'WebGL / GLSL',
+    status: 'running live',
+    description: 'A 42,000-point swarm that morphs from static to a name to a starship, entirely in the vertex shader with staggered timing and burst trails. The cursor pushes particles away in screen space.',
+    technologies: ['Three.js', 'GLSL', 'MeshSurfaceSampler', 'Canvas text sampling'],
+    liveOn: { label: 'See the ship on the Bridge', path: '/' },
+  },
+  {
+    id: 'procedural-ambience',
+    number: '03',
+    title: 'Procedural ambience',
+    category: 'webgl-world',
+    categoryLabel: 'Web Audio',
+    status: 'running live',
+    description: 'The ship’s sound is synthesised in the browser: detuned engine drones under a breathing filter, a soft pad, filtered "air" noise, and a swept whoosh on every warp. There are no audio files.',
+    technologies: ['Web Audio API', 'TypeScript'],
+    liveOn: { label: 'Turn on sound, bottom right', path: '/' },
+  },
+  {
+    id: 'particle-field',
+    number: '04',
     title: 'Particle field',
     category: 'canvas-generative',
     categoryLabel: 'Canvas 2D',
@@ -133,7 +256,7 @@ export const experiments: Experiment[] = [
   },
   {
     id: 'perspective-grid',
-    number: '02',
+    number: '05',
     title: 'Perspective grid',
     category: 'canvas-generative',
     categoryLabel: 'Canvas 2D',
@@ -144,7 +267,7 @@ export const experiments: Experiment[] = [
   },
   {
     id: 'gradient-fields',
-    number: '03',
+    number: '06',
     title: 'Gradient fields',
     category: 'canvas-generative',
     categoryLabel: 'Canvas 2D',
@@ -170,9 +293,122 @@ export type Memory = {
   tags: string[]
   trackUrl?: string
   gradientStyle?: string
+  /** Placeholder content to replace with real memories before launch. */
+  demo?: boolean
 }
 
-export const memories: Memory[] = []
+// DEMO CONTENT: every entry below is a placeholder written to show how the
+// archive looks when it's full. Replace them with real memories (or delete them)
+// before publishing. Search the codebase for "demo: true" to find them all.
+export const memories: Memory[] = [
+  {
+    id: 'demo-neon-rain',
+    number: '01',
+    title: 'Neon & rain',
+    category: 'anime-art',
+    categoryLabel: 'Anime & Art',
+    type: 'image-frame',
+    subtitle: 'Moodboard',
+    quoteOrCaption: 'Night-city palettes: wet streets, cyan signage, violet haze. The reason this site glows the way it does.',
+    tags: ['cyberpunk', 'color', 'moodboard'],
+    gradientStyle: 'radial-gradient(circle at 70% 20%, rgba(126, 244, 219, .22), transparent 40%), radial-gradient(circle at 20% 80%, rgba(161, 126, 255, .22), transparent 45%), linear-gradient(150deg, #13232b, #0a1015)',
+    demo: true,
+  },
+  {
+    id: 'demo-clarke',
+    number: '02',
+    title: 'On magic',
+    category: 'inspirations',
+    categoryLabel: 'Inspirations',
+    type: 'quote-card',
+    subtitle: 'Arthur C. Clarke',
+    quoteOrCaption: 'Any sufficiently advanced technology is indistinguishable from magic.',
+    details: 'Good interfaces hide the machinery. That’s the bar.',
+    tags: ['sci-fi', 'craft'],
+    gradientStyle: 'linear-gradient(140deg, #2a2552, #121327)',
+    demo: true,
+  },
+  {
+    id: 'demo-late-shift',
+    number: '03',
+    title: 'Late-shift builds',
+    category: 'life',
+    categoryLabel: 'Life & Frames',
+    type: 'image-frame',
+    subtitle: 'Desk, 2 a.m.',
+    quoteOrCaption: 'Headphones on, one lamp, one more commit before calling it a night.',
+    tags: ['workflow', 'night'],
+    gradientStyle: 'radial-gradient(circle at 30% 30%, rgba(255, 196, 140, .14), transparent 40%), linear-gradient(150deg, #1b1f24, #0b0f12)',
+    demo: true,
+  },
+  {
+    id: 'demo-victor',
+    number: '04',
+    title: 'Immediate connection',
+    category: 'inspirations',
+    categoryLabel: 'Inspirations',
+    type: 'quote-card',
+    subtitle: 'Bret Victor, “Inventing on Principle”',
+    quoteOrCaption: 'Creators need an immediate connection to what they’re creating.',
+    details: 'Why I build with hot reload, live previews and a browser always open.',
+    tags: ['talks', 'tools'],
+    gradientStyle: 'linear-gradient(140deg, #123238, #0b1418)',
+    demo: true,
+  },
+  {
+    id: 'demo-mecha-studies',
+    number: '05',
+    title: 'Mecha studies',
+    category: 'anime-art',
+    categoryLabel: 'Anime & Art',
+    type: 'image-frame',
+    subtitle: 'Sketchbook',
+    quoteOrCaption: 'Panel lines, thrusters, hard angles. The starship on the Bridge started as doodles like these.',
+    tags: ['sketching', 'mecha', '3d'],
+    gradientStyle: 'radial-gradient(circle at 80% 70%, rgba(131, 183, 255, .2), transparent 45%), linear-gradient(150deg, #151d2c, #0a0f16)',
+    demo: true,
+  },
+  {
+    id: 'demo-focus-soundtrack',
+    number: '06',
+    title: 'Focus soundtrack',
+    category: 'life',
+    categoryLabel: 'Life & Frames',
+    type: 'media-clip',
+    subtitle: 'On repeat',
+    quoteOrCaption: 'Synthwave and ambient: long tracks, no lyrics, the kind that make four hours feel like one.',
+    tags: ['music', 'focus'],
+    gradientStyle: 'linear-gradient(140deg, #2b1f45, #0f0d1c)',
+    demo: true,
+  },
+  {
+    id: 'demo-rams',
+    number: '07',
+    title: 'Less, but better',
+    category: 'inspirations',
+    categoryLabel: 'Inspirations',
+    type: 'quote-card',
+    subtitle: 'Dieter Rams',
+    quoteOrCaption: 'Good design is as little design as possible.',
+    details: 'A good check for every glow, particle and animation on this site.',
+    tags: ['design', 'restraint'],
+    gradientStyle: 'linear-gradient(140deg, #1d2a2c, #0c1213)',
+    demo: true,
+  },
+  {
+    id: 'demo-home-sky',
+    number: '08',
+    title: 'Home sky',
+    category: 'life',
+    categoryLabel: 'Life & Frames',
+    type: 'image-frame',
+    subtitle: 'Haryana, at dusk',
+    quoteOrCaption: 'Wide fields and a long horizon. Some of the calm on the Observation deck comes from here.',
+    tags: ['home', 'sky'],
+    gradientStyle: 'radial-gradient(circle at 50% 110%, rgba(255, 170, 120, .18), transparent 50%), linear-gradient(180deg, #1a2238, #0c1220)',
+    demo: true,
+  },
+]
 
 export type MilestoneCategory = 'professional-experience' | 'client-projects' | 'personal-projects' | 'education'
 
@@ -258,10 +494,16 @@ export const milestones: Milestone[] = [
     title: 'Building this portfolio',
     category: 'personal-projects',
     categoryLabel: 'Personal project',
-    summary: 'An ongoing personal project built with React and TypeScript.',
-    narrative: 'The current version includes multi-page navigation, a React Three Fiber hero scene, and Canvas 2D previews.',
-    achievements: ['Implemented the portfolio routes and shared navigation', 'Added a lazy-loaded 3D hero scene', 'Built animated Canvas 2D previews'],
-    skillsUnlocked: ['React', 'TypeScript', 'React Router', 'Three.js', 'Canvas 2D'],
+    summary: 'The Vessel: a portfolio built as one persistent 3D world, where every page is a deck of a ship.',
+    narrative: 'An ongoing personal project in React, TypeScript and React Three Fiber that explores how far cinematic 3D, motion and sound can go on the web while staying readable and accessible.',
+    achievements: [
+      'Built one WebGL world that persists across every route, with camera flights and warp transitions',
+      'Wrote GLSL shaders for the starfield, nebula and a 42,000-particle morphing core',
+      'Designed a welcome sequence that doubles as the real loader',
+      'Synthesised ambient sound in the browser with the Web Audio API',
+      'Added quality tiers for weaker devices and a reduced-motion version',
+    ],
+    skillsUnlocked: ['React', 'TypeScript', 'React Three Fiber', 'Three.js', 'GLSL', 'Zustand', 'Web Audio API'],
     status: 'in progress',
   },
   {
@@ -319,3 +561,34 @@ export const socialLinks: SocialLink[] = [
   { name: 'LinkedIn', handle: '@thedeepanshu', url: 'https://www.linkedin.com/in/deepanshu-saini-a97229206/', platform: 'Professional Network' },
   { name: 'Instagram', handle: '@deep22.01', url: 'https://instagram.com/deep22.01', platform: 'Off-Duty Realm' },
 ]
+export type DossierStat = { value: string; label: string }
+
+/** Origin page ("pilot dossier"). Values, languages and traits come from resumeData. */
+export const dossier = {
+  callsign: 'thedeepanshu',
+  name: 'Deepanshu Saini',
+  role: 'Frontend Developer',
+  specialty: 'React · TypeScript · 3D on the web',
+  stats: [
+    { value: '~5 yrs', label: 'shipping production React' },
+    { value: '1000s', label: 'of locations on a single map view' },
+    { value: '0→1', label: 'client website, built and run solo' },
+    { value: '42k', label: 'particles in this site’s ship' },
+  ] satisfies DossierStat[],
+  story: [
+    'For almost five years I was the sole frontend developer on operations dashboards that business teams relied on every day: dense data tables, maps with thousands of locations and live notifications.',
+    'I like the part of a product people actually touch. That means layouts that make complex data readable, interactions that feel immediate and details that give an interface character. I work closely with backend engineers, designers and QA, and I own features from design through testing.',
+    'Outside of that, I build to learn. In 2026 I took a client website from zero to launch on my own, and this portfolio is where I push 3D, shaders, motion and sound on the web. I also work AI-augmented every day, and I review everything that ships.',
+  ],
+  process: [
+    { title: 'Understand', description: 'Start from the people using it: the requirements, the edge cases and the real shape of the data.' },
+    { title: 'Build in components', description: 'Reusable, typed components, documented where it matters, so features compose instead of piling up.' },
+    { title: 'Prove it', description: 'Tests, debugging and performance checks in Lighthouse and DevTools before anything ships.' },
+    { title: 'Measure', description: 'Analytics events and real usage show what to improve next.' },
+  ],
+  focus: [
+    'Interactive 3D on the web with Three.js, React Three Fiber and GLSL',
+    'AI-augmented development and agentic workflows',
+    'B.Tech in Computer Science & Engineering (ongoing)',
+  ],
+}

@@ -3,13 +3,33 @@ import { deckForPath, type DeckId } from './decks'
 
 export type QualityTier = 'high' | 'low'
 
+/**
+ * Welcome sequence stages. `power`/`boot` show static noise, `transmission`
+ * and `choice` hold the name, `boarding` warps in, `done` is normal browsing.
+ */
+export type BootPhase = 'power' | 'boot' | 'transmission' | 'choice' | 'boarding' | 'done'
+
 type VesselState = {
   deck: DeckId
   tier: QualityTier
   reducedMotion: boolean
+  bootPhase: BootPhase
+  /** The 3D world has loaded and drawn its first frame. */
+  worldReady: boolean
+  soundOn: boolean
+  /** Set by the pages so each deck's set piece can follow what's on screen. */
+  activeMission: string | null
+  activeSkill: string
+  activeMilestone: string | null
   setDeck: (deck: DeckId) => void
   setTier: (tier: QualityTier) => void
   setReducedMotion: (reducedMotion: boolean) => void
+  setBootPhase: (bootPhase: BootPhase) => void
+  setWorldReady: () => void
+  setSoundOn: (soundOn: boolean) => void
+  setActiveMission: (id: string | null) => void
+  setActiveSkill: (id: string) => void
+  setActiveMilestone: (id: string | null) => void
 }
 
 function detectTier(): QualityTier {
@@ -28,6 +48,18 @@ export const useVessel = create<VesselState>((set) => ({
   setDeck: (deck) => set({ deck }),
   setTier: (tier) => set({ tier }),
   setReducedMotion: (reducedMotion) => set({ reducedMotion }),
+  bootPhase: 'power',
+  worldReady: false,
+  soundOn: false,
+  setBootPhase: (bootPhase) => set({ bootPhase }),
+  setWorldReady: () => set({ worldReady: true }),
+  setSoundOn: (soundOn) => set({ soundOn }),
+  activeMission: null,
+  activeSkill: 'core-frontend',
+  activeMilestone: null,
+  setActiveMission: (activeMission) => set({ activeMission }),
+  setActiveSkill: (activeSkill) => set({ activeSkill }),
+  setActiveMilestone: (activeMilestone) => set({ activeMilestone }),
 }))
 
 /**
@@ -39,5 +71,35 @@ export const motion = {
   warp: 0,
   /** Pointer position, -1..1 on both axes. */
   pointer: { x: 0, y: 0 },
+  /** Becomes true once the pointer has moved, so nothing reacts to a cursor that isn't there. */
+  pointerActive: false,
   camera: { x: 0, y: 0, z: 0 },
+  /** Page scroll, in viewport heights. */
+  scroll: 0,
+  /**
+   * Lets a set piece steer the camera while its deck is parked (the Journey
+   * flight path does). The rig eases toward this pose instead of the deck's.
+   */
+  /** Deck the current (or last) flight left from, and how far along it is. */
+  fromDeck: null as DeckId | null,
+  flightProgress: 1,
+  director: {
+    deck: null as DeckId | null,
+    position: { x: 0, y: 0, z: 0 },
+    target: { x: 0, y: 0, z: 0 },
+  },
+}
+
+/**
+ * Whether a deck's set piece should render: on its own deck, and while a
+ * flight is leaving it, so pieces never show up in another deck's view.
+ */
+export function deckInView(id: DeckId) {
+  return useVessel.getState().deck === id || (motion.flightProgress < 1 && motion.fromDeck === id)
+}
+
+/** Dims a set piece as the page scrolls over it: 1 at the top, `floor` once well into the content. */
+export function scrollDim(floor: number) {
+  const t = Math.min(1, Math.max(0, (motion.scroll - 0.2) / 0.6))
+  return 1 - t * t * (3 - 2 * t) * (1 - floor)
 }

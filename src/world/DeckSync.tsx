@@ -8,6 +8,7 @@ export function DeckSync() {
   const { pathname } = useLocation()
   const setDeck = useVessel((state) => state.setDeck)
   const setReducedMotion = useVessel((state) => state.setReducedMotion)
+  const tier = useVessel((state) => state.tier)
 
   useEffect(() => {
     setDeck(deckForPath(pathname).id)
@@ -20,6 +21,11 @@ export function DeckSync() {
     query.addEventListener('change', update)
     return () => query.removeEventListener('change', update)
   }, [setReducedMotion])
+
+  // Lets CSS opt into heavier effects (like frosted glass) on capable devices.
+  useEffect(() => {
+    document.documentElement.dataset.tier = tier
+  }, [tier])
 
   return null
 }
