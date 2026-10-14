@@ -1,0 +1,42 @@
+/* ── Nav logo: HUD emblem + wordmark + live deck readout ── */
+.nav-logo { align-items: center; color: var(--ink); display: inline-flex; gap: 11px; text-decoration: none; }
+.nav-logo:focus-visible { outline: 1px solid var(--cyan); outline-offset: 6px; }
+
+.nav-logo-emblem { flex-shrink: 0; height: 34px; overflow: visible; width: 34px; }
+.nav-logo-brackets path { fill: none; stroke: var(--cyan); stroke-linecap: round; stroke-width: 3; opacity: .65; transition: opacity .3s ease, transform .35s cubic-bezier(.2, .75, .25, 1); }
+/* Each bracket moves toward the centre on hover: a lock-on. */
+.nav-logo:hover .nav-logo-brackets path, .nav-logo:focus-visible .nav-logo-brackets path { opacity: 1; }
+.nav-logo:hover .nav-logo-brackets path:nth-child(1), .nav-logo:focus-visible .nav-logo-brackets path:nth-child(1) { transform: translate(4px, 4px); }
+.nav-logo:hover .nav-logo-brackets path:nth-child(2), .nav-logo:focus-visible .nav-logo-brackets path:nth-child(2) { transform: translate(-4px, 4px); }
+.nav-logo:hover .nav-logo-brackets path:nth-child(3), .nav-logo:focus-visible .nav-logo-brackets path:nth-child(3) { transform: translate(-4px, -4px); }
+.nav-logo:hover .nav-logo-brackets path:nth-child(4), .nav-logo:focus-visible .nav-logo-brackets path:nth-child(4) { transform: translate(4px, -4px); }
+
+.nav-logo-d { fill: none; filter: drop-shadow(0 0 3px rgba(126, 244, 219, .45)); stroke: url(#nav-logo-mark); stroke-dasharray: 100; stroke-linejoin: round; stroke-width: 6.5; }
+.nav-logo:hover .nav-logo-d, .nav-logo:focus-visible .nav-logo-d { animation: nav-logo-draw .7s cubic-bezier(.6, 0, .2, 1); }
+.nav-logo-dot { animation: nav-logo-pulse 2.6s ease-in-out infinite; fill: var(--cyan); filter: drop-shadow(0 0 4px var(--cyan)); transform-box: fill-box; transform-origin: center; }
+.nav-logo:hover .nav-logo-dot { animation-duration: .9s; }
+
+/* Warp: the emblem spins a quarter turn while the D redraws. */
+.nav-logo-emblem.is-warping .nav-logo-brackets { animation: nav-logo-spin 1s cubic-bezier(.6, 0, .2, 1) .15s both; transform-box: view-box; transform-origin: center; }
+.nav-logo-emblem.is-warping .nav-logo-d { animation: nav-logo-draw 1s cubic-bezier(.6, 0, .2, 1) .25s both; }
+
+@keyframes nav-logo-draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes nav-logo-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .55; transform: scale(.8); } }
+@keyframes nav-logo-spin { from { transform: rotate(-90deg); } to { transform: rotate(0deg); } }
+
+.nav-logo-text { display: grid; gap: 3px; line-height: 1; }
+.nav-logo-name { font-size: 1.02rem; font-weight: 600; letter-spacing: -.04em; transition: text-shadow .25s ease; white-space: nowrap; }
+.nav-logo-name b { color: var(--cyan); font-weight: 600; }
+.nav-logo:hover .nav-logo-name { text-shadow: 0 0 12px rgba(126, 244, 219, .4); }
+.nav-logo-readout { align-items: center; color: var(--muted); display: inline-flex; font-family: 'Courier New', monospace; font-size: .52rem; gap: 6px; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+.nav-logo-readout i { animation: hud-pulse 1.8s ease-in-out infinite; background: var(--cyan); border-radius: 50%; box-shadow: 0 0 6px var(--cyan); height: 4px; width: 4px; }
+
+@media (max-width: 560px) {
+  .nav-logo-emblem { height: 30px; width: 30px; }
+  .nav-logo-readout { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-logo-dot, .nav-logo-readout i, .nav-logo-emblem.is-warping .nav-logo-brackets, .nav-logo-emblem.is-warping .nav-logo-d, .nav-logo:hover .nav-logo-d { animation: none; }
+  .nav-logo-brackets path { transition: none; }
+}

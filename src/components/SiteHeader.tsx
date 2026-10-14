@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
+import { NavLogo } from './NavLogo'
 import { ResumeDropdown } from './ResumeDropdown'
 
 const navigation = [
@@ -63,7 +64,7 @@ export function SiteHeader() {
   return (
     <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
       <div className="site-header-inner">
-        <Link className="wordmark" to="/">thedeepanshu<span className="wordmark-dot">.</span></Link>
+        <NavLogo />
 
         <nav className="site-nav" aria-label="Primary navigation">
           {navigation.map(([label, path]) => (
