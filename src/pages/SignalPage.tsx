@@ -21,7 +21,7 @@ export function SignalPage() {
     event.preventDefault()
     const subject = encodeURIComponent(`${formData.projectType} - ${formData.name}`)
     const body = encodeURIComponent(`From: ${formData.name}\nReply to: ${formData.email}\n\n${formData.message}`)
-    window.location.href = `mailto:hello@thedeepanshu.dev?subject=${subject}&body=${body}`
+    window.location.href = `mailto:deepanshusaini971@gmail.com?subject=${subject}&body=${body}`
     setDraftOpened(true)
     fireSignal()
   }
