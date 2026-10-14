@@ -1,8 +1,5 @@
-import { lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import { SiteHeader } from '../components/SiteHeader'
-
-const HeroScene = lazy(() => import('../scenes/HeroScene').then(({ HeroScene }) => ({ default: HeroScene })))
 
 export function HomePage() {
   return (
@@ -20,17 +17,6 @@ export function HomePage() {
             <a className="primary-action" href="#missions">See the project <span>↗</span></a>
             <a className="text-action" href="#origin">About me <span>↓</span></a>
           </div>
-        </div>
-
-        <div className="scene-stage" role="img" aria-label="An anime-inspired 3D frontend creator and futuristic car in a neon workshop">
-          <Suspense fallback={<div className="scene-fallback" role="status">Loading 3D scene</div>}>
-            <HeroScene />
-          </Suspense>
-          <div className="scene-sky" />
-          <div className="moon" />
-          <div className="workshop-grid" />
-          <div className="hud-card hud-card-top"><span>AI / VISUAL THEME</span><strong>Interface concept</strong><i /></div>
-          <div className="scene-label">the future is a material</div>
         </div>
       </section>
 
