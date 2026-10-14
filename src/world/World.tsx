@@ -11,14 +11,13 @@ import { Hangar } from './setpieces/Hangar'
 import { StarMap } from './setpieces/StarMap'
 import { CommsArray } from './setpieces/CommsArray'
 import { ObservationDeck } from './setpieces/ObservationDeck'
-import { PortraitHologram } from './setpieces/PortraitHologram'
 import { ReactorCore } from './setpieces/ReactorCore'
 import { Wreckage } from './setpieces/Wreckage'
 import { useVessel } from './store'
 
 const tierSettings = {
-  high: { dpr: [1, 1.75] as [number, number], stars: 7000, streaks: 1800, octaves: 5, swarm: 42000, portrait: 16000, sparks: 900 },
-  low: { dpr: [1, 1.25] as [number, number], stars: 2800, streaks: 700, octaves: 3, swarm: 16000, portrait: 7000, sparks: 350 },
+  high: { dpr: [1, 1.75] as [number, number], stars: 7000, streaks: 1800, octaves: 5, swarm: 42000, sparks: 900 },
+  low: { dpr: [1, 1.25] as [number, number], stars: 2800, streaks: 700, octaves: 3, swarm: 16000, sparks: 350 },
 }
 
 /** Tells the welcome sequence the world has actually drawn, not just loaded. */
@@ -56,7 +55,6 @@ export default function World() {
         <Hangar />
         <StarMap />
         <FlightPath />
-        <PortraitHologram maxPoints={settings.portrait} />
         <ReactorCore sparks={settings.sparks} />
         <ObservationDeck />
         <CommsArray />

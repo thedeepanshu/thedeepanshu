@@ -569,7 +569,7 @@ export const dossier = {
   name: 'Deepanshu Saini',
   role: 'Frontend Developer',
   specialty: 'React · TypeScript · 3D on the web',
-  /** Served from public/images. Also sampled into the Origin deck's 3D hologram. */
+  /** Served from public/images; shown in the dossier ID card and the Signal terminal. */
   portrait: '/images/deepanshu-saini.jpeg',
   stats: [
     { value: '~5 yrs', label: 'shipping production React' },
