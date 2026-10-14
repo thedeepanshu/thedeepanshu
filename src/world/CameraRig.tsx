@@ -97,7 +97,7 @@ export function CameraRig() {
       motion.pointerActive = true
     }
     const onScroll = () => {
-      motion.scroll = window.scrollY / Math.max(1, window.innerHeight)
+      motion.scrollTarget = window.scrollY / Math.max(1, window.innerHeight)
     }
     onScroll()
     window.addEventListener('pointermove', onPointerMove, { passive: true })
@@ -109,6 +109,9 @@ export function CameraRig() {
   }, [])
 
   useFrame((_, delta) => {
+    // Ease scroll toward the real position: smooth for wheel, keys and scrollbar drags alike.
+    motion.scroll = THREE.MathUtils.damp(motion.scroll, motion.scrollTarget, reducedMotion ? 30 : 9, delta)
+
     const f = flight.current
 
     if (f.progress < 1) {

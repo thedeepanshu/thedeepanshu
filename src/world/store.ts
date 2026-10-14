@@ -100,8 +100,13 @@ export const motion = {
   /** Becomes true once the pointer has moved, so nothing reacts to a cursor that isn't there. */
   pointerActive: false,
   camera: { x: 0, y: 0, z: 0 },
-  /** Page scroll, in viewport heights. */
+  /**
+   * Page scroll in viewport heights, eased in the render loop. Everything 3D
+   * reads this one, so scrollbar drags (big, uneven jumps) still glide.
+   */
   scroll: 0,
+  /** Raw scroll position, written by the scroll listener. */
+  scrollTarget: 0,
   /**
    * Lets a set piece steer the camera while its deck is parked (the Journey
    * flight path does). The rig eases toward this pose instead of the deck's.
