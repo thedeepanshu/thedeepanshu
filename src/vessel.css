@@ -143,3 +143,10 @@ html[data-tier='high'] .milestone-current { background: linear-gradient(145deg, 
 .skip-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; transform: none; }
 html[data-boot='active'] .skip-link { display: none; }
 .deck-view:focus { outline: none; }
+
+
+/* Phones: the Bridge pilot (in the fixed 3D layer) takes the top of the
+   screen, so the hero copy starts below it. */
+@media (max-width: 700px) and (orientation: portrait) {
+  .hero-section { padding-top: calc(46svh - var(--header-h)); }
+}

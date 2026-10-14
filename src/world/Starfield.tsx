@@ -34,10 +34,11 @@ const pointsVertex = /* glsl */ `
     vec4 mvPosition = viewMatrix * vec4(worldPos, 1.0);
     gl_Position = projectionMatrix * mvPosition;
     float size = mix(0.6, 2.4, pow(aSeed, 3.0));
-    // Capped: a star passing right by the camera would otherwise fill the screen.
-    gl_PointSize = min(size * uPixelRatio * (120.0 / max(-mvPosition.z, 0.1)), 48.0 * uPixelRatio);
+    // Capped, and faded out up close: a star drifting right past the camera
+    // would otherwise swell into a big soft blob.
+    gl_PointSize = min(size * uPixelRatio * (120.0 / max(-mvPosition.z, 0.1)), 5.0 * uPixelRatio);
     float twinkle = 0.65 + 0.35 * sin(uTime * (0.6 + aSeed * 2.4) + aSeed * 90.0);
-    vAlpha = edgeFade(worldPos) * twinkle;
+    vAlpha = edgeFade(worldPos) * twinkle * smoothstep(2.0, 8.0, -mvPosition.z);
     vec3 white = vec3(0.92, 0.97, 1.0);
     vec3 cyan = vec3(0.49, 0.96, 0.86);
     vec3 purple = vec3(0.63, 0.49, 1.0);

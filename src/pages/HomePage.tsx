@@ -48,7 +48,7 @@ export function HomePage() {
           <article>
             <span>02 / particle core</span>
             <h3>42,000 particles, one shader</h3>
-            <p>The name you saw while boarding became the ship beside you. The morph runs entirely in a vertex shader, and your cursor pushes the particles around.</p>
+            <p>Your welcome screen formed from static into a name, then burst into the stars as you boarded. It all runs in a vertex shader, and your cursor pushes the particles around.</p>
           </article>
           <article>
             <span>03 / sound &amp; care</span>

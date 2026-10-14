@@ -1,20 +1,16 @@
 import * as THREE from 'three'
-import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler.js'
 import { mulberry32 } from './random'
 import { SANS } from './setpieces/labels'
 
 export type SwarmTargets = {
   noise: Float32Array
   name: Float32Array
-  ship: Float32Array
   nameColor: Float32Array
-  shipColor: Float32Array
   burst: Float32Array
   seed: Float32Array
 }
 
 const CYAN = new THREE.Color('#7ef4db')
-const BLUE = new THREE.Color('#83b7ff')
 const PURPLE = new THREE.Color('#a17eff')
 const WHITE = new THREE.Color('#eafffb')
 
@@ -62,85 +58,6 @@ function sampleText(text: string, width: number, count: number, random: () => nu
   return out
 }
 
-/** Sleek starship built from primitives, nose along +X, about 8 units long. */
-function shipParts() {
-  const fuselageProfile = [
-    [0, -3.7], [0.32, -3.3], [0.52, -2.2], [0.6, -0.6], [0.52, 1.0], [0.34, 2.5], [0.12, 3.6], [0, 4.0],
-  ].map(([r, y]) => new THREE.Vector2(r, y))
-  const fuselage = new THREE.LatheGeometry(fuselageProfile, 28).rotateZ(-Math.PI / 2)
-  fuselage.scale(1, 0.75, 1)
-
-  const wingShape = new THREE.Shape()
-  wingShape.moveTo(1.4, 0)
-  wingShape.lineTo(-2.3, 3.5)
-  wingShape.lineTo(-3.0, 3.5)
-  wingShape.lineTo(-2.3, 0)
-  wingShape.lineTo(-3.0, -3.5)
-  wingShape.lineTo(-2.3, -3.5)
-  wingShape.closePath()
-  const wings = new THREE.ExtrudeGeometry(wingShape, { depth: 0.08, bevelEnabled: false }).rotateX(-Math.PI / 2)
-  wings.translate(0, -0.12, 0)
-
-  const finShape = new THREE.Shape()
-  finShape.moveTo(-1.2, 0)
-  finShape.lineTo(-2.9, 1.3)
-  finShape.lineTo(-3.3, 1.3)
-  finShape.lineTo(-2.9, 0)
-  finShape.closePath()
-  const fin = new THREE.ExtrudeGeometry(finShape, { depth: 0.06, bevelEnabled: false })
-  fin.translate(0, 0.25, -0.03)
-
-  const engines = new THREE.CylinderGeometry(0.3, 0.36, 1.4, 20, 1, true).rotateZ(Math.PI / 2)
-  const engineLeft = engines.clone().translate(-3.0, -0.05, 0.75)
-  const engineRight = engines.clone().translate(-3.0, -0.05, -0.75)
-
-  const exhaust = new THREE.CircleGeometry(0.3, 20).rotateY(-Math.PI / 2)
-  const exhaustLeft = exhaust.clone().translate(-3.72, -0.05, 0.75)
-  const exhaustRight = exhaust.clone().translate(-3.72, -0.05, -0.75)
-
-  const halo = new THREE.TorusGeometry(1.75, 0.03, 6, 120).rotateY(Math.PI / 2)
-  halo.translate(-0.6, 0, 0)
-
-  return [
-    { geometries: [fuselage], share: 0.34, colors: [CYAN, WHITE, BLUE] },
-    { geometries: [wings], share: 0.26, colors: [CYAN, BLUE] },
-    { geometries: [fin], share: 0.05, colors: [CYAN] },
-    { geometries: [engineLeft, engineRight], share: 0.13, colors: [BLUE, PURPLE] },
-    { geometries: [exhaustLeft, exhaustRight], share: 0.1, colors: [PURPLE, WHITE] },
-    { geometries: [halo], share: 0.12, colors: [PURPLE, CYAN] },
-  ]
-}
-
-// three ships setRandomGenerator, but @types/three doesn't declare it yet.
-type SeededSampler = MeshSurfaceSampler & { setRandomGenerator(random: () => number): MeshSurfaceSampler }
-
-function sampleShip(count: number, random: () => number) {
-  const positions = new Float32Array(count * 3)
-  const colors = new Float32Array(count * 3)
-  const point = new THREE.Vector3()
-  const material = new THREE.MeshBasicMaterial()
-  let index = 0
-
-  const parts = shipParts()
-  parts.forEach((part, partIndex) => {
-    const partCount = partIndex === parts.length - 1 ? count - index : Math.floor(count * part.share)
-    const samplers = part.geometries.map((geometry) => {
-      const sampler = new MeshSurfaceSampler(new THREE.Mesh(geometry, material)) as SeededSampler
-      return sampler.setRandomGenerator(random).build()
-    })
-    for (let i = 0; i < partCount; i++) {
-      samplers[i % samplers.length].sample(point)
-      positions.set([point.x, point.y, point.z], index * 3)
-      const color = part.colors[Math.floor(random() * part.colors.length)]
-      colors.set([color.r, color.g, color.b], index * 3)
-      index++
-    }
-    part.geometries.forEach((geometry) => geometry.dispose())
-  })
-  material.dispose()
-  return { positions, colors }
-}
-
 export function buildSwarmTargets(count: number, nameWidth: number): SwarmTargets {
   const random = mulberry32(1993)
   const noise = new Float32Array(count * 3)
@@ -162,7 +79,6 @@ export function buildSwarmTargets(count: number, nameWidth: number): SwarmTarget
   }
 
   const name = sampleText('DEEPANSHU', nameWidth, count, random)
-  const ship = sampleShip(count, random)
 
-  return { noise, name, ship: ship.positions, nameColor, shipColor: ship.colors, burst, seed }
+  return { noise, name, nameColor, burst, seed }
 }

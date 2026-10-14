@@ -10,14 +10,16 @@ import { FlightPath } from './setpieces/FlightPath'
 import { Hangar } from './setpieces/Hangar'
 import { StarMap } from './setpieces/StarMap'
 import { CommsArray } from './setpieces/CommsArray'
+import { IdentityCore } from './setpieces/IdentityCore'
+import { PilotReveal } from './setpieces/PilotReveal'
 import { ObservationDeck } from './setpieces/ObservationDeck'
 import { ReactorCore } from './setpieces/ReactorCore'
 import { Wreckage } from './setpieces/Wreckage'
 import { useVessel } from './store'
 
 const tierSettings = {
-  high: { dpr: [1, 1.75] as [number, number], stars: 7000, streaks: 1800, octaves: 5, swarm: 42000, sparks: 900 },
-  low: { dpr: [1, 1.25] as [number, number], stars: 2800, streaks: 700, octaves: 3, swarm: 16000, sparks: 350 },
+  high: { dpr: [1, 1.75] as [number, number], stars: 7000, streaks: 1800, octaves: 5, swarm: 42000, sparks: 900, identity: 3200 },
+  low: { dpr: [1, 1.25] as [number, number], stars: 2800, streaks: 700, octaves: 3, swarm: 16000, sparks: 350, identity: 1600 },
 }
 
 /** Tells the welcome sequence the world has actually drawn, not just loaded. */
@@ -52,9 +54,11 @@ export default function World() {
         <Nebula octaves={settings.octaves} />
         <Starfield count={settings.stars} streakCount={settings.streaks} />
         <Swarm count={settings.swarm} />
+        <PilotReveal />
         <Hangar />
         <StarMap />
         <FlightPath />
+        <IdentityCore points={settings.identity} />
         <ReactorCore sparks={settings.sparks} />
         <ObservationDeck />
         <CommsArray />

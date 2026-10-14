@@ -18,7 +18,7 @@ export function Effects({ tier }: { tier: QualityTier }) {
   if (tier === 'low') {
     return (
       <EffectComposer multisampling={0}>
-        <Bloom mipmapBlur intensity={0.7} luminanceThreshold={0.25} luminanceSmoothing={0.3} />
+        <Bloom mipmapBlur intensity={0.7} luminanceThreshold={0.42} luminanceSmoothing={0.3} />
         <Vignette offset={0.3} darkness={0.65} />
       </EffectComposer>
     )
@@ -26,7 +26,7 @@ export function Effects({ tier }: { tier: QualityTier }) {
 
   return (
     <EffectComposer multisampling={0}>
-      <Bloom mipmapBlur intensity={0.95} luminanceThreshold={0.2} luminanceSmoothing={0.3} />
+      <Bloom mipmapBlur intensity={1} luminanceThreshold={0.38} luminanceSmoothing={0.3} />
       <ChromaticAberration ref={chromatic} offset={offset} radialModulation modulationOffset={0.25} />
       <Noise opacity={0.028} />
       <Vignette offset={0.3} darkness={0.7} />

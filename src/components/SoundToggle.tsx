@@ -1,8 +1,10 @@
 import { useEffect } from 'react'
-import { playWarp, setSoundEnabled } from '../audio/soundEngine'
+import { playUi, playWarp, setSoundEnabled } from '../audio/soundEngine'
 import { useVessel } from '../world/store'
 
-/** HUD sound switch. Also plays the warp whoosh whenever the deck changes. */
+const INTERACTIVE = 'a, button, [role="button"], select, summary, input[type="checkbox"], input[type="radio"]'
+
+/** HUD sound switch. Also plays the warp whoosh on deck changes and UI blips. */
 export function SoundToggle() {
   const soundOn = useVessel((state) => state.soundOn)
   const setSoundOn = useVessel((state) => state.setSoundOn)
@@ -10,6 +12,27 @@ export function SoundToggle() {
   useEffect(() => useVessel.subscribe((state, previous) => {
     if (state.deck !== previous.deck) playWarp()
   }), [])
+
+  // A soft tick when the pointer enters something clickable, a confirm on press.
+  // The engine is silent unless sound is on, so these are cheap to leave bound.
+  useEffect(() => {
+    let current: Element | null = null
+    const onOver = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') return
+      const target = event.target instanceof Element ? event.target.closest(INTERACTIVE) : null
+      if (target && target !== current) playUi('hover')
+      current = target
+    }
+    const onDown = (event: PointerEvent) => {
+      if (event.target instanceof Element && event.target.closest(INTERACTIVE)) playUi('click')
+    }
+    document.addEventListener('pointerover', onOver)
+    document.addEventListener('pointerdown', onDown)
+    return () => {
+      document.removeEventListener('pointerover', onOver)
+      document.removeEventListener('pointerdown', onDown)
+    }
+  }, [])
 
   const toggle = () => {
     setSoundEnabled(!soundOn)
