@@ -10,6 +10,7 @@ import { ShipConsole } from './components/ShipConsole'
 import { ScrollToTop } from './components/ScrollToTop'
 import { SiteHeader } from './components/SiteHeader'
 import { SoundToggle } from './components/SoundToggle'
+import { VesselFooter } from './components/VesselFooter'
 import { DeckSync } from './world/DeckSync'
 import { useVessel } from './world/store'
 import {
@@ -65,6 +66,7 @@ function DeckView() {
         <Route path="/signal" element={<SignalPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      <VesselFooter />
     </div>
   )
 }

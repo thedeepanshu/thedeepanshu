@@ -66,11 +66,6 @@ export function NotFoundPage() {
           </div>
         </div>
       </section>
-
-      <footer className="site-footer">
-        <p>thedeepanshu</p>
-        <Link to="/signal">Let&apos;s build something alive <span>↗</span></Link>
-      </footer>
     </main>
   )
 }

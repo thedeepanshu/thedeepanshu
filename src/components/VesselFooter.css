@@ -1,0 +1,63 @@
+/* ── Ship status bar: the slim footer under every deck ── */
+.vessel-footer { padding: 0 0 72px; position: relative; z-index: 1; }
+.vessel-footer-inner {
+  align-items: center;
+  color: var(--muted);
+  display: grid;
+  font-family: 'Courier New', monospace;
+  font-size: .6rem;
+  gap: 14px 24px;
+  grid-template-columns: 1fr auto 1fr;
+  letter-spacing: .12em;
+  margin-inline: auto;
+  padding-top: 20px;
+  position: relative;
+  text-transform: uppercase;
+  width: min(1360px, calc(100% - 96px));
+}
+/* Same HUD edge line as the header: glows in the middle, fades at the sides. */
+.vessel-footer-inner::before {
+  background: linear-gradient(90deg, transparent, rgba(126, 244, 219, .3) 30%, rgba(161, 126, 255, .24) 70%, transparent);
+  content: '';
+  height: 1px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.vessel-footer p { margin: 0; }
+
+.vessel-footer-copy { align-items: center; display: flex; flex-wrap: wrap; gap: 8px 12px; }
+.vessel-footer-copy > span:first-of-type { color: var(--ink); }
+.vessel-footer-status { color: var(--cyan); opacity: .75; }
+
+.vessel-footer-love { align-items: center; display: inline-flex; gap: 8px; justify-self: center; white-space: nowrap; }
+.vessel-footer-love b { color: var(--ink); font-weight: 400; }
+.vessel-footer-heart { animation: vessel-heartbeat 1.6s ease-in-out infinite; fill: url(#vessel-footer-heart); filter: drop-shadow(0 0 5px rgba(126, 244, 219, .55)); height: 12px; overflow: visible; width: 13px; }
+@keyframes vessel-heartbeat {
+  0%, 40%, 100% { transform: scale(1); }
+  12% { transform: scale(1.22); }
+  24% { transform: scale(1.08); }
+}
+
+.vessel-footer-meta { align-items: center; display: flex; gap: 18px; justify-content: flex-end; }
+.vessel-footer-meta button { align-items: center; background: none; border: 1px solid var(--line); color: var(--ink); display: inline-flex; font-family: inherit; font-size: inherit; gap: 8px; letter-spacing: inherit; padding: 7px 10px; text-transform: inherit; transition: border-color .2s ease, color .2s ease; }
+.vessel-footer-meta button span { color: var(--cyan); }
+.vessel-footer-meta button:hover, .vessel-footer-meta button:focus-visible { border-color: var(--cyan); color: var(--cyan); }
+.vessel-footer-meta button:focus-visible { outline: 1px solid var(--cyan); outline-offset: 3px; }
+
+@media (max-width: 900px) {
+  /* Clear the fixed console/sound buttons in the corner. */
+  .vessel-footer { padding-bottom: 104px; }
+  .vessel-footer-inner { grid-template-columns: 1fr; justify-items: start; width: min(100% - 40px, 680px); }
+  .vessel-footer-love { justify-self: start; }
+  .vessel-footer-meta { justify-content: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vessel-footer-heart { animation: none; }
+}
+
+/* Status light before "Comms open" in the call-to-action row. */
+.vessel-footer-open { animation: hud-pulse 1.8s ease-in-out infinite; background: var(--cyan); border-radius: 50%; box-shadow: 0 0 8px var(--cyan); display: inline-block; height: 5px; margin-right: 10px; vertical-align: middle; width: 5px; }
+@media (prefers-reduced-motion: reduce) { .vessel-footer-open { animation: none; } }

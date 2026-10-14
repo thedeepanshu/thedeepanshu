@@ -70,11 +70,6 @@ export function HomePage() {
           ))}
         </div>
       </section>
-
-      <footer className="site-footer" id="signal">
-        <p>thedeepanshu</p>
-        <Link to="/signal">Let&apos;s connect <span>↗</span></Link>
-      </footer>
     </main>
   )
 }

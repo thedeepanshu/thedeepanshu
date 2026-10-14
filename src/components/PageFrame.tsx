@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
 
 type PageFrameProps = {
   eyebrow: string
@@ -17,10 +16,6 @@ export function PageFrame({ eyebrow, title, intro, children }: PageFrameProps) {
         <p>{intro}</p>
       </section>
       <section className="page-content">{children}</section>
-      <footer className="site-footer">
-        <p>thedeepanshu</p>
-        <Link to="/signal">Let&apos;s build something alive <span>↗</span></Link>
-      </footer>
     </main>
   )
 }
