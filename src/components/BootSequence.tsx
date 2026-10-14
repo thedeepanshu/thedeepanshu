@@ -5,6 +5,8 @@ import './BootSequence.css'
 
 const PHASE_ORDER: BootPhase[] = ['power', 'boot', 'transmission', 'choice', 'boarding', 'done']
 const LAST_DOCKED_KEY = 'vessel:last-docked'
+/** Set once the visitor has boarded in this browser session (survives refresh). */
+const SESSION_KEY = 'vessel:session'
 
 const BOOT_LINES = [
   { label: 'power bus', needsWorld: false },
@@ -42,6 +44,33 @@ function readVisit() {
 
 const visit = readVisit()
 
+type Session = { sound: boolean }
+
+function readSession(): Session | null {
+  try {
+    const raw = window.sessionStorage.getItem(SESSION_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as Partial<Session>
+    return { sound: parsed.sound === true }
+  } catch {
+    return null
+  }
+}
+
+function saveSession(session: Session) {
+  try {
+    window.sessionStorage.setItem(SESSION_KEY, JSON.stringify(session))
+  } catch {
+    // Not critical: the next refresh just plays the full intro.
+  }
+}
+
+// Already boarded this session: play the short version and default to the
+// sound choice made last time.
+const session = readSession()
+const quick = session !== null
+const preferSound = session?.sound ?? true
+
 // Set before React's first paint so the header and HUD never flash in early.
 document.documentElement.dataset.boot = 'active'
 
@@ -64,11 +93,11 @@ function board(withSound: boolean) {
   const { bootPhase, reducedMotion, setSoundOn } = useVessel.getState()
   if (bootPhase === 'boarding' || bootPhase === 'done') return
   recordVisit()
-  if (withSound) {
-    setSoundEnabled(true)
-    setSoundOn(true)
-    playWarp(2.2)
-  }
+  saveSession({ sound: withSound })
+  // Explicit both ways: boarding silently always leaves the engine off.
+  setSoundEnabled(withSound)
+  setSoundOn(withSound)
+  if (withSound) playWarp(2.2)
   advance('boarding')
   document.documentElement.dataset.boot = 'done'
   window.setTimeout(() => advance('done'), reducedMotion ? 350 : 1700)
@@ -110,9 +139,10 @@ function ScrambleText({ text, active, instant }: { text: string; active: boolean
 }
 
 /**
- * COLD BOOT: the welcome sequence shown on every visit. It doubles as the real
- * loader (progress waits for the 3D world to draw), then hands over to the
- * world by warping in. Skippable at any point with the button or Escape.
+ * COLD BOOT: the welcome sequence. The first visit of a session plays it in full
+ * (it doubles as the real loader: progress waits for the 3D world to draw); a
+ * refresh or return in the same session gets a short power-on straight to the
+ * choice, with the last sound choice pre-selected. Skippable with Escape.
  */
 export function BootSequence() {
   const phase = useVessel((state) => state.bootPhase)
@@ -131,6 +161,12 @@ export function BootSequence() {
 
     if (useVessel.getState().reducedMotion) {
       advance('choice')
+      return () => timers.forEach(window.clearTimeout)
+    }
+
+    // Returning this session: a short power-on, then straight to the choice.
+    if (quick) {
+      timers.push(window.setTimeout(() => advance('choice'), 500))
       return () => timers.forEach(window.clearTimeout)
     }
 
@@ -165,7 +201,8 @@ export function BootSequence() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') board(false)
+      // Skipping keeps this session's sound choice (silent on a first visit).
+      if (event.key === 'Escape') board(session?.sound ?? false)
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -178,11 +215,13 @@ export function BootSequence() {
   if (phase === 'done') return null
 
   const transmitting = PHASE_ORDER.indexOf(phase) >= PHASE_ORDER.indexOf('transmission')
-  const greeting = visit.lastDocked ? `Welcome back, pilot. Last docked ${visit.lastDocked}.` : `${visit.greeting}, traveler.`
+  const greeting = quick
+    ? 'Welcome back aboard, pilot.'
+    : visit.lastDocked ? `Welcome back, pilot. Last docked ${visit.lastDocked}.` : `${visit.greeting}, traveler.`
 
   return (
     <div
-      className={`boot boot--${phase}${worldReady ? ' boot--world' : ''}${reducedMotion ? ' boot--calm' : ''}`}
+      className={`boot boot--${phase}${worldReady ? ' boot--world' : ''}${reducedMotion ? ' boot--calm' : ''}${quick ? ' boot--quick' : ''}`}
       role="dialog"
       aria-modal="true"
       aria-label="Welcome to the portfolio of Deepanshu Saini"
@@ -222,14 +261,18 @@ export function BootSequence() {
         <div className="boot-choice">
           <p className="boot-greeting">{greeting}</p>
           <div className="boot-actions">
-            <button ref={boardButton} type="button" className="boot-board" onClick={() => board(true)}>
+            {/* Fixed positions and styles: the remembered choice only gets focus
+                and a small tag, so nothing moves under a visitor's mouse. */}
+            <button ref={preferSound ? boardButton : undefined} type="button" className="boot-board" onClick={() => board(true)}>
               Board with sound <span aria-hidden="true">↗</span>
+              {quick && preferSound && <em className="boot-last">Last</em>}
             </button>
-            <button type="button" className="boot-board boot-board-quiet" onClick={() => board(false)}>
+            <button ref={preferSound ? undefined : boardButton} type="button" className="boot-board boot-board-quiet" onClick={() => board(false)}>
               Board silently
+              {quick && !preferSound && <em className="boot-last">Last</em>}
             </button>
           </div>
-          <p className="boot-hint">Ambient sound · headphones recommended</p>
+          <p className="boot-hint">{quick ? `Press Enter to board ${preferSound ? 'with sound' : 'silently'} (your last choice)` : 'Ambient sound · headphones recommended'}</p>
         </div>
       </div>
 

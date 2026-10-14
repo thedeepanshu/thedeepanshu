@@ -81,3 +81,10 @@
 /* Calm version: no flashes, no typing, no movement. */
 .boot--calm .boot-crt { display: none; }
 .boot--calm, .boot--calm *, .boot--calm::before { animation: none !important; transition-duration: .25s !important; transition-delay: 0s !important; }
+
+/* Returning visit: the choice slides in fast, with no transmission delay. */
+.boot--quick .boot-stage > * { transition-duration: .45s; }
+.boot--quick.boot--choice .boot-role { transition-delay: 0s; }
+
+/* "Last" tag on the remembered choice (returning visits). */
+.boot-last { border: 1px solid currentColor; font-size: .5rem; font-style: normal; letter-spacing: .14em; margin-left: 4px; opacity: .7; padding: 2px 5px; }
