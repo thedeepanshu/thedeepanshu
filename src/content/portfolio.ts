@@ -16,6 +16,14 @@ export type Mission = {
   link?: { label: string; url: string }
   /** Shown when the product itself can't be named or linked. */
   note?: string
+  visual: {
+    src: string
+    alt: string
+    /** Address shown in the browser-frame bar. */
+    frameLabel: string
+    /** Set for illustrative mocks of internal products. */
+    mock?: boolean
+  }
 }
 
 export const missions: Mission[] = [
@@ -38,7 +46,13 @@ export const missions: Mission[] = [
       'Figma designs translated into responsive, documented components.',
     ],
     technologies: ['React', 'JavaScript', 'Redux', 'Redux Toolkit', 'Context API', 'REST APIs', 'Google Maps API', 'WebSockets', 'Chart.js', 'GA4'],
-    note: 'Internal business application, so there is no public link or screenshots.',
+    note: 'Internal business application: no public link, and the visual is an illustrative mock with made-up data.',
+    visual: {
+      src: '/images/missions/operations-dashboards.webp',
+      alt: 'Illustrative mock of an operations dashboard: KPI cards, a locations table with nested rows and status pills, and a clustered live map.',
+      frameLabel: 'operations dashboard · illustrative mock',
+      mock: true,
+    },
   },
   {
     id: 'platform-rebuild',
@@ -59,7 +73,13 @@ export const missions: Mission[] = [
       'Kept delivering bug fixes and features on the legacy platform in parallel.',
     ],
     technologies: ['TypeScript', 'React', 'Jotai', 'Zod', 'TanStack Query', 'React Hook Form', 'Storybook', 'Jest'],
-    note: 'Internal business application, so there is no public link or screenshots.',
+    note: 'Internal business application: no public link, and the visual is an illustrative mock with made-up data.',
+    visual: {
+      src: '/images/missions/platform-rebuild.webp',
+      alt: 'Illustrative mock of a component workbench: a location form showing an inline validation error, its Zod schema, and passing tests.',
+      frameLabel: 'component workbench · illustrative mock',
+      mock: true,
+    },
   },
   {
     id: 'alec-ev-hybrid',
@@ -81,6 +101,11 @@ export const missions: Mission[] = [
     ],
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Google Maps', 'GA4', 'Google Ads', 'Search Console', 'Vercel'],
     link: { label: 'alecevhybrid.com', url: 'https://alecevhybrid.com' },
+    visual: {
+      src: '/images/missions/alec-ev.webp',
+      alt: 'The Alec EV & Hybrid Battery Services home page: headline, call and booking buttons, and trust stats.',
+      frameLabel: 'alecevhybrid.com',
+    },
   },
   {
     id: 'the-vessel',
@@ -102,6 +127,11 @@ export const missions: Mission[] = [
     ],
     technologies: ['React', 'TypeScript', 'React Three Fiber', 'Three.js', 'GLSL', 'Zustand', 'Web Audio API', 'Vite'],
     link: { label: 'You are here', url: '/' },
+    visual: {
+      src: '/images/missions/the-vessel.webp',
+      alt: 'This portfolio’s home page: the pilot hologram with the reveal lens showing the developer’s face behind the visor.',
+      frameLabel: 'thedeepanshu.dev',
+    },
   },
 ]
 
