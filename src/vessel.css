@@ -150,3 +150,8 @@ html[data-boot='active'] .skip-link { display: none; }
 @media (max-width: 700px) and (orientation: portrait) {
   .hero-section { padding-top: calc(46svh - var(--header-h)); }
 }
+
+/* Deck kicker: "Deck 07 · Comms array / contact" */
+.deck-kicker span { color: var(--cyan); }
+.deck-kicker i { color: var(--purple); font-style: normal; }
+.eyebrow.deck-kicker { display: block; }

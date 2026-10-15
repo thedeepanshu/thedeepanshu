@@ -27,7 +27,7 @@ export function SignalPage() {
   }
 
   return (
-    <PageFrame eyebrow="008 / contact" title={<>Send a <em>signal.</em></>} intro="For frontend opportunities, project conversations, or a hello, reach out through one of the channels below.">
+    <PageFrame deck="signal" topic="contact" title={<>Send a <em>signal.</em></>} intro="For frontend opportunities, project conversations, or a hello, reach out through one of the channels below.">
       <div className="signal-container">
         <div className="signal-stats-bar">
           <div className="stat-pill"><span>Role</span><strong>Frontend developer</strong></div>

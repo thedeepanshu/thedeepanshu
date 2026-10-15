@@ -9,7 +9,7 @@ export function AboutPage() {
 
   return (
     <PageFrame
-      eyebrow="001 / pilot dossier"
+      deck="origin" topic="about"
       title={<>Frontend, with <em>feeling.</em></>}
       intro="Frontend developer with ~5 years of production React. I build data-dense interfaces that stay fast, and I'm pushing what the web can feel like."
     >

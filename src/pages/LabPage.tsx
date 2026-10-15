@@ -23,7 +23,7 @@ export function LabPage() {
     : experiments.filter((e) => e.category === activeCategory)
 
   return (
-    <PageFrame eyebrow="005 / experiments" title={<>The <em>lab.</em></>} intro="Where the ship's systems were prototyped: the shaders, particles and sound running this site, plus earlier Canvas 2D studies.">
+    <PageFrame deck="lab" topic="experiments" title={<>The <em>lab.</em></>} intro="Where the ship's systems were prototyped: the shaders, particles and sound running this site, plus earlier Canvas 2D studies.">
       <div className="lab-container">
         {/* Lab Stats Bar */}
         <div className="lab-stats-bar">

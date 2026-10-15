@@ -33,7 +33,7 @@ export function JourneyPage() {
   const filteredMilestones = milestones.filter((milestone) => milestone.category === activeCategory)
 
   return (
-    <PageFrame eyebrow="004 / growth timeline" title={<>The <em>journey.</em></>} intro="Education, frontend experience, and projects — built over time.">
+    <PageFrame deck="journey" topic="experience & education" title={<>The <em>journey.</em></>} intro="Education, frontend experience, and projects — built over time.">
       <div className="journey-container">
         {/* Filter Navigation Bar & Resume Download CTA */}
         <div className="journey-action-bar">

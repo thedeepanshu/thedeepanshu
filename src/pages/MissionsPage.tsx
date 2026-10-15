@@ -19,7 +19,7 @@ export function MissionsPage() {
 
   return (
     <PageFrame
-      eyebrow="002 / mission log"
+      deck="missions" topic="selected work"
       title={<>Ideas in <em>motion.</em></>}
       intro="Selected work, from production dashboards to a live client site to the ship you're standing in."
     >

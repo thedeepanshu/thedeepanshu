@@ -27,7 +27,7 @@ export function ArsenalPage() {
     : skills.filter((skill) => skill.category === activeCategory)
 
   return (
-    <PageFrame eyebrow="003 / skill atlas" title={<>The <em>arsenal.</em></>} intro="My frontend toolkit, alongside the tools and technologies I've used in related areas.">
+    <PageFrame deck="arsenal" topic="skills" title={<>The <em>arsenal.</em></>} intro="My frontend toolkit, alongside the tools and technologies I've used in related areas.">
       <div className="arsenal-atlas">
         <div className="arsenal-atlas-heading">
           <div>

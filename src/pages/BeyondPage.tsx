@@ -22,7 +22,7 @@ export function BeyondPage() {
     : memories.filter((m) => m.category === activeCategory)
 
   return (
-    <PageFrame eyebrow="006 / life archive" title={<>Beyond the <em>code.</em></>} intro="Off-duty logs: the art, ideas and moments that shape how I build.">
+    <PageFrame deck="beyond" topic="life archive" title={<>Beyond the <em>code.</em></>} intro="Off-duty logs: the art, ideas and moments that shape how I build.">
       <div className="beyond-container">
         {memories.length === 0 ? (
           <div className="portfolio-empty-state">

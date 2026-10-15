@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
 import { missions } from '../content/portfolio'
+import { DeckKicker } from '../components/DeckKicker'
 
 export function HomePage() {
   return (
     <main className="portfolio-shell">
       <section className="hero-section" id="top">
         <div className="hero-copy">
-          <p className="eyebrow"><span>00</span> deck 00 / the bridge</p>
+          <DeckKicker deck="bridge" topic="home" className="eyebrow" />
           <h1>Frontend<br /><em>in motion.</em></h1>
           <p className="hero-description">
             I’m Deepanshu, a frontend developer with ~5 years of production React: data-dense dashboards, live maps and real-time interfaces. This ship is where I push the web further.
@@ -24,7 +25,7 @@ export function HomePage() {
       </section>
 
       <section className="intro-strip" id="origin">
-        <p className="section-kicker">/ 001 — origin</p>
+        <p className="section-kicker">/ philosophy</p>
         <div>
           <h2>Ideas should feel <span>alive.</span></h2>
           <p>I care about the part of a product people touch: interfaces that make complex data readable and interactions that feel immediate. Years of business dashboards taught me to keep things fast. This ship is where I make them feel alive.</p>
@@ -33,7 +34,7 @@ export function HomePage() {
 
       <section className="build-section">
         <div className="build-intro">
-          <p className="section-kicker">/ 002 — inside the build</p>
+          <p className="section-kicker">/ inside the build</p>
           <div>
             <h2>A portfolio, built as a <span>world.</span></h2>
             <p>What you’re flying through right now is the work too. Here’s what’s running under the hull.</p>
@@ -59,7 +60,7 @@ export function HomePage() {
       </section>
 
       <section className="missions-preview" id="missions">
-        <div className="section-heading"><p className="section-kicker">/ 003 — mission log</p><span>{missions.length} missions</span></div>
+        <div className="section-heading"><p className="section-kicker">/ mission log</p><span>{missions.length} missions</span></div>
         <div className="chapter-list mission-chapters">
           {missions.map((mission) => (
             <Link className="chapter-row" to="/missions" key={mission.id}>
