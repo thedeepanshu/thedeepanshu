@@ -196,3 +196,10 @@ html[data-boot='active'] .skip-link { display: none; }
 /* Lab: "Inside the build" closes the page, inside the page column. */
 .build-section--lab { border-top: 1px solid var(--line); margin-top: 90px; padding: 40px 0 0; width: auto; }
 @media (max-width: 900px) { .build-section--lab { width: auto; } }
+
+/* Lab: live mini demo filling each world-system panel, with a readable label over it. */
+.lab-live-panel { overflow: hidden; }
+.system-demo { display: block; height: 100%; inset: 0; position: absolute; width: 100%; }
+.lab-live-panel::after { background: linear-gradient(180deg, transparent 45%, rgba(5, 9, 12, .88)); content: ''; inset: 0; pointer-events: none; position: absolute; }
+.lab-live-panel > :not(.system-demo) { position: relative; z-index: 1; }
+.lab-live-panel .lab-live-signal { position: absolute; }

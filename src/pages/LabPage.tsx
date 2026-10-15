@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { experiments, type ExperimentCategory } from '../content/portfolio'
 import { LabCanvasWidget } from '../components/LabCanvasWidget'
+import { SystemDemo, type DemoKind } from '../components/SystemDemo'
 import { PageFrame } from '../components/PageFrame'
 import { useFocusTracker } from '../hooks/useFocusTracker'
 import { useVessel } from '../world/store'
@@ -74,6 +75,7 @@ export function LabPage() {
                 </div>
               ) : exp.liveOn && (
                 <Link className="lab-live-panel" to={exp.liveOn.path}>
+                  <SystemDemo kind={exp.id as DemoKind} />
                   <span className="lab-live-signal" aria-hidden="true"><i /><i /><i /></span>
                   <span className="lab-live-kicker">Running in the world</span>
                   <strong>{exp.liveOn.label} <span aria-hidden="true">↗</span></strong>
