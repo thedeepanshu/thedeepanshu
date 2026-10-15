@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { deckById } from '../world/decks'
 import { useVessel } from '../world/store'
 import './NavLogo.css'
 
@@ -24,21 +23,14 @@ function scramble(element: HTMLElement, text: string, duration: number) {
   return () => cancelAnimationFrame(frame)
 }
 
-function deckReadout(deckId: Parameters<typeof deckById>[0]) {
-  const deck = deckById(deckId)
-  return `Deck ${deck.number} · ${deck.label}`
-}
-
 /**
  * Nav logo: a HUD emblem (the "D." mark in lock-on brackets) beside the
- * wordmark, with a live readout of the current deck. Hover locks the brackets
- * on and decodes the name; every warp spins the emblem and decodes the new deck.
+ * wordmark. Hover locks the brackets on and decodes the name; every warp spins
+ * the emblem. (The current deck is shown by the HUD rail, not here.)
  */
 export function NavLogo() {
   const deck = useVessel((state) => state.deck)
   const name = useRef<HTMLSpanElement>(null)
-  const readout = useRef<HTMLSpanElement>(null)
-  const firstDeck = useRef(true)
   const [warpKey, setWarpKey] = useState(0)
   const [previousDeck, setPreviousDeck] = useState(deck)
 
@@ -47,18 +39,6 @@ export function NavLogo() {
     setPreviousDeck(deck)
     setWarpKey((key) => key + 1)
   }
-
-  useEffect(() => {
-    const element = readout.current
-    if (!element) return
-    const text = deckReadout(deck)
-    if (firstDeck.current || useVessel.getState().reducedMotion) {
-      firstDeck.current = false
-      element.textContent = text
-      return
-    }
-    return scramble(element, text, 700)
-  }, [deck])
 
   const onEnter = () => {
     if (!name.current || useVessel.getState().reducedMotion) return
@@ -83,10 +63,7 @@ export function NavLogo() {
         <path className="nav-logo-d" d="M20 18h9.5a14 14 0 0 1 0 28H20Z" pathLength={100} />
         <circle className="nav-logo-dot" cx="47.5" cy="43" r="3.6" />
       </svg>
-      <span className="nav-logo-text" aria-hidden="true">
-        <span className="nav-logo-name"><span ref={name}>{NAME}</span><b>.</b></span>
-        <span className="nav-logo-readout"><i /><span ref={readout}>{deckReadout(deck)}</span></span>
-      </span>
+      <span className="nav-logo-name" aria-hidden="true"><span ref={name}>{NAME}</span><b>.</b></span>
     </Link>
   )
 }

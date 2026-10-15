@@ -1,4 +1,4 @@
-/* ── Nav logo: HUD emblem + wordmark + live deck readout ── */
+/* ── Nav logo: HUD emblem + wordmark ── */
 .nav-logo { align-items: center; color: var(--ink); display: inline-flex; gap: 11px; text-decoration: none; }
 .nav-logo:focus-visible { outline: 1px solid var(--cyan); outline-offset: 6px; }
 
@@ -24,19 +24,21 @@
 @keyframes nav-logo-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .55; transform: scale(.8); } }
 @keyframes nav-logo-spin { from { transform: rotate(-90deg); } to { transform: rotate(0deg); } }
 
-.nav-logo-text { display: grid; gap: 3px; line-height: 1; }
-.nav-logo-name { font-size: 1.02rem; font-weight: 600; letter-spacing: -.04em; transition: text-shadow .25s ease; white-space: nowrap; }
+.nav-logo-name { font-size: 1.12rem; font-weight: 600; letter-spacing: -.04em; transition: text-shadow .25s ease; white-space: nowrap; }
 .nav-logo-name b { color: var(--cyan); font-weight: 600; }
 .nav-logo:hover .nav-logo-name { text-shadow: 0 0 12px rgba(126, 244, 219, .4); }
-.nav-logo-readout { align-items: center; color: var(--muted); display: inline-flex; font-family: 'Courier New', monospace; font-size: .7rem; gap: 6px; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
-.nav-logo-readout i { animation: hud-pulse 1.8s ease-in-out infinite; background: var(--cyan); border-radius: 50%; box-shadow: 0 0 6px var(--cyan); height: 4px; width: 4px; }
 
 @media (max-width: 560px) {
   .nav-logo-emblem { height: 30px; width: 30px; }
-  .nav-logo-readout { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-logo-dot, .nav-logo-readout i, .nav-logo-emblem.is-warping .nav-logo-brackets, .nav-logo-emblem.is-warping .nav-logo-d, .nav-logo:hover .nav-logo-d { animation: none; }
+  .nav-logo-dot, .nav-logo-emblem.is-warping .nav-logo-brackets, .nav-logo-emblem.is-warping .nav-logo-d, .nav-logo:hover .nav-logo-d { animation: none; }
   .nav-logo-brackets path { transition: none; }
+}
+
+/* Very narrow phones: the wordmark and the Resume button share a tight row. */
+@media (max-width: 400px) {
+  .nav-logo { gap: 8px; }
+  .nav-logo-name { font-size: 1rem; }
 }

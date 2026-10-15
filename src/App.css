@@ -877,3 +877,11 @@ h1 em { color: var(--cyan); font-style: normal; }
 
 
 
+
+/* Very narrow phones: a tighter Resume button so it never touches the logo. */
+@media (max-width: 400px) {
+  .resume-dropdown-wrapper.variant-nav .resume-trigger-btn { gap: 5px; letter-spacing: .04em; padding: 6px 9px; }
+}
+@media (max-width: 340px) {
+  .resume-dropdown-wrapper.variant-nav .resume-btn-label { display: none; }
+}
