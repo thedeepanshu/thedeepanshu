@@ -222,21 +222,16 @@ export const skills: Skill[] = [
   },
 ]
 
-export type ExperimentCategory = 'all' | 'canvas-generative' | 'webgl-world'
-
 export type Experiment = {
   id: string
   number: string
   title: string
-  category: Exclude<ExperimentCategory, 'all'>
   categoryLabel: string
   status: string
   description: string
   technologies: string[]
-  /** Canvas 2D experiments render a live preview in their card. */
-  preset?: 'particle-field' | 'cyber-grid' | 'aurora-pulse'
-  /** World systems run in the site itself; the card links to where to see them. */
-  liveOn?: { label: string; path: string }
+  /** Every system runs in the site itself; the card links to where to see it. */
+  liveOn: { label: string; path: string }
 }
 
 export const experiments: Experiment[] = [
@@ -244,7 +239,6 @@ export const experiments: Experiment[] = [
     id: 'warp-starfield',
     number: '01',
     title: 'Warp starfield',
-    category: 'webgl-world',
     categoryLabel: 'WebGL / GLSL',
     status: 'running live',
     description: 'Seven thousand shader-driven stars wrapped around the camera, so the field never runs out. Streaks follow the camera’s real velocity during a warp jump, and chromatic aberration peaks mid-flight.',
@@ -255,7 +249,6 @@ export const experiments: Experiment[] = [
     id: 'particle-core',
     number: '02',
     title: 'Particle core',
-    category: 'webgl-world',
     categoryLabel: 'WebGL / GLSL',
     status: 'running live',
     description: 'A 42,000-point swarm that morphs from static into a name and bursts into the stars on boarding, entirely in the vertex shader with staggered timing. The cursor pushes particles away in screen space.',
@@ -266,7 +259,6 @@ export const experiments: Experiment[] = [
     id: 'procedural-ambience',
     number: '03',
     title: 'Procedural ambience',
-    category: 'webgl-world',
     categoryLabel: 'Web Audio',
     status: 'running live',
     description: 'The ship’s sound is synthesised in the browser: a warm pad gliding through four chords, a soft sub, sparse bell tones and a generated hall reverb, plus a whoosh on every warp and quiet UI ticks. There are no audio files.',
@@ -274,37 +266,14 @@ export const experiments: Experiment[] = [
     liveOn: { label: 'Turn on sound, bottom right', path: '/' },
   },
   {
-    id: 'particle-field',
+    id: 'pilot-reveal',
     number: '04',
-    title: 'Particle field',
-    category: 'canvas-generative',
-    categoryLabel: 'Canvas 2D',
-    status: 'animated preview',
-    description: 'A Canvas 2D animation with moving points and lines drawn between nearby points.',
-    technologies: ['Canvas 2D', 'React'],
-    preset: 'particle-field',
-  },
-  {
-    id: 'perspective-grid',
-    number: '05',
-    title: 'Perspective grid',
-    category: 'canvas-generative',
-    categoryLabel: 'Canvas 2D',
-    status: 'animated preview',
-    description: 'A Canvas 2D perspective grid with a moving horizon and scrolling lines.',
-    technologies: ['Canvas 2D', 'React'],
-    preset: 'cyber-grid',
-  },
-  {
-    id: 'gradient-fields',
-    number: '06',
-    title: 'Gradient fields',
-    category: 'canvas-generative',
-    categoryLabel: 'Canvas 2D',
-    status: 'animated preview',
-    description: 'A Canvas 2D preview of layered radial gradients moving across the frame.',
-    technologies: ['Canvas 2D', 'React'],
-    preset: 'aurora-pulse',
+    title: 'Pilot reveal lens',
+    categoryLabel: 'WebGL / GLSL',
+    status: 'running live',
+    description: 'The pilot on the home page is two images on one shader plane: the helmeted pilot on top and my photo underneath. A soft lens follows the cursor and dissolves the suit inside it, with a wobbling edge, a glowing ring and fine scan lines. On touch screens you drag to reveal, and an occasional automatic scan hints that it’s there.',
+    technologies: ['Three.js', 'GLSL', 'React Three Fiber', 'Texture masking'],
+    liveOn: { label: 'Hover over the pilot on the home page', path: '/' },
   },
 ]
 

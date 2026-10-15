@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { mulberry32 } from '../world/random'
 
-export type DemoKind = 'warp-starfield' | 'particle-core' | 'procedural-ambience'
+export type DemoKind = 'warp-starfield' | 'particle-core' | 'procedural-ambience' | 'pilot-reveal'
 
 type Draw = (ctx: CanvasRenderingContext2D, w: number, h: number, t: number) => void
 
@@ -62,6 +62,18 @@ function core(): Draw {
     octx.fillText('D.', 120, 74)
     const { data } = octx.getImageData(0, 0, 240, 140)
     for (let y = 0; y < 140; y += 2) for (let x = 0; x < 240; x += 2) if (data[(y * 240 + x) * 4 + 3] > 128) targets.push([x / 240 - 0.5, y / 140 - 0.5])
+    // Centre on the drawn pixels, not the text box: glyph side bearings and the
+    // font in use would otherwise push the mark off-centre.
+    if (targets.length) {
+      const xs = targets.map(([x]) => x)
+      const ys = targets.map(([, y]) => y)
+      const dx = (Math.min(...xs) + Math.max(...xs)) / 2
+      const dy = (Math.min(...ys) + Math.max(...ys)) / 2
+      for (const target of targets) {
+        target[0] -= dx
+        target[1] -= dy
+      }
+    }
   }
   const parts = Array.from({ length: count }, () => {
     const target = targets[Math.floor(random() * targets.length)] ?? [0, 0]
@@ -141,6 +153,66 @@ function ambience(): Draw {
   }
 }
 
+function loadImage(src: string) {
+  const image = new Image()
+  image.src = src
+  return image
+}
+
+/**
+ * The home hero's lens in miniature: the same two images, with a lens drifting
+ * over the face and dissolving the helmet to show the photo underneath.
+ */
+function pilot(): Draw {
+  // Both images share framing, exactly as on the Bridge.
+  const suit = loadImage('/images/pilot.webp')
+  const person = loadImage('/images/deepanshu-saini-cutout.webp')
+  const random = mulberry32(5)
+  const stars = Array.from({ length: 70 }, () => ({ x: random(), y: random(), r: 0.4 + random() * 0.9, phase: random() * 6 }))
+  return (ctx, w, h, t) => {
+    ctx.fillStyle = '#05090c'
+    ctx.fillRect(0, 0, w, h)
+    for (const star of stars) {
+      ctx.fillStyle = `rgba(235, 250, 255, ${0.25 + 0.25 * Math.sin(t * 1.5 + star.phase)})`
+      ctx.fillRect(star.x * w, star.y * h, star.r, star.r)
+    }
+    if (!suit.complete || !suit.naturalWidth || !person.complete || !person.naturalWidth) return
+
+    // Fit the bust to the panel height, centred.
+    const size = h * 1.08
+    const x = (w - size) / 2
+    const y = h - size * 0.97
+    ctx.drawImage(suit, x, y, size, size)
+
+    // The lens wanders over the head in a slow figure of eight.
+    const lx = x + size * (0.5 + Math.sin(t * 0.7) * 0.12)
+    const ly = y + size * (0.4 + Math.sin(t * 1.4) * 0.07)
+    const radius = size * (0.14 + 0.012 * Math.sin(t * 2.1))
+    ctx.save()
+    ctx.beginPath()
+    ctx.arc(lx, ly, radius, 0, Math.PI * 2)
+    ctx.clip()
+    ctx.fillStyle = '#05090c'
+    ctx.fillRect(lx - radius, ly - radius, radius * 2, radius * 2)
+    ctx.drawImage(person, x, y, size, size)
+    // Scan lines and a faint cyan cast inside the lens.
+    ctx.fillStyle = `rgba(${CYAN}, 0.07)`
+    ctx.fillRect(lx - radius, ly - radius, radius * 2, radius * 2)
+    ctx.fillStyle = 'rgba(5, 9, 12, 0.18)'
+    for (let line = ly - radius + ((t * 12) % 3); line < ly + radius; line += 3) ctx.fillRect(lx - radius, line, radius * 2, 1)
+    ctx.restore()
+
+    ctx.strokeStyle = `rgba(${CYAN}, 0.9)`
+    ctx.lineWidth = 1.2
+    ctx.shadowColor = `rgba(${CYAN}, 0.8)`
+    ctx.shadowBlur = 10
+    ctx.beginPath()
+    ctx.arc(lx, ly, radius, 0, Math.PI * 2)
+    ctx.stroke()
+    ctx.shadowBlur = 0
+  }
+}
+
 /**
  * A small live Canvas 2D version of a world system, for its Lab card. Runs only
  * while visible; draws a single still frame for reduced motion.
@@ -166,7 +238,7 @@ export function SystemDemo({ kind }: { kind: DemoKind }) {
       ctx.fillRect(0, 0, w, h)
     }
     resize()
-    const draw = kind === 'warp-starfield' ? warp() : kind === 'particle-core' ? core() : ambience()
+    const draw = { 'warp-starfield': warp, 'particle-core': core, 'procedural-ambience': ambience, 'pilot-reveal': pilot }[kind]()
 
     let frame = 0
     let visible = false
@@ -184,6 +256,8 @@ export function SystemDemo({ kind }: { kind: DemoKind }) {
     if (reduced) {
       // A representative still: mid-warp, the formed mark, a calm waveform.
       for (let i = 0; i < 40; i++) draw(ctx, w, h, kind === 'particle-core' ? 2.5 + i * 0.016 : 1.5 + i * 0.016)
+      // The lens demo waits on its images, so its still is drawn once they load.
+      if (kind === 'pilot-reveal') window.setTimeout(() => draw(ctx, w, h, 0), 600)
     }
     const onResize = () => resize()
     window.addEventListener('resize', onResize)
