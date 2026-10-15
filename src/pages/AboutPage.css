@@ -1,7 +1,7 @@
 /* ── Origin: pilot dossier ── */
 .dossier { display: grid; gap: 90px; }
 
-.dossier-file { align-items: start; display: grid; gap: 70px; grid-template-columns: minmax(260px, 340px) 1fr; }
+.dossier-file { align-items: stretch; display: grid; gap: 70px; grid-template-columns: minmax(260px, 340px) 1fr; }
 
 .dossier-id { background: linear-gradient(150deg, rgba(20, 42, 50, .82), rgba(8, 14, 18, .9)); border: 1px solid var(--line); padding: 22px; position: relative; }
 .dossier-id::before, .dossier-id::after { border-color: var(--cyan); border-style: solid; content: ''; height: 14px; position: absolute; width: 14px; }
@@ -20,9 +20,13 @@
 .dossier-active { align-items: center; color: var(--cyan) !important; display: flex; gap: 8px; }
 .dossier-active::before { background: var(--cyan); border-radius: 50%; box-shadow: 0 0 8px var(--cyan); content: ''; height: 6px; width: 6px; }
 
-.dossier-story { display: grid; gap: 22px; }
+.dossier-story { align-content: space-between; display: grid; gap: 36px; }
 .dossier-story .lead-copy { margin: 0; }
-.dossier-story p:not(.lead-copy) { color: #9aabad; font-size: 1.02rem; line-height: 1.75; margin: 0; max-width: 640px; }
+/* The two paragraphs share the width under the lead and finish level with the ID card. */
+.dossier-story-body { border-top: 1px solid var(--line); display: grid; gap: 22px 48px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); padding-top: 26px; }
+.dossier-story-body > div { display: grid; align-content: start; gap: 10px; }
+.dossier-story-body p { color: #9aabad; font-size: 1.02rem; line-height: 1.75; margin: 0; }
+.dossier-story-body .dossier-story-label { color: var(--cyan); font-family: 'Courier New', monospace; font-size: .72rem; letter-spacing: .14em; line-height: 1.4; text-transform: uppercase; }
 
 .dossier-stats { border-bottom: 1px solid var(--line); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, 1fr); }
 .dossier-stats div { border-right: 1px solid var(--line); display: grid; gap: 10px; padding: 28px 22px; }

@@ -4,6 +4,9 @@ import { resumeData } from '../content/resumeData'
 import { PageFrame } from '../components/PageFrame'
 import './AboutPage.css'
 
+// Small labels over the two story paragraphs, in the order they're written.
+const STORY_LABELS = ['/ how I work', '/ how I learn']
+
 export function AboutPage() {
   const [lead, ...story] = dossier.story
 
@@ -33,7 +36,14 @@ export function AboutPage() {
 
           <div className="dossier-story">
             <p className="lead-copy">{lead}</p>
-            {story.map((paragraph) => <p key={paragraph.slice(0, 24)}>{paragraph}</p>)}
+            <div className="dossier-story-body">
+              {story.map((paragraph, index) => (
+                <div key={paragraph.slice(0, 24)}>
+                  {STORY_LABELS[index] && <p className="dossier-story-label">{STORY_LABELS[index]}</p>}
+                  <p>{paragraph}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
