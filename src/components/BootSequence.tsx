@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { playWarp, setSoundEnabled } from '../audio/soundEngine'
-import { useVessel, type BootPhase } from '../world/store'
+import { playWarp } from '../audio/soundEngine'
+import { preferredSoundMode, useVessel, type BootPhase } from '../world/store'
 import './BootSequence.css'
 
 const PHASE_ORDER: BootPhase[] = ['power', 'boot', 'transmission', 'choice', 'boarding', 'done']
@@ -90,13 +90,13 @@ function advance(to: BootPhase) {
 
 /** Ends the welcome sequence and warps in, optionally switching sound on. */
 function board(withSound: boolean) {
-  const { bootPhase, reducedMotion, setSoundOn } = useVessel.getState()
+  const { bootPhase, reducedMotion, setSoundMode } = useVessel.getState()
   if (bootPhase === 'boarding' || bootPhase === 'done') return
   recordVisit()
   saveSession({ sound: withSound })
   // Explicit both ways: boarding silently always leaves the engine off.
-  setSoundEnabled(withSound)
-  setSoundOn(withSound)
+  // With sound, the visitor's last preset (ambient or minimal) comes back.
+  setSoundMode(withSound ? preferredSoundMode() : 'off')
   if (withSound) playWarp(2.2)
   advance('boarding')
   document.documentElement.dataset.boot = 'done'

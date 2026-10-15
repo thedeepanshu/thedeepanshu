@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { setSoundEnabled } from '../audio/soundEngine'
 import { dossier, missions, skills, socialLinks } from '../content/portfolio'
 import { decks } from '../world/decks'
-import { useVessel } from '../world/store'
+import { preferredSoundMode, useVessel } from '../world/store'
 import './ShipConsole.css'
 
 type Line = { id: number; kind: 'input' | 'output' | 'error'; text: string }
@@ -25,7 +24,7 @@ const HELP = [
   'missions | skills    quick summaries',
   'resume               download the résumé',
   'hire | contact       open a channel to the pilot',
-  'sound on|off         ship ambience',
+  'sound <preset>       ambient, minimal (effects only) or off',
   'scan                 ask the ship AI about this deck',
   'warp                 jump to a random deck',
   'clear | exit         tidy up / close the console',
@@ -35,14 +34,13 @@ let lineId = 0
 const line = (kind: Line['kind'], text: string): Line => ({ id: ++lineId, kind, text })
 
 /**
- * The ship console: a keyboard-first way to fly the site. Opens with ~ or the
- * HUD button, closes with Escape. A real modal dialog with trapped focus.
+ * The ship console: a keyboard-first way to fly the site. Opens with ~ or from
+ * the command palette, closes with Escape. A real modal dialog with trapped focus.
  */
 export function ShipConsole() {
   const navigate = useNavigate()
   const open = useVessel((state) => state.consoleOpen)
   const setOpen = useVessel((state) => state.setConsoleOpen)
-  const booted = useVessel((state) => state.bootPhase === 'done')
   const [lines, setLines] = useState<Line[]>(() => [
     line('output', 'VESSEL OS v3.0 // ship console'),
     line('output', 'Type "help" for commands. Escape to close.'),
@@ -141,10 +139,11 @@ export function ShipConsole() {
         }
         return [line('error', 'Nice try. This incident will be reported.')]
       case 'sound': {
-        if (arg !== 'on' && arg !== 'off') return [line('error', 'Usage: sound on|off')]
-        setSoundEnabled(arg === 'on')
-        useVessel.getState().setSoundOn(arg === 'on')
-        return [out(`Ambience ${arg}.`)]
+        // "on" is kept as an alias for the visitor's preferred preset.
+        const mode = arg === 'on' ? preferredSoundMode() : arg
+        if (mode !== 'ambient' && mode !== 'minimal' && mode !== 'off') return [line('error', 'Usage: sound ambient|minimal|off')]
+        useVessel.getState().setSoundMode(mode)
+        return [out(`Sound: ${mode}.`)]
       }
       case 'scan': {
         const { deck, narrate } = useVessel.getState()
@@ -203,22 +202,6 @@ export function ShipConsole() {
 
   return (
     <>
-      {booted && (
-        <button
-          type="button"
-          className="console-toggle"
-          aria-label="Open ship console"
-          aria-keyshortcuts="`"
-          aria-expanded={open}
-          onClick={(event) => {
-            opener.current = event.currentTarget
-            setOpen(!open)
-          }}
-        >
-          <span aria-hidden="true">›_</span>
-          <span className="console-toggle-label">Console</span>
-        </button>
-      )}
 
       {open && (
         <div className="ship-console-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false) }}>

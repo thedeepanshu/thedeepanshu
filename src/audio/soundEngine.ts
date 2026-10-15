@@ -5,13 +5,28 @@
  *
  * The bed is deliberately soft: a warm pad that glides slowly between four
  * chords, a low sub, and occasional bell tones, all through a long reverb.
+ *
+ * Three presets: `ambient` (the bed plus warp and UI sounds), `minimal` (only
+ * warp and UI sounds, no music) and `off`.
  */
+
+export type SoundMode = 'ambient' | 'minimal' | 'off'
+
+export const SOUND_PRESETS: { mode: SoundMode; label: string; description: string }[] = [
+  { mode: 'ambient', label: 'Ambient', description: 'Ship music, warps and UI sounds' },
+  { mode: 'minimal', label: 'Minimal', description: 'Warps and UI sounds, no music' },
+  { mode: 'off', label: 'Off', description: 'Silent' },
+]
 
 let context: AudioContext | null = null
 let master: GainNode | null = null
 let reverb: ConvolverNode | null = null
+/** The music bed (pad, sub, air) runs through this so presets can fade it alone. */
+let bed: GainNode | null = null
+let bedSend: GainNode | null = null
 let ambienceStarted = false
 let enabled = false
+let mode: SoundMode = 'off'
 let bellTimer = 0
 let lastUiSound = 0
 
@@ -139,7 +154,7 @@ function startAmbience(ctx: AudioContext, out: AudioNode, room: AudioNode) {
 }
 
 function playBell() {
-  if (!enabled || !context || !reverb || !master) return
+  if (mode !== 'ambient' || !context || !reverb || !master) return
   const ctx = context
   const now = ctx.currentTime
   const pitch = note(BELL_NOTES[Math.floor(Math.random() * BELL_NOTES.length)])
@@ -166,24 +181,39 @@ function playBell() {
 
 function scheduleBells() {
   window.clearTimeout(bellTimer)
-  if (!enabled) return
+  if (mode !== 'ambient') return
   bellTimer = window.setTimeout(() => {
     playBell()
     scheduleBells()
   }, 5000 + Math.random() * 7000)
 }
 
-export function setSoundEnabled(on: boolean) {
-  enabled = on
-  if (!on && !context) return
+export function setSoundMode(next: SoundMode) {
+  mode = next
+  enabled = next !== 'off'
+  if (!enabled && !context) return
   const { context: ctx, master: out, reverb: room } = getContext()
   if (ctx.state === 'suspended') void ctx.resume()
-  if (on && !ambienceStarted) {
-    startAmbience(ctx, out, room)
+  // The bed's oscillators only start when the music is first wanted.
+  if (next === 'ambient' && !ambienceStarted) {
+    bed = ctx.createGain()
+    bed.gain.value = 0
+    bed.connect(out)
+    startAmbience(ctx, bed, gatedRoom(ctx, room))
     ambienceStarted = true
   }
-  out.gain.setTargetAtTime(on ? 0.85 : 0, ctx.currentTime, 0.6)
+  bed?.gain.setTargetAtTime(next === 'ambient' ? 1 : 0, ctx.currentTime, 0.6)
+  bedSend?.gain.setTargetAtTime(next === 'ambient' ? 1 : 0, ctx.currentTime, 0.6)
+  out.gain.setTargetAtTime(enabled ? 0.85 : 0, ctx.currentTime, 0.6)
   scheduleBells()
+}
+
+/** The bed's own reverb send, so `minimal` silences the music's tail as well. */
+function gatedRoom(ctx: AudioContext, room: AudioNode) {
+  bedSend = ctx.createGain()
+  bedSend.gain.value = 0
+  bedSend.connect(room)
+  return bedSend
 }
 
 /** Light-speed whoosh: a swept noise band over a falling sub rumble. */

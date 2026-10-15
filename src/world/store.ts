@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { setSoundMode, type SoundMode } from '../audio/soundEngine'
 import { deckForPath, type DeckId } from './decks'
 
 export type QualityTier = 'high' | 'low'
@@ -16,7 +17,8 @@ type VesselState = {
   bootPhase: BootPhase
   /** The 3D world has loaded and drawn its first frame. */
   worldReady: boolean
-  soundOn: boolean
+  /** Ambient (music + effects), minimal (effects only) or off. */
+  soundMode: SoundMode
   /** Set by the pages so each deck's set piece can follow what's on screen. */
   activeMission: string | null
   activeSkill: string
@@ -29,12 +31,13 @@ type VesselState = {
   /** Latest line from the ship's AI; `id` changes even when the text repeats. */
   narration: { id: number; text: string } | null
   consoleOpen: boolean
+  paletteOpen: boolean
   setDeck: (deck: DeckId) => void
   setTier: (tier: QualityTier) => void
   setReducedMotion: (reducedMotion: boolean) => void
   setBootPhase: (bootPhase: BootPhase) => void
   setWorldReady: () => void
-  setSoundOn: (soundOn: boolean) => void
+  setSoundMode: (mode: SoundMode) => void
   setActiveMission: (id: string | null) => void
   setActiveSkill: (id: string) => void
   setActiveMilestone: (id: string | null) => void
@@ -44,6 +47,7 @@ type VesselState = {
   fireSignal: () => void
   narrate: (text: string) => void
   setConsoleOpen: (open: boolean) => void
+  setPaletteOpen: (open: boolean) => void
 }
 
 function detectTier(): QualityTier {
@@ -64,10 +68,14 @@ export const useVessel = create<VesselState>((set) => ({
   setReducedMotion: (reducedMotion) => set({ reducedMotion }),
   bootPhase: 'power',
   worldReady: false,
-  soundOn: false,
+  soundMode: 'off',
   setBootPhase: (bootPhase) => set({ bootPhase }),
   setWorldReady: () => set({ worldReady: true }),
-  setSoundOn: (soundOn) => set({ soundOn }),
+  setSoundMode: (soundMode) => {
+    setSoundMode(soundMode)
+    if (soundMode !== 'off') rememberSoundMode(soundMode)
+    set({ soundMode })
+  },
   activeMission: null,
   activeSkill: 'core-frontend',
   activeMilestone: null,
@@ -84,9 +92,31 @@ export const useVessel = create<VesselState>((set) => ({
   fireSignal: () => set((state) => ({ signalShots: state.signalShots + 1 })),
   narration: null,
   consoleOpen: false,
+  paletteOpen: false,
   narrate: (text) => set((state) => ({ narration: { id: (state.narration?.id ?? 0) + 1, text } })),
-  setConsoleOpen: (consoleOpen) => set({ consoleOpen }),
+  // The console and the command palette never stack.
+  setConsoleOpen: (consoleOpen) => set(consoleOpen ? { consoleOpen, paletteOpen: false } : { consoleOpen }),
+  setPaletteOpen: (paletteOpen) => set(paletteOpen ? { paletteOpen, consoleOpen: false } : { paletteOpen }),
 }))
+
+const SOUND_MODE_KEY = 'vessel:sound-mode'
+
+/** The preset "Board with sound" uses: the last one picked, ambient by default. */
+export function preferredSoundMode(): Exclude<SoundMode, 'off'> {
+  try {
+    return window.localStorage.getItem(SOUND_MODE_KEY) === 'minimal' ? 'minimal' : 'ambient'
+  } catch {
+    return 'ambient'
+  }
+}
+
+function rememberSoundMode(mode: Exclude<SoundMode, 'off'>) {
+  try {
+    window.localStorage.setItem(SOUND_MODE_KEY, mode)
+  } catch {
+    // Storage blocked: the next visit just starts on ambient.
+  }
+}
 
 /**
  * Per-frame values. Mutated inside the render loop and read by shaders and the

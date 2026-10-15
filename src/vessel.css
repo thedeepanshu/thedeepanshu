@@ -77,15 +77,29 @@
 html[data-boot='active'] { overflow: hidden; }
 html[data-boot='active'] .site-header,
 html[data-boot='active'] .hud-frame,
-html[data-boot='active'] .sound-toggle { opacity: 0; visibility: hidden; }
+html[data-boot='active'] .hud-dock { opacity: 0; visibility: hidden; }
 html[data-boot='done'] .site-header,
 html[data-boot='done'] .hud-frame,
-html[data-boot='done'] .sound-toggle { animation: chrome-arrive .9s ease 1.3s both; }
+html[data-boot='done'] .hud-dock { animation: chrome-arrive .9s ease 1.3s both; }
 @keyframes chrome-arrive { from { opacity: 0; } to { opacity: 1; } }
 .deck-view--held { animation: none; opacity: 0; }
 
-/* ── Sound toggle ── */
-.sound-toggle { align-items: center; background: rgba(7, 11, 14, .55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(193, 220, 224, .16); bottom: 26px; color: var(--muted); display: inline-flex; font-family: 'Courier New', monospace; font-size: .7rem; gap: 9px; letter-spacing: .16em; padding: 8px 11px; position: fixed; right: 44px; text-transform: uppercase; transition: border-color .2s ease, color .2s ease; z-index: 95; }
+/* ── Sound control: a button that opens three presets ── */
+/* Bottom-right dock: quick navigation and sound sit side by side. */
+.hud-dock { align-items: center; bottom: 26px; display: flex; gap: 10px; position: fixed; right: 44px; z-index: 95; }
+.sound-control { position: relative; }
+.sound-toggle { align-items: center; background: #070b0e; border: 1px solid rgba(193, 220, 224, .16); color: var(--muted); display: inline-flex; font-family: 'Courier New', monospace; font-size: .7rem; gap: 9px; letter-spacing: .16em; padding: 8px 11px; text-transform: uppercase; transition: border-color .2s ease, color .2s ease; }
+.sound-toggle[aria-expanded='true'] { border-color: rgba(126, 244, 219, .45); }
+.sound-menu { animation: console-open .2s cubic-bezier(.2, .75, .25, 1) both; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: rgba(5, 9, 11, .94); border: 1px solid rgba(126, 244, 219, .3); bottom: calc(100% + 8px); box-shadow: 0 18px 50px rgba(0, 0, 0, .5); display: grid; gap: 2px; margin: 0; min-width: 290px; padding: 8px; position: absolute; right: 0; }
+.sound-menu legend { color: var(--purple); float: left; font-family: 'Courier New', monospace; font-size: .7rem; letter-spacing: .2em; padding: 4px 8px 8px; text-transform: uppercase; width: 100%; }
+.sound-option { align-items: center; border: 1px solid transparent; cursor: pointer; display: flex; gap: 12px; padding: 9px 10px; transition: background .2s ease, border-color .2s ease; }
+.sound-option:hover { background: rgba(126, 244, 219, .05); }
+.sound-option.is-selected { background: rgba(126, 244, 219, .07); border-color: rgba(126, 244, 219, .3); }
+.sound-option input { accent-color: var(--cyan); flex-shrink: 0; height: 14px; margin: 0; width: 14px; }
+.sound-option:has(input:focus-visible) { outline: 1px solid var(--cyan); outline-offset: 1px; }
+.sound-option-text { display: grid; gap: 2px; }
+.sound-option-text b { color: var(--ink); font-size: .9rem; font-weight: 500; }
+.sound-option-text small { color: var(--muted); font-size: .78rem; }
 .sound-toggle:hover, .sound-toggle:focus-visible { border-color: var(--cyan); color: var(--ink); }
 .sound-toggle:focus-visible { outline: 1px solid var(--cyan); outline-offset: 3px; }
 .sound-bars { align-items: center; display: inline-flex; gap: 2px; height: 11px; }
@@ -96,13 +110,17 @@ html[data-boot='done'] .sound-toggle { animation: chrome-arrive .9s ease 1.3s bo
 .sound-toggle.is-on .sound-bars i:nth-child(3) { animation-delay: -.6s; }
 .sound-toggle.is-on .sound-bars i:nth-child(4) { animation-delay: -.15s; }
 @keyframes sound-bar { from { height: 2px; } to { height: 11px; } }
+/* Minimal: the bars barely move, like effects waiting for something to happen. */
+.sound-toggle.is-minimal .sound-bars i { animation-name: sound-bar-low; animation-duration: 1.6s; }
+@keyframes sound-bar-low { from { height: 2px; } to { height: 5px; } }
 
 @media (max-width: 900px) {
-  .sound-toggle { bottom: 16px; right: 22px; }
+  .hud-dock { bottom: 16px; right: 22px; }
   .sound-label { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  html[data-boot='done'] .site-header, html[data-boot='done'] .hud-frame, html[data-boot='done'] .sound-toggle { animation-delay: 0s; animation-duration: .3s; }
+  html[data-boot='done'] .site-header, html[data-boot='done'] .hud-frame, html[data-boot='done'] .hud-dock { animation-delay: 0s; animation-duration: .3s; }
+  .sound-menu { animation: none; }
   .sound-toggle.is-on .sound-bars i { animation: none; height: 8px; }
 }
 
@@ -247,4 +265,25 @@ html[data-boot='active'] .skip-link { display: none; }
    the stacked, left-aligned list. */
 @media (min-width: 901px) {
   .signal-availability { display: flex; justify-content: space-around; }
+}
+
+/* ── Section reveals: kickers decode with a scan line, headings wipe in ── */
+[data-reveal='pending'] { opacity: 0; }
+h2[data-reveal='in'] { animation: reveal-wipe .8s cubic-bezier(.2, .75, .25, 1) both; }
+.section-kicker[data-reveal='in'] { animation: reveal-fade .25s ease-out both; position: relative; }
+.section-kicker[data-reveal='in']::after { animation: reveal-scan .9s cubic-bezier(.4, 0, .2, 1) both; background: linear-gradient(90deg, transparent, var(--cyan), transparent); bottom: -5px; box-shadow: 0 0 8px var(--cyan); content: ''; height: 1px; left: 0; pointer-events: none; position: absolute; width: 100%; }
+@keyframes reveal-wipe {
+  from { clip-path: inset(-10% 100% -20% 0); opacity: 0; transform: translateY(10px); }
+  to { clip-path: inset(-10% 0 -20% 0); opacity: 1; transform: none; }
+}
+@keyframes reveal-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes reveal-scan {
+  0% { opacity: 0; transform: scaleX(0); transform-origin: left; }
+  20% { opacity: 1; }
+  60% { opacity: 1; transform: scaleX(1); transform-origin: left; }
+  100% { opacity: 0; transform: scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { animation: none !important; opacity: 1; }
+  .section-kicker[data-reveal]::after { display: none; }
 }

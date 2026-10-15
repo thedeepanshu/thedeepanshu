@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { missions } from '../content/portfolio'
 import { BrowserFrame } from '../components/BrowserFrame'
 import { PageFrame } from '../components/PageFrame'
 import { useFocusTracker } from '../hooks/useFocusTracker'
-import { useVessel } from '../world/store'
+import { motion, useVessel } from '../world/store'
 import './MissionsPage.css'
 
 export function MissionsPage() {
@@ -17,6 +17,28 @@ export function MissionsPage() {
     else next.add(id)
     return next
   })
+
+  // Deep links (/missions#alec-ev-hybrid, used by the command palette) open that
+  // brief and bring it into view once the warp has landed, so the scroll never
+  // competes with the flight.
+  const { hash } = useLocation()
+  useEffect(() => {
+    const id = decodeURIComponent(hash.slice(1))
+    if (!missions.some((mission) => mission.id === id)) return
+    const started = performance.now()
+    let timer = 0
+    const check = () => {
+      if (motion.flightProgress < 1 && performance.now() - started < 4000) {
+        timer = window.setTimeout(check, 100)
+        return
+      }
+      setExpanded((current) => new Set(current).add(id))
+      const reducedMotion = useVessel.getState().reducedMotion
+      document.querySelector(`[data-focus-id="${id}"]`)?.scrollIntoView({ behavior: reducedMotion ? 'instant' : 'smooth', block: 'start' })
+    }
+    timer = window.setTimeout(check, 300)
+    return () => window.clearTimeout(timer)
+  }, [hash])
 
   return (
     <PageFrame

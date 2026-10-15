@@ -3,11 +3,13 @@ import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
 import './vessel.css'
 import { BootSequence } from './components/BootSequence'
+import { CommandPalette, PaletteToggle } from './components/CommandPalette'
 import { CursorEffect } from './components/CursorEffect'
 import { HudFrame } from './components/HudFrame'
 import { Narrator } from './components/Narrator'
 import { ShipConsole } from './components/ShipConsole'
 import { ScrollToTop } from './components/ScrollToTop'
+import { observeSectionReveals } from './components/sectionReveal'
 import { SiteHeader } from './components/SiteHeader'
 import { SoundToggle } from './components/SoundToggle'
 import { VesselFooter } from './components/VesselFooter'
@@ -53,6 +55,9 @@ function DeckView() {
     view.current?.focus({ preventScroll: true })
   }, [location.pathname])
 
+  // Section headings further down each deck decode as they scroll into view.
+  useEffect(() => (view.current ? observeSectionReveals(view.current) : undefined), [location.pathname])
+
   return (
     <div ref={view} id="content" tabIndex={-1} className={`deck-view${held ? ' deck-view--held' : ''}`} key={location.pathname} inert={held}>
       <Routes location={location}>
@@ -83,8 +88,12 @@ function App() {
       <HudFrame />
       <CursorEffect />
       <SiteHeader />
-      <SoundToggle />
+      <div className="hud-dock">
+        <PaletteToggle />
+        <SoundToggle />
+      </div>
       <ShipConsole />
+      <CommandPalette />
       <Narrator />
       <DeckView />
       <BootSequence />

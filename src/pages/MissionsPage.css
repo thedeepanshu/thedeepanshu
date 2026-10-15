@@ -1,7 +1,7 @@
 /* ── Missions: mission briefings ── */
 .mission-log { display: grid; gap: 22px; }
 
-.mission-brief { background: linear-gradient(135deg, rgba(23, 46, 53, .72), rgba(9, 16, 20, .82)); border: 1px solid var(--line); display: grid; gap: 26px; padding: clamp(22px, 4vw, 44px); position: relative; transition: border-color .3s ease; }
+.mission-brief { background: linear-gradient(135deg, rgba(23, 46, 53, .72), rgba(9, 16, 20, .82)); border: 1px solid var(--line); display: grid; gap: 26px; padding: clamp(22px, 4vw, 44px); position: relative; scroll-margin-top: 24px; transition: border-color .3s ease; }
 .mission-brief::before { background: linear-gradient(90deg, var(--cyan), transparent); content: ''; height: 1px; left: -1px; position: absolute; top: -1px; width: 140px; }
 .mission-brief:hover { border-color: rgba(126, 244, 219, .45); }
 

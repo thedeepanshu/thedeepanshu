@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { missions, skills } from '../content/portfolio'
 import { decks, type DeckId } from '../world/decks'
 import { useVessel } from '../world/store'
+import { PALETTE_SHORTCUT } from './shortcuts'
 import './Narrator.css'
 
 const DECK_LINES: Record<DeckId, string> = {
@@ -54,11 +55,11 @@ export function Narrator() {
     return () => window.clearTimeout(timer)
   }, [deck, booted, narrate])
 
-  // One console hint, once, after a little time aboard. The console is a
-  // keyboard feature, so touch devices (where its button is hidden) skip it.
+  // One shortcut hint, once, after a little time aboard. It's a keyboard
+  // feature, so touch devices (where its button is hidden) skip it.
   useEffect(() => {
     if (!booted || window.matchMedia('(hover: none) and (pointer: coarse)').matches) return
-    const timer = window.setTimeout(() => narrate('Tip: press ~ to open the ship console.'), 25000)
+    const timer = window.setTimeout(() => narrate(`Tip: press ${PALETTE_SHORTCUT} to jump anywhere on the ship.`), 25000)
     return () => window.clearTimeout(timer)
   }, [booted, narrate])
 
