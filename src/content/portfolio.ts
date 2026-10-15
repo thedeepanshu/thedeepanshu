@@ -103,7 +103,7 @@ export const missions: Mission[] = [
     link: { label: 'alecevhybrid.com', url: 'https://alecevhybrid.com' },
     visual: {
       src: '/images/missions/alec-ev.webp',
-      alt: 'The Alec EV & Hybrid Battery Services home page: headline, call and booking buttons, and trust stats.',
+      alt: 'The Alec EV & Hybrid Battery Services home page in its dark theme: headline, call and booking buttons, and trust stats.',
       frameLabel: 'alecevhybrid.com',
     },
   },
