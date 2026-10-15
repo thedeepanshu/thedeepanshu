@@ -30,6 +30,7 @@ export function RecommendBack() {
   const [kindId, setKindId] = useState(KINDS[0].id)
   const [text, setText] = useState('')
   const [name, setName] = useState('')
+  const [sent, setSent] = useState(false)
   const kind = KINDS.find((item) => item.id === kindId) ?? KINDS[0]
   const email = socialLinks.find((link) => link.url.startsWith('mailto:'))
 
@@ -42,6 +43,10 @@ export function RecommendBack() {
     const subject = encodeURIComponent(kind.subject(value))
     const body = encodeURIComponent(`${greeting}\n\n${kind.intro} ${value}${sign}`)
     window.location.href = `${email.url}?subject=${subject}&body=${body}`
+    // The words now live in the email draft; clear the form for the next one.
+    setText('')
+    setName('')
+    setSent(true)
   }
 
   const chip = (item: Kind) => (
@@ -68,8 +73,8 @@ export function RecommendBack() {
         <label className="recommend-field">
           <span>{kind.prompt}</span>
           {kind.long
-            ? <textarea required maxLength={600} rows={3} placeholder={kind.placeholder} value={text} onChange={(event) => setText(event.target.value)} />
-            : <input type="text" required maxLength={120} placeholder={kind.placeholder} value={text} onChange={(event) => setText(event.target.value)} />}
+            ? <textarea required maxLength={600} rows={3} placeholder={kind.placeholder} value={text} onChange={(event) => { setText(event.target.value); setSent(false) }} />
+            : <input type="text" required maxLength={120} placeholder={kind.placeholder} value={text} onChange={(event) => { setText(event.target.value); setSent(false) }} />}
         </label>
         <label className="recommend-field">
           <span>Your name <small>(optional)</small></span>
@@ -77,7 +82,9 @@ export function RecommendBack() {
         </label>
       </div>
       <button type="submit" className="recommend-send">{kind.group === 'vlog' ? 'Send it to us' : 'Send it my way'} <span aria-hidden="true">↗</span></button>
-      <p className="recommend-note">Opens a ready-to-send draft in your email app.</p>
+      <p className="recommend-note" role="status">
+        {sent ? 'Draft opened in your email app. Thank you! Send another anytime.' : 'Opens a ready-to-send draft in your email app.'}
+      </p>
     </form>
   )
 }

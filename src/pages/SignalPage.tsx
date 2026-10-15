@@ -1,10 +1,13 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { availability, contactTopics, dossier, socialLinks } from '../content/portfolio'
 import { PageFrame } from '../components/PageFrame'
 import { useVessel } from '../world/store'
 
+const EMPTY_FORM = { name: '', topic: '', message: '' }
+
 export function SignalPage() {
-  const [formData, setFormData] = useState({ name: '', topic: '', message: '' })
+  const [formData, setFormData] = useState(EMPTY_FORM)
+  const nameInput = useRef<HTMLInputElement>(null)
   const [draftOpened, setDraftOpened] = useState(false)
   const setSignalCharge = useVessel((state) => state.setSignalCharge)
   const fireSignal = useVessel((state) => state.fireSignal)
@@ -23,8 +26,17 @@ export function SignalPage() {
     const subject = encodeURIComponent(`${formData.topic} — from ${formData.name.trim()}`)
     const body = encodeURIComponent(`Hi Deepanshu,\n\n${formData.message.trim()}\n\n— ${formData.name.trim()}`)
     window.location.href = `mailto:deepanshusaini971@gmail.com?subject=${subject}&body=${body}`
+    // The words now live in the email draft, so the form starts fresh for the next one.
+    setFormData(EMPTY_FORM)
     setDraftOpened(true)
     fireSignal()
+  }
+
+  const composeAnother = () => {
+    setFormData(EMPTY_FORM)
+    setDraftOpened(false)
+    // Wait for the form to render again, then put the cursor in the first field.
+    requestAnimationFrame(() => nameInput.current?.focus())
   }
 
   return (
@@ -54,7 +66,7 @@ export function SignalPage() {
                 <span className="success-tag">&gt; EMAIL DRAFT REQUESTED</span>
                 <h3>Check your email app</h3>
                 <p>A draft should open in your email app. It has not been sent; review it and send it there.</p>
-                <button className="primary-action inline-action" type="button" onClick={() => setDraftOpened(false)}>
+                <button className="primary-action inline-action" type="button" onClick={composeAnother}>
                   Compose another <span>↗</span>
                 </button>
               </div>
@@ -62,7 +74,7 @@ export function SignalPage() {
               <form className="signal-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="contact-name">Your name</label>
-                  <input id="contact-name" name="name" type="text" autoComplete="name" required placeholder="Your name" value={formData.name} onChange={(event) => setFormData({ ...formData, name: event.target.value })} />
+                  <input ref={nameInput} id="contact-name" name="name" type="text" autoComplete="name" required placeholder="Your name" value={formData.name} onChange={(event) => setFormData({ ...formData, name: event.target.value })} />
                 </div>
                 <fieldset className="form-group topic-group">
                   <legend>What’s on your mind?</legend>
