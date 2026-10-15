@@ -26,7 +26,7 @@
 .hud-corner-bl { border-bottom-width: 1px; border-left-width: 1px; bottom: 14px; left: 14px; }
 .hud-corner-br { border-bottom-width: 1px; border-right-width: 1px; bottom: 14px; right: 14px; }
 
-.hud-rail { align-items: center; display: flex; font-size: .56rem; gap: 18px; letter-spacing: .14em; position: absolute; text-transform: uppercase; top: 50%; white-space: nowrap; writing-mode: vertical-rl; }
+.hud-rail { align-items: center; display: flex; font-size: .7rem; gap: 18px; letter-spacing: .14em; position: absolute; text-transform: uppercase; top: 50%; white-space: nowrap; writing-mode: vertical-rl; }
 .hud-rail-left { left: 16px; transform: translateY(-50%) rotate(180deg); }
 .hud-rail-right { right: 16px; transform: translateY(-50%); }
 .hud-rail b { color: var(--cyan); font-weight: 400; }
@@ -44,7 +44,7 @@
 
 /* Destination banner, shown for one warp. */
 .hud-warp { align-items: center; animation: hud-warp 1.5s cubic-bezier(.2, .75, .25, 1) both; display: flex; flex-direction: column; gap: 10px; left: 50%; position: absolute; text-transform: uppercase; top: 50%; transform: translate(-50%, -50%); }
-.hud-warp span { color: var(--purple); font-size: .6rem; letter-spacing: .3em; }
+.hud-warp span { color: var(--purple); font-size: .72rem; letter-spacing: .3em; }
 .hud-warp strong { color: var(--ink); font-family: var(--font-sans); font-size: clamp(1.2rem, 2.6vw, 2rem); font-weight: 400; letter-spacing: .18em; text-shadow: 0 0 18px rgba(126, 244, 219, .55); }
 @keyframes hud-warp {
   0% { filter: blur(6px); opacity: 0; letter-spacing: .6em; }
@@ -81,7 +81,7 @@ html[data-boot='done'] .sound-toggle { animation: chrome-arrive .9s ease 1.3s bo
 .deck-view--held { animation: none; opacity: 0; }
 
 /* ── Sound toggle ── */
-.sound-toggle { align-items: center; background: rgba(7, 11, 14, .55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(193, 220, 224, .16); bottom: 26px; color: var(--muted); display: inline-flex; font-family: 'Courier New', monospace; font-size: .56rem; gap: 9px; letter-spacing: .16em; padding: 8px 11px; position: fixed; right: 44px; text-transform: uppercase; transition: border-color .2s ease, color .2s ease; z-index: 95; }
+.sound-toggle { align-items: center; background: rgba(7, 11, 14, .55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(193, 220, 224, .16); bottom: 26px; color: var(--muted); display: inline-flex; font-family: 'Courier New', monospace; font-size: .7rem; gap: 9px; letter-spacing: .16em; padding: 8px 11px; position: fixed; right: 44px; text-transform: uppercase; transition: border-color .2s ease, color .2s ease; z-index: 95; }
 .sound-toggle:hover, .sound-toggle:focus-visible { border-color: var(--cyan); color: var(--ink); }
 .sound-toggle:focus-visible { outline: 1px solid var(--cyan); outline-offset: 3px; }
 .sound-bars { align-items: center; display: inline-flex; gap: 2px; height: 11px; }
@@ -107,7 +107,7 @@ html[data-boot='done'] .sound-toggle { animation: chrome-arrive .9s ease 1.3s bo
 .lab-live-panel:hover, .lab-live-panel:focus-visible { border-color: rgba(126, 244, 219, .55); }
 .lab-live-panel strong { color: var(--ink); font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 400; letter-spacing: -.04em; }
 .lab-live-panel strong span { color: var(--cyan); }
-.lab-live-kicker { color: var(--cyan); font-family: 'Courier New', monospace; font-size: .6rem; letter-spacing: .16em; text-transform: uppercase; }
+.lab-live-kicker { color: var(--cyan); font-family: 'Courier New', monospace; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; }
 .lab-live-signal { display: flex; gap: 4px; position: absolute; right: 18px; top: 18px; }
 .lab-live-signal i { animation: hud-pulse 1.6s ease-in-out infinite; background: var(--cyan); border-radius: 50%; height: 6px; width: 6px; }
 .lab-live-signal i:nth-child(2) { animation-delay: .25s; }
@@ -115,12 +115,12 @@ html[data-boot='done'] .sound-toggle { animation: chrome-arrive .9s ease 1.3s bo
 @media (prefers-reduced-motion: reduce) { .lab-live-signal i { animation: none; } }
 
 /* Dev-only marker for placeholder memories (see `demo: true` in content). */
-.memory-demo-badge { background: #ffb547; color: #1a1205; font-family: 'Courier New', monospace; font-size: .56rem; font-weight: 700; letter-spacing: .12em; padding: 3px 6px; text-transform: uppercase; }
+.memory-demo-badge { background: #ffb547; color: #1a1205; font-family: 'Courier New', monospace; font-size: .7rem; font-weight: 700; letter-spacing: .12em; padding: 3px 6px; text-transform: uppercase; }
 
 /* Home: mission log rows are links */
 .mission-chapters { margin-top: 40px; }
 .mission-chapters .chapter-row { color: inherit; text-decoration: none; }
-.mission-chapters .chapter-row strong small { color: var(--muted); display: block; font-family: 'Courier New', monospace; font-size: .6rem; letter-spacing: .12em; margin-top: 8px; text-transform: uppercase; }
+.mission-chapters .chapter-row strong small { color: var(--muted); display: block; font-family: 'Courier New', monospace; font-size: .72rem; letter-spacing: .12em; margin-top: 8px; text-transform: uppercase; }
 .mission-chapters .chapter-row:focus-visible { outline: 1px solid var(--cyan); outline-offset: 4px; }
 .memory-caption { font-style: normal; }
 

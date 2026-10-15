@@ -28,7 +28,7 @@
 .nav-logo-name { font-size: 1.02rem; font-weight: 600; letter-spacing: -.04em; transition: text-shadow .25s ease; white-space: nowrap; }
 .nav-logo-name b { color: var(--cyan); font-weight: 600; }
 .nav-logo:hover .nav-logo-name { text-shadow: 0 0 12px rgba(126, 244, 219, .4); }
-.nav-logo-readout { align-items: center; color: var(--muted); display: inline-flex; font-family: 'Courier New', monospace; font-size: .52rem; gap: 6px; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+.nav-logo-readout { align-items: center; color: var(--muted); display: inline-flex; font-family: 'Courier New', monospace; font-size: .7rem; gap: 6px; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
 .nav-logo-readout i { animation: hud-pulse 1.8s ease-in-out infinite; background: var(--cyan); border-radius: 50%; box-shadow: 0 0 6px var(--cyan); height: 4px; width: 4px; }
 
 @media (max-width: 560px) {

@@ -121,9 +121,9 @@ export function IdentityCore({ points }: { points: number }) {
 
   const stats = useMemo(() => dossier.stats.slice(0, 4).map((stat, index) => ({
     texture: makeLabelTexture([
-      { text: stat.value, size: 64, color: index % 2 ? '#a17eff' : '#7ef4db', weight: 500, gap: 4 },
-      { text: stat.label.toUpperCase(), size: 30, color: '#b8c6c8', mono: true, tracking: 1 },
-    ], 640, 128, 10),
+      { text: stat.value, size: 78, color: index % 2 ? '#a17eff' : '#7ef4db', weight: 500, gap: 4 },
+      { text: stat.label.toUpperCase(), size: 40, color: '#cdd8db', mono: true, tracking: 1 },
+    ], 768, 192, 10),
   })), [])
 
   useEffect(() => () => stats.forEach((stat) => stat.texture.dispose()), [stats])
@@ -201,7 +201,7 @@ export function IdentityCore({ points }: { points: number }) {
 
         {stats.map((stat, index) => (
           <group key={index} position={[CALLOUT_X, CALLOUT_ROWS[index], 0]}>
-            <sprite ref={(sprite) => { labels.current[index] = sprite }} position={[1.3, 0, 0]} scale={[2.6, 0.52, 1]}>
+            <sprite ref={(sprite) => { labels.current[index] = sprite }} position={[1.45, 0, 0]} scale={[3.3, 0.825, 1]}>
               <spriteMaterial map={stat.texture} transparent depthWrite={false} opacity={0} />
             </sprite>
             <mesh position={[-0.35, 0, 0]}>
