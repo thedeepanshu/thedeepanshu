@@ -12,6 +12,11 @@ html[data-boot='active'] .narrator { visibility: hidden; }
 @media (max-width: 900px) {
   .narrator { bottom: 16px; left: 16px; max-width: calc(100vw - 120px); }
 }
+/* Phones: a full-width row above the sound button instead of beside it. */
+@media (max-width: 640px) {
+  .narrator { bottom: 60px; left: 12px; max-width: none; padding: 8px 12px 9px; right: 12px; }
+  .narrator-tag { font-size: .66rem; }
+}
 @media (prefers-reduced-motion: reduce) {
   .narrator { transform: none; transition-duration: .2s; }
   .narrator-tag i, .narrator-text::after { animation: none; }

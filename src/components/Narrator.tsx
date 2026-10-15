@@ -19,6 +19,8 @@ const DECK_LINES: Record<DeckId, string> = {
 const CHARTED_DECKS = decks.filter((deck) => deck.id !== 'void').length
 const HOLD_MS = 5200
 const TYPE_MS = 22
+// Phones have little room at the bottom, so the AI speaks less there.
+const QUIET_QUERY = '(max-width: 640px), (hover: none) and (pointer: coarse)'
 
 /**
  * VESSEL//AI: short, contextual lines typed into the HUD. It greets each deck,
@@ -41,6 +43,8 @@ export function Narrator() {
     if (!booted) return
     const firstVisit = deck !== 'void' && !visited.current.has(deck)
     if (deck !== 'void') visited.current.add(deck)
+    // Quiet mode greets each deck once instead of on every return.
+    if (!firstVisit && deck !== 'void' && window.matchMedia(QUIET_QUERY).matches) return
     const count = visited.current.size
     let line = DECK_LINES[deck]
     if (firstVisit && count === CHARTED_DECKS) line = 'Every deck explored. Nice flying, pilot.'
@@ -50,12 +54,11 @@ export function Narrator() {
     return () => window.clearTimeout(timer)
   }, [deck, booted, narrate])
 
-  // One hint, once, after a little time aboard.
+  // One console hint, once, after a little time aboard. The console is a
+  // keyboard feature, so touch devices (where its button is hidden) skip it.
   useEffect(() => {
-    if (!booted) return
-    const touch = window.matchMedia('(pointer: coarse)').matches
-    const hint = touch ? 'Tip: tap ›_ to open the ship console.' : 'Tip: press ~ to open the ship console.'
-    const timer = window.setTimeout(() => narrate(hint), 25000)
+    if (!booted || window.matchMedia('(hover: none) and (pointer: coarse)').matches) return
+    const timer = window.setTimeout(() => narrate('Tip: press ~ to open the ship console.'), 25000)
     return () => window.clearTimeout(timer)
   }, [booted, narrate])
 

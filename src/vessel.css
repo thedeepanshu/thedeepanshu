@@ -61,6 +61,10 @@
   .hud-corner-tl, .hud-corner-tr { top: calc(var(--header-h) + 8px); }
   .hud-corner-bl, .hud-corner-br { bottom: 8px; }
 }
+/* Phones: the sound button owns the bottom edge, so drop the lower brackets. */
+@media (max-width: 640px) {
+  .hud-corner-bl, .hud-corner-br { display: none; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .deck-view { animation: deck-arrive-calm .3s ease-out both; }
