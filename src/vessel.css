@@ -203,3 +203,15 @@ html[data-boot='active'] .skip-link { display: none; }
 .lab-live-panel::after { background: linear-gradient(180deg, transparent 45%, rgba(5, 9, 12, .88)); content: ''; inset: 0; pointer-events: none; position: absolute; }
 .lab-live-panel > :not(.system-demo) { position: relative; z-index: 1; }
 .lab-live-panel .lab-live-signal { position: absolute; }
+
+/* ── Arsenal: one horizontal row of domain tabs, in reading order ── */
+.arsenal-atlas-nav { border-bottom: 0; border-top: 0; display: flex; gap: 10px; margin: 0 -2px; overflow-x: auto; padding: 4px 2px 12px; scroll-snap-type: x proximity; scrollbar-width: thin;
+  -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent); }
+.arsenal-atlas-nav .arsenal-atlas-tab { border: 1px solid var(--line); border-radius: 999px; display: inline-flex; flex: 0 0 auto; gap: 10px; min-height: 0; padding: 10px 14px 10px 12px; scroll-snap-align: start; white-space: nowrap; }
+.arsenal-atlas-nav .arsenal-atlas-tab:not(:nth-child(3n)), .arsenal-atlas-nav .arsenal-atlas-tab:nth-child(odd) { border-right: 1px solid var(--line); }
+.arsenal-atlas-nav .arsenal-atlas-tab.active { background: rgba(126, 244, 219, .1); border-color: var(--cyan); }
+.arsenal-atlas-nav .arsenal-atlas-tab:focus-visible { outline: 1px solid var(--cyan); outline-offset: 2px; }
+.arsenal-atlas-nav .atlas-tab-count { background: rgba(193, 220, 224, .08); border-radius: 999px; padding: 2px 7px; }
+.arsenal-atlas-nav .arsenal-atlas-tab.active .atlas-tab-count { background: rgba(126, 244, 219, .18); }
+@media (max-width: 900px) { .arsenal-atlas-nav { grid-template-columns: none; } }
+.arsenal-atlas-nav .atlas-tab-label { font-size: .88rem; }
