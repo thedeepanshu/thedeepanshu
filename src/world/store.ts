@@ -24,7 +24,6 @@ type VesselState = {
   activeSkill: string
   activeMilestone: string | null
   activeExperiment: string | null
-  activeMemory: string | null
   /** Comms array: how complete the contact form is (0–1), and a counter bumped on each send. */
   signalCharge: number
   signalShots: number
@@ -42,7 +41,6 @@ type VesselState = {
   setActiveSkill: (id: string) => void
   setActiveMilestone: (id: string | null) => void
   setActiveExperiment: (id: string | null) => void
-  setActiveMemory: (id: string | null) => void
   setSignalCharge: (charge: number) => void
   fireSignal: () => void
   narrate: (text: string) => void
@@ -83,11 +81,9 @@ export const useVessel = create<VesselState>((set) => ({
   setActiveSkill: (activeSkill) => set({ activeSkill }),
   setActiveMilestone: (activeMilestone) => set({ activeMilestone }),
   activeExperiment: null,
-  activeMemory: null,
   signalCharge: 0,
   signalShots: 0,
   setActiveExperiment: (activeExperiment) => set({ activeExperiment }),
-  setActiveMemory: (activeMemory) => set({ activeMemory }),
   setSignalCharge: (signalCharge) => set({ signalCharge }),
   fireSignal: () => set((state) => ({ signalShots: state.signalShots + 1 })),
   narration: null,

@@ -28,7 +28,7 @@ const DECK_COPY: Partial<Record<DeckId, [title: string, hint: string, keywords: 
   arsenal: ['Arsenal', 'Skills and tools', 'skills stack tech tools'],
   journey: ['Journey', 'Experience, year by year', 'experience timeline career history'],
   lab: ['Lab', 'Experiments and how this site is built', 'experiments demos playground'],
-  beyond: ['Beyond', 'Life outside work', 'hobbies personal life'],
+  beyond: ['Beyond', 'Off duty: watching, music, learning', 'hobbies personal life movies series music songs learning stories family vlog youtube instagram doli'],
   signal: ['Signal', 'Get in touch', 'contact hire email message'],
 }
 

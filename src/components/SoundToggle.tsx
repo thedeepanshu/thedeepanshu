@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { playUi, playWarp, SOUND_PRESETS } from '../audio/soundEngine'
+import { playUi, playWarp, setSoundScene, SOUND_PRESETS } from '../audio/soundEngine'
 import { useVessel } from '../world/store'
 
 const INTERACTIVE = 'a, button, [role="button"], select, summary, input[type="checkbox"], input[type="radio"]'
@@ -16,9 +16,16 @@ export function SoundToggle() {
   const button = useRef<HTMLButtonElement>(null)
   const current = SOUND_PRESETS.find((preset) => preset.mode === soundMode) ?? SOUND_PRESETS[2]
 
-  useEffect(() => useVessel.subscribe((state, previous) => {
-    if (state.deck !== previous.deck) playWarp()
-  }), [])
+  // A whoosh on every deck change, and the Beyond deck gets its own music.
+  useEffect(() => {
+    const sceneFor = (deck: string) => (deck === 'beyond' ? 'lounge' : 'ship')
+    setSoundScene(sceneFor(useVessel.getState().deck))
+    return useVessel.subscribe((state, previous) => {
+      if (state.deck === previous.deck) return
+      playWarp()
+      setSoundScene(sceneFor(state.deck))
+    })
+  }, [])
 
   // A soft tick when the pointer enters something clickable, a confirm on press.
   // The engine is silent unless sound is on, so these are cheap to leave bound.

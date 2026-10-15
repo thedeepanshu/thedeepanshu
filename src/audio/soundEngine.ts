@@ -8,7 +8,14 @@
  *
  * Three presets: `ambient` (the bed plus warp and UI sounds), `minimal` (only
  * warp and UI sounds, no music) and `off`.
+ *
+ * Two scenes: the ship music everywhere, and a warm lo-fi theme on the Beyond
+ * deck (./lounge). They crossfade on a deck change. Music also ducks out while a
+ * visitor plays something of their own, like a trailer or a Spotify embed.
  */
+
+import { impulseResponse, lfo, noiseBuffer, note } from './dsp'
+import { createLounge, type Lounge } from './lounge'
 
 export type SoundMode = 'ambient' | 'minimal' | 'off'
 
@@ -25,6 +32,12 @@ let reverb: ConvolverNode | null = null
 let bed: GainNode | null = null
 let bedSend: GainNode | null = null
 let ambienceStarted = false
+export type SoundScene = 'ship' | 'lounge'
+let scene: SoundScene = 'ship'
+let ducked = false
+let lounge: Lounge | null = null
+let loungeGain: GainNode | null = null
+let loungeStopTimer = 0
 let enabled = false
 let mode: SoundMode = 'off'
 let bellTimer = 0
@@ -46,33 +59,7 @@ function getContext() {
   return { context, master: master as GainNode, reverb: reverb as ConvolverNode }
 }
 
-function impulseResponse(ctx: AudioContext, seconds: number, decay: number) {
-  const length = Math.floor(ctx.sampleRate * seconds)
-  const buffer = ctx.createBuffer(2, length, ctx.sampleRate)
-  for (let channel = 0; channel < 2; channel++) {
-    const data = buffer.getChannelData(channel)
-    for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay)
-  }
-  return buffer
-}
 
-function noiseBuffer(ctx: AudioContext, seconds: number) {
-  const buffer = ctx.createBuffer(1, ctx.sampleRate * seconds, ctx.sampleRate)
-  const data = buffer.getChannelData(0)
-  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1
-  return buffer
-}
-
-function lfo(ctx: AudioContext, frequency: number, depth: number, target: AudioParam) {
-  const osc = ctx.createOscillator()
-  const gain = ctx.createGain()
-  osc.frequency.value = frequency
-  gain.gain.value = depth
-  osc.connect(gain).connect(target)
-  osc.start()
-}
-
-const note = (midi: number) => 440 * Math.pow(2, (midi - 69) / 12)
 
 // D major, gentle and open: Dadd9 → Bm7 → Gmaj7 → Asus2 (MIDI note numbers).
 const CHORDS = [
@@ -154,7 +141,7 @@ function startAmbience(ctx: AudioContext, out: AudioNode, room: AudioNode) {
 }
 
 function playBell() {
-  if (mode !== 'ambient' || !context || !reverb || !master) return
+  if (mode !== 'ambient' || scene !== 'ship' || ducked || !context || !bed || !bedSend) return
   const ctx = context
   const now = ctx.currentTime
   const pitch = note(BELL_NOTES[Math.floor(Math.random() * BELL_NOTES.length)])
@@ -175,8 +162,9 @@ function playBell() {
   }
   const dry = ctx.createGain()
   dry.gain.value = 0.35
-  gain.connect(dry).connect(master)
-  gain.connect(reverb)
+  // Through the bed, so bells fade with the ship music (scene change, ducking).
+  gain.connect(dry).connect(bed)
+  gain.connect(bedSend)
 }
 
 function scheduleBells() {
@@ -194,17 +182,77 @@ export function setSoundMode(next: SoundMode) {
   if (!enabled && !context) return
   const { context: ctx, master: out, reverb: room } = getContext()
   if (ctx.state === 'suspended') void ctx.resume()
-  // The bed's oscillators only start when the music is first wanted.
-  if (next === 'ambient' && !ambienceStarted) {
+  out.gain.setTargetAtTime(enabled ? 0.85 : 0, ctx.currentTime, 0.6)
+  updateMusic(ctx, out, room)
+}
+
+/** Which music plays: the ship's, or the Beyond theme. Crossfades over ~3 s. */
+export function setSoundScene(next: SoundScene) {
+  if (scene === next) return
+  scene = next
+  if (context && master && reverb) updateMusic(context, master, reverb)
+}
+
+let duckHolds = 0
+
+/**
+ * Fades the music out while the visitor plays their own audio (a trailer, a
+ * Spotify player). Returns a release; music returns when every hold is released.
+ */
+export function holdMusicDuck() {
+  duckHolds += 1
+  applyDuck()
+  let released = false
+  return () => {
+    if (released) return
+    released = true
+    duckHolds -= 1
+    applyDuck()
+  }
+}
+
+function applyDuck() {
+  const next = duckHolds > 0
+  if (ducked === next) return
+  ducked = next
+  if (context && master && reverb) updateMusic(context, master, reverb)
+}
+
+/**
+ * Points every music fader at its target for the current preset, scene and
+ * ducking. Each scene's sources only start when first needed, and the Beyond
+ * loop stops scheduling notes once it has faded out.
+ */
+function updateMusic(ctx: AudioContext, out: GainNode, room: ConvolverNode) {
+  const music = mode === 'ambient' && !ducked
+  const shipOn = music && scene === 'ship'
+  const loungeOn = music && scene === 'lounge'
+  const fade = 1.1
+
+  if (shipOn && !ambienceStarted) {
     bed = ctx.createGain()
     bed.gain.value = 0
     bed.connect(out)
     startAmbience(ctx, bed, gatedRoom(ctx, room))
     ambienceStarted = true
   }
-  bed?.gain.setTargetAtTime(next === 'ambient' ? 1 : 0, ctx.currentTime, 0.6)
-  bedSend?.gain.setTargetAtTime(next === 'ambient' ? 1 : 0, ctx.currentTime, 0.6)
-  out.gain.setTargetAtTime(enabled ? 0.85 : 0, ctx.currentTime, 0.6)
+  bed?.gain.setTargetAtTime(shipOn ? 1 : 0, ctx.currentTime, fade)
+  bedSend?.gain.setTargetAtTime(shipOn ? 1 : 0, ctx.currentTime, fade)
+
+  if (loungeOn) {
+    if (!loungeGain) {
+      loungeGain = ctx.createGain()
+      loungeGain.gain.value = 0
+      loungeGain.connect(out)
+      lounge = createLounge(ctx, loungeGain, room)
+    }
+    window.clearTimeout(loungeStopTimer)
+    lounge?.start()
+  } else if (lounge) {
+    const playing = lounge
+    loungeStopTimer = window.setTimeout(() => playing.stop(), fade * 5000)
+  }
+  loungeGain?.gain.setTargetAtTime(loungeOn ? 0.9 : 0, ctx.currentTime, fade)
   scheduleBells()
 }
 

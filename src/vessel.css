@@ -137,7 +137,6 @@ html[data-boot='done'] .hud-dock { animation: chrome-arrive .9s ease 1.3s both; 
 @media (prefers-reduced-motion: reduce) { .lab-live-signal i { animation: none; } }
 
 /* Dev-only marker for placeholder memories (see `demo: true` in content). */
-.memory-demo-badge { background: #ffb547; color: #1a1205; font-family: 'Courier New', monospace; font-size: .7rem; font-weight: 700; letter-spacing: .12em; padding: 3px 6px; text-transform: uppercase; }
 
 /* Home: mission log rows are links */
 .mission-chapters { margin-top: 40px; }
@@ -287,3 +286,10 @@ h2[data-reveal='in'] { animation: reveal-wipe .8s cubic-bezier(.2, .75, .25, 1) 
   [data-reveal] { animation: none !important; opacity: 1; }
   .section-kicker[data-reveal]::after { display: none; }
 }
+
+/* ── Beyond: the ship's lights warm up in the crew quarters ── */
+@property --cyan { syntax: '<color>'; inherits: true; initial-value: #7ef4db; }
+@property --purple { syntax: '<color>'; inherits: true; initial-value: #a17eff; }
+html { transition: --cyan 1.2s ease, --purple 1.2s ease; }
+html[data-deck='beyond'] { --cyan: #ffb86b; --purple: #ff7aa8; }
+html[data-deck='beyond'] .hud-corner { border-color: rgba(255, 184, 107, .4); }

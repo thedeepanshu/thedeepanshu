@@ -12,7 +12,7 @@ const DECK_LINES: Record<DeckId, string> = {
   arsenal: `Star map aligned. ${skills.length} domains charted.`,
   journey: 'Flight path plotted. Scroll to travel the route.',
   lab: 'Reactor stable. Experiments in containment.',
-  beyond: 'Observation deck. No rush here.',
+  beyond: 'Crew quarters. Lights warm, music down. No rush here.',
   signal: 'Comms array ready. Fill in the form to charge the dish.',
   void: 'Warning: this sector is not on any chart.',
 }

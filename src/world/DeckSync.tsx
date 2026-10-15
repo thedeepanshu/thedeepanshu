@@ -15,6 +15,8 @@ export function DeckSync() {
     const deck = deckForPath(pathname).id
     setDeck(deck)
     applyPageMeta(pathname)
+    // Lets CSS restyle the ship per deck (Beyond warms the lights).
+    document.documentElement.dataset.deck = deck
   }, [pathname, setDeck])
 
   useEffect(() => {

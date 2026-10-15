@@ -12,7 +12,8 @@ const KB = 1024
 const budgets = [
   { label: 'main (pages, React)', match: /^index-.*\.js$/, max: 130 * KB },
   { label: '3D world (three.js, scenes)', match: /^World-.*\.js$/, max: 310 * KB },
-  { label: 'styles', match: /^index-.*\.css$/, max: 20 * KB },
+  // Raised from 20 KB when the Beyond deck (its own page styles, ~3 KB) arrived.
+  { label: 'styles', match: /^index-.*\.css$/, max: 24 * KB },
 ]
 
 const assets = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../dist/assets')
