@@ -73,9 +73,15 @@
 
 @media (max-width: 560px) {
   .boot-log { font-size: .72rem; top: calc(10vh + 10px); }
-  .boot-transmission { font-size: .7rem; letter-spacing: .18em; top: 30%; }
-  .boot-role { font-size: .7rem; letter-spacing: .18em; }
-  .boot-board { padding: 13px 16px; }
+  /* Radar on its own line above the label, and every wrapped line balanced. */
+  .boot-transmission { flex-direction: column; font-size: .7rem; gap: 10px; letter-spacing: .16em; line-height: 1.6; text-wrap: balance; top: 27%; }
+  .boot-role { font-size: .7rem; letter-spacing: .14em; line-height: 1.6; text-wrap: balance; }
+  .boot-choice { gap: 14px; }
+  /* The two ways aboard stack as full-width buttons. */
+  .boot-actions { flex-direction: column; width: min(100%, 340px); }
+  .boot-board { justify-content: center; padding: 15px 16px; width: 100%; }
+  .boot-hint { font-size: .68rem; letter-spacing: .1em; line-height: 1.6; text-wrap: balance; }
+  .boot-skip { bottom: 16px; right: 12px; }
 }
 
 /* Calm version: no flashes, no typing, no movement. */

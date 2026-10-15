@@ -54,6 +54,16 @@
   .vessel-footer-meta { justify-content: flex-start; }
 }
 
+/* Phones: calmer letter spacing, a full-width bottom row, and room to clear
+   the narrator and the sound button that float over the bottom edge. */
+@media (max-width: 560px) {
+  .vessel-footer { padding-bottom: 150px; }
+  .vessel-footer-inner { font-size: .68rem; gap: 12px; letter-spacing: .08em; }
+  .vessel-footer-copy { gap: 4px 10px; }
+  .vessel-footer-love { white-space: normal; }
+  .vessel-footer-meta { border-top: 1px solid var(--line); justify-content: space-between; justify-self: stretch; padding-top: 14px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .vessel-footer-heart { animation: none; }
 }
