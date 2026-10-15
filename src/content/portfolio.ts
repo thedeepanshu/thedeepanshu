@@ -624,3 +624,22 @@ export const dossier = {
     'B.Tech in Computer Science & Engineering (ongoing)',
   ],
 }
+
+export type RouteStop = {
+  /** Matches an entry in `milestones`. */
+  id: string
+  when: string
+  title: string
+  kind: 'education' | 'work' | 'project'
+  ongoing?: boolean
+}
+
+/** Career stops in chronological order: the Journey flight path and the Origin teaser. */
+export const journeyRoute: RouteStop[] = [
+  { id: 'secondary-school-ibl', when: '2016', title: 'Secondary school', kind: 'education' },
+  { id: 'diploma-cse-gp-sonepat', when: '2019', title: 'Diploma, CSE', kind: 'education' },
+  { id: 'anrx-solutions-frontend-developer', when: '2021 – 2026', title: 'ANRX Solutions', kind: 'work' },
+  { id: 'canadian-business-website', when: '2026', title: 'Alec EV & Hybrid', kind: 'project' },
+  { id: 'portfolio-in-progress', when: '2026', title: 'The Vessel', kind: 'project', ongoing: true },
+  { id: 'btech-cse-pkg', when: 'Ongoing', title: 'B.Tech, CSE', kind: 'education', ongoing: true },
+]

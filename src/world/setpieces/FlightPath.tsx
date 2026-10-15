@@ -1,16 +1,13 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
-import { milestones } from '../../content/portfolio'
+import { journeyRoute, milestones } from '../../content/portfolio'
 import { deckById } from '../decks'
 import { deckInView, motion, useVessel } from '../store'
 import { makeLabelTexture } from './labels'
 import { planetFragment, planetVertex } from './planetShader'
 
-type Stop = {
-  id: string
-  when: string
-  title: string
+type Look = {
   radius: number
   colors: [string, string]
   ring?: boolean
@@ -18,17 +15,20 @@ type Stop = {
   inProgress?: boolean
 }
 
-/** Career stops in chronological order. Ids match `milestones` in content. */
-const STOPS: Stop[] = [
-  { id: 'secondary-school-ibl', when: '2016', title: 'Secondary school', radius: 0.8, colors: ['#83b7ff', '#16233d'] },
-  { id: 'diploma-cse-gp-sonepat', when: '2019', title: 'Diploma, CSE', radius: 1.05, colors: ['#7ef4db', '#0f2a2c'] },
-  { id: 'anrx-solutions-frontend-developer', when: '2021 – 2026', title: 'ANRX Solutions', radius: 2.3, colors: ['#7ef4db', '#123a40'], ring: true, moons: ['#7ef4db', '#a17eff'] },
-  { id: 'canadian-business-website', when: '2026', title: 'Alec EV & Hybrid', radius: 1.35, colors: ['#a17eff', '#21183f'] },
-  { id: 'portfolio-in-progress', when: '2026', title: 'The Vessel', radius: 1.2, colors: ['#83b7ff', '#2a1d4a'] },
-  { id: 'btech-cse-pkg', when: 'Ongoing', title: 'B.Tech, CSE', radius: 1.1, colors: ['#7ef4db', '#16233d'], inProgress: true },
-]
+/** How each stop looks as a planet. Order and labels come from `journeyRoute`. */
+const LOOKS: Record<string, Look> = {
+  'secondary-school-ibl': { radius: 0.8, colors: ['#83b7ff', '#16233d'] },
+  'diploma-cse-gp-sonepat': { radius: 1.05, colors: ['#7ef4db', '#0f2a2c'] },
+  'anrx-solutions-frontend-developer': { radius: 2.3, colors: ['#7ef4db', '#123a40'], ring: true, moons: ['#7ef4db', '#a17eff'] },
+  'canadian-business-website': { radius: 1.35, colors: ['#a17eff', '#21183f'] },
+  'portfolio-in-progress': { radius: 1.2, colors: ['#83b7ff', '#2a1d4a'] },
+  'btech-cse-pkg': { radius: 1.1, colors: ['#7ef4db', '#16233d'], inProgress: true },
+}
+const DEFAULT_LOOK: Look = { radius: 1, colors: ['#7ef4db', '#16233d'] }
 
-const ROUTE = STOPS.filter((stop) => milestones.some((milestone) => milestone.id === stop.id))
+const ROUTE = journeyRoute
+  .filter((stop) => milestones.some((milestone) => milestone.id === stop.id))
+  .map((stop) => ({ ...stop, ...(LOOKS[stop.id] ?? DEFAULT_LOOK) }))
 
 const DEFAULT_STOP = Math.max(0, ROUTE.findIndex((stop) => stop.id === 'anrx-solutions-frontend-developer'))
 const UP = new THREE.Vector3(0, 1, 0)

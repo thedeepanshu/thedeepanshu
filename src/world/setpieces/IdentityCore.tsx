@@ -141,7 +141,10 @@ export function IdentityCore({ points }: { points: number }) {
     const narrow = size.width < size.height
     rig.current?.position.set(narrow ? 0 : 4.3, narrow ? 2.6 : 0.3, -2)
     rig.current?.scale.setScalar(narrow ? 0.55 : 1)
-    const dim = scrollDim(0.35) * (narrow ? 0.45 : 1)
+    // Fully gone once the dossier scrolls in, so the core never sits behind
+    // the flight-path teaser or the story.
+    const away = 1 - THREE.MathUtils.smoothstep(motion.scroll, 0.15, 0.6)
+    const dim = scrollDim(0.35) * (narrow ? 0.45 : 1) * away
 
     // Assemble outward once we've arrived on the deck.
     if (deck === 'origin' && motion.flightProgress >= 0.85) {

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { dossier } from '../content/portfolio'
+import { dossier, journeyRoute } from '../content/portfolio'
 import { resumeData } from '../content/resumeData'
 import { PageFrame } from '../components/PageFrame'
 import './AboutPage.css'
@@ -37,6 +37,23 @@ export function AboutPage() {
           </div>
         </section>
 
+        <section className="dossier-route" aria-labelledby="dossier-route-title">
+          <div className="dossier-route-head">
+            <p className="section-kicker" id="dossier-route-title">/ flight path so far</p>
+            <Link className="text-action" to="/journey">Fly the full route <span>→</span></Link>
+          </div>
+          <ol>
+            {journeyRoute.map((stop) => (
+              <li key={stop.id} className={`is-${stop.kind}${stop.ongoing ? ' is-ongoing' : ''}`}>
+                <i aria-hidden="true" />
+                <span>{stop.when}</span>
+                <strong>{stop.title}</strong>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* Phones hide the 3D core's stat callouts, so the numbers live here instead. */}
         <section className="dossier-stats" aria-label="At a glance">
           {dossier.stats.map((stat) => (
             <div key={stat.label}>
