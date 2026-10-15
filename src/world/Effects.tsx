@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Bloom, ChromaticAberration, EffectComposer, Noise, Vignette } from '@react-three/postprocessing'
+import { Bloom, ChromaticAberration, EffectComposer, Vignette } from '@react-three/postprocessing'
 import type { ChromaticAberrationEffect } from 'postprocessing'
 import * as THREE from 'three'
 import { motion, type QualityTier } from './store'
@@ -15,6 +15,8 @@ export function Effects({ tier }: { tier: QualityTier }) {
     chromatic.current?.offset.set(amount, amount * 0.6)
   })
 
+  // One clean grade everywhere: soft bloom and no film grain. Capable devices
+  // add only the warp's colour fringing, which is invisible while parked.
   if (tier === 'low') {
     return (
       <EffectComposer multisampling={0}>
@@ -26,10 +28,9 @@ export function Effects({ tier }: { tier: QualityTier }) {
 
   return (
     <EffectComposer multisampling={0}>
-      <Bloom mipmapBlur intensity={1} luminanceThreshold={0.38} luminanceSmoothing={0.3} />
+      <Bloom mipmapBlur intensity={0.7} luminanceThreshold={0.42} luminanceSmoothing={0.3} />
       <ChromaticAberration ref={chromatic} offset={offset} radialModulation modulationOffset={0.25} />
-      <Noise opacity={0.028} />
-      <Vignette offset={0.3} darkness={0.7} />
+      <Vignette offset={0.3} darkness={0.65} />
     </EffectComposer>
   )
 }
