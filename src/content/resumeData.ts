@@ -59,8 +59,8 @@ export const resumeData: ResumeData = {
       url: 'https://linkedin.com/in/thedeepanshu-a97229206',
     },
     portfolio: {
-      label: 'thedeepanshu.dev',
-      url: 'https://thedeepanshu.dev',
+      label: 'thedeepanshu.vercel.app',
+      url: 'https://thedeepanshu.vercel.app',
     },
   },
 

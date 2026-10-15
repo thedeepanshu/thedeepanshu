@@ -1,0 +1,72 @@
+<!doctype html>
+<!--
+  Social preview image (1200x630). Re-render after design changes by
+  screenshotting this page at 1200x630 and saving public/og-image.jpg (JPEG, keep < 300 KB for WhatsApp).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: 'Space Grotesk'; src: url('../node_modules/@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2') format('woff2'); font-weight: 300 700; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 630px; width: 1200px; }
+  body { background: #05090c; color: #e9f2f4; font-family: 'Space Grotesk', sans-serif; overflow: hidden; position: relative; }
+  .sky { inset: 0; position: absolute;
+    background:
+      radial-gradient(ellipse 520px 380px at 860px 300px, rgba(126, 244, 219, .16), transparent 70%),
+      radial-gradient(ellipse 420px 300px at 1080px 80px, rgba(161, 126, 255, .16), transparent 70%),
+      radial-gradient(ellipse 500px 300px at 120px 560px, rgba(131, 183, 255, .1), transparent 70%),
+      #05090c; }
+  .stars { inset: 0; position: absolute; }
+  .frame span { border-color: rgba(126, 244, 219, .5); border-style: solid; border-width: 0; height: 26px; position: absolute; width: 26px; }
+  .frame span:nth-child(1) { border-left-width: 2px; border-top-width: 2px; left: 28px; top: 28px; }
+  .frame span:nth-child(2) { border-right-width: 2px; border-top-width: 2px; right: 28px; top: 28px; }
+  .frame span:nth-child(3) { border-bottom-width: 2px; border-left-width: 2px; bottom: 28px; left: 28px; }
+  .frame span:nth-child(4) { border-bottom-width: 2px; border-right-width: 2px; bottom: 28px; right: 28px; }
+  .pilot { bottom: -10px; height: 640px; position: absolute; right: 30px; width: 640px; object-fit: contain;
+    -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 98%); mask-image: linear-gradient(180deg, #000 70%, transparent 98%); }
+  .copy { left: 80px; position: absolute; top: 78px; width: 600px; }
+  .brand { align-items: center; display: flex; gap: 14px; margin-bottom: 46px; }
+  .brand svg { height: 46px; width: 46px; }
+  .brand b { font-size: 26px; font-weight: 600; letter-spacing: -.04em; }
+  .brand b i { color: #7ef4db; font-style: normal; }
+  .kicker { color: #7ef4db; font-family: 'Courier New', monospace; font-size: 19px; letter-spacing: .16em; margin-bottom: 18px; text-transform: uppercase; }
+  h1 { font-size: 92px; font-weight: 500; letter-spacing: -.06em; line-height: .92; }
+  h1 em { color: #7ef4db; font-style: normal; }
+  .tagline { color: #b8c6c8; font-size: 24px; line-height: 1.4; margin-top: 26px; max-width: 500px; }
+  .url { align-items: center; bottom: 70px; color: #a9b7bb; display: flex; font-family: 'Courier New', monospace; font-size: 20px; gap: 12px; left: 80px; letter-spacing: .1em; position: absolute; }
+  .url i { background: #7ef4db; border-radius: 50%; box-shadow: 0 0 10px #7ef4db; height: 9px; width: 9px; }
+</style>
+</head>
+<body>
+  <div class="sky"></div>
+  <svg class="stars" viewBox="0 0 1200 630" aria-hidden="true">
+    <g fill="#eafffb">
+      <circle cx="140" cy="60" r="1.4" opacity=".7"/><circle cx="420" cy="40" r="1" opacity=".5"/><circle cx="610" cy="120" r="1.6" opacity=".8"/>
+      <circle cx="700" cy="40" r="1" opacity=".5"/><circle cx="560" cy="520" r="1.2" opacity=".6"/><circle cx="330" cy="590" r="1" opacity=".4"/>
+      <circle cx="40" cy="300" r="1.2" opacity=".5"/><circle cx="660" cy="300" r="1" opacity=".5"/><circle cx="1160" cy="420" r="1.4" opacity=".7"/>
+      <circle cx="760" cy="590" r="1" opacity=".5"/><circle cx="250" cy="250" r=".9" opacity=".4"/><circle cx="1130" cy="200" r="1" opacity=".5"/>
+    </g>
+    <g fill="#7ef4db"><circle cx="520" cy="80" r="1.6" opacity=".8"/><circle cx="90" cy="470" r="1.3" opacity=".6"/></g>
+    <g fill="#a17eff"><circle cx="1180" cy="560" r="1.6" opacity=".8"/><circle cx="380" cy="160" r="1.2" opacity=".6"/></g>
+  </svg>
+  <img class="pilot" src="../public/images/pilot.webp" alt="" />
+  <div class="frame"><span></span><span></span><span></span><span></span></div>
+
+  <div class="copy">
+    <div class="brand">
+      <svg viewBox="0 0 64 64">
+        <defs><linearGradient id="m" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7ef4db"/><stop offset="1" stop-color="#a17eff"/></linearGradient></defs>
+        <g fill="none" stroke="#7ef4db" stroke-width="3" stroke-linecap="round" opacity=".7"><path d="M9 17V9h8M47 9h8v8M55 47v8h-8M17 55H9v-8"/></g>
+        <path d="M20 18h9.5a14 14 0 0 1 0 28H20Z" fill="none" stroke="url(#m)" stroke-width="6.5" stroke-linejoin="round"/>
+        <circle cx="47.5" cy="43" r="3.6" fill="#7ef4db"/>
+      </svg>
+      <b>thedeepanshu<i>.</i></b>
+    </div>
+    <p class="kicker">Frontend developer</p>
+    <h1>Deepanshu<br /><em>Saini.</em></h1>
+    <p class="tagline">~5 years of production React: live dashboards, maps and 3D on the web.</p>
+  </div>
+  <p class="url"><i></i>thedeepanshu.vercel.app</p>
+</body>
+</html>

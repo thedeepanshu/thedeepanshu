@@ -1,19 +1,8 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { deckForPath, type DeckId } from './decks'
+import { applyPageMeta } from '../content/seo'
+import { deckForPath } from './decks'
 import { useVessel } from './store'
-
-const PAGE_TITLES: Record<DeckId, string> = {
-  bridge: 'thedeepanshu | Frontend Developer',
-  origin: 'Origin · thedeepanshu',
-  missions: 'Missions · thedeepanshu',
-  arsenal: 'Arsenal · thedeepanshu',
-  journey: 'Journey · thedeepanshu',
-  lab: 'Lab · thedeepanshu',
-  beyond: 'Beyond · thedeepanshu',
-  signal: 'Signal · thedeepanshu',
-  void: 'Lost in deep space · thedeepanshu',
-}
 
 /** Keeps the world's current deck in step with the route and motion preference. */
 export function DeckSync() {
@@ -25,7 +14,7 @@ export function DeckSync() {
   useEffect(() => {
     const deck = deckForPath(pathname).id
     setDeck(deck)
-    document.title = PAGE_TITLES[deck]
+    applyPageMeta(pathname)
   }, [pathname, setDeck])
 
   useEffect(() => {
