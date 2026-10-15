@@ -18,6 +18,8 @@ export const planetFragment = /* glsl */ `
   uniform float uActive;
   uniform float uTime;
   uniform float uRadius;
+  /** 1 = solid. Lower values fade the planet out (material must be transparent). */
+  uniform float uFade;
   varying vec3 vNormal;
   varying vec3 vObject;
 
@@ -45,6 +47,6 @@ export const planetFragment = /* glsl */ `
     float light = clamp(dot(normalize(vNormal), normalize(vec3(-0.5, 0.6, 0.6))), 0.0, 1.0) * 0.75 + 0.25;
     float fresnel = pow(1.0 - clamp(dot(normalize(vNormal), vec3(0.0, 0.0, 1.0)), 0.0, 1.0), 2.6);
     vec3 color = surface * light * mix(0.55, 1.0, uActive) + uColorA * fresnel * (0.6 + uActive * 1.4);
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(color, uFade);
   }
 `

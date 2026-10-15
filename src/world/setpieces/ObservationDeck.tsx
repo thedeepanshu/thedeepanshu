@@ -154,6 +154,7 @@ export function ObservationDeck() {
     uActive: { value: 0.25 },
     uTime: { value: 0 },
     uRadius: { value: PLANET_RADIUS },
+    uFade: { value: 1 },
   }), [])
   const atmosphereUniforms = useMemo(() => ({ uDim: { value: 1 } }), [])
   const dustUniforms = useMemo(() => ({ uTime: { value: 0 }, uPixelRatio: { value: 1 }, uDim: { value: 1 } }), [])

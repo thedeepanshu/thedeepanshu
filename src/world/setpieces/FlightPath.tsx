@@ -46,11 +46,12 @@ const routeVertex = /* glsl */ `
 const routeFragment = /* glsl */ `
   uniform float uTime;
   uniform float uProgress;
+  uniform float uFade;
   varying float vU;
   void main() {
     float dash = step(0.45, fract(vU * 90.0 - uTime * 0.8));
     float flown = step(vU, uProgress);
-    gl_FragColor = vec4(mix(vec3(0.51, 0.72, 1.0), vec3(0.49, 0.96, 0.86), flown), dash * mix(0.22, 0.75, flown));
+    gl_FragColor = vec4(mix(vec3(0.51, 0.72, 1.0), vec3(0.49, 0.96, 0.86), flown), dash * mix(0.22, 0.75, flown) * uFade);
   }
 `
 
@@ -82,6 +83,13 @@ export function FlightPath() {
   const planets = useRef<(THREE.Mesh | null)[]>([])
   const moons = useRef<(THREE.Mesh | null)[]>([])
   const root = useRef<THREE.Group>(null)
+  // Rings, orbit dots, labels and moons, faded together with the planets.
+  const extras = useRef(new Set<THREE.Material>())
+  const track = (base: number) => (material: THREE.Material | null) => {
+    if (!material) return
+    material.userData.base = base
+    extras.current.add(material)
+  }
   const routeLine = useRef<THREE.Line<THREE.BufferGeometry, THREE.ShaderMaterial>>(null)
 
   // Lay the stops out along the deck's viewing direction, weaving gently.
@@ -104,7 +112,7 @@ export function FlightPath() {
     const material = new THREE.ShaderMaterial({
       vertexShader: routeVertex,
       fragmentShader: routeFragment,
-      uniforms: { uTime: { value: 0 }, uProgress: { value: 0 } },
+      uniforms: { uTime: { value: 0 }, uProgress: { value: 0 }, uFade: { value: 1 } },
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
@@ -118,6 +126,7 @@ export function FlightPath() {
     uActive: { value: 0 },
     uTime: { value: 0 },
     uRadius: { value: stop.radius },
+    uFade: { value: 1 },
   })), [])
 
   const orbitGeometries = useMemo(() => ROUTE.map((stop) => (stop.inProgress ? orbitDots(stop.radius * 1.9) : null)), [])
@@ -163,20 +172,31 @@ export function FlightPath() {
     // Portrait screens are narrow, so frame the planet from above rather than
     // from far behind (which would back the camera into the previous stop).
     const narrow = size.width < size.height
-    const distance = narrow ? 8 + radius * 1.5 : 9 + radius * 2.2
+    // Wide screens: pulled back and aimed below/left of the planet, so it sits
+    // smaller in the top-right band, above and beside the experience cards.
+    const distance = narrow ? 8 + radius * 1.5 : 12 + radius * 2.6
     const lift = narrow ? 9 + radius * 4 : 2.2
-    const shift = narrow ? 0 : 3 + radius
+    const shift = narrow ? 0 : 5 + radius * 1.4
+    const drop = narrow ? 0 : 2.4 + radius * 0.9
     const offset = narrow ? 0 : 4
     motion.director.position.x = point.x - tangent.x * distance - side.x * offset
     motion.director.position.y = point.y - tangent.y * distance + lift
     motion.director.position.z = point.z - tangent.z * distance - side.z * offset
     motion.director.target.x = point.x - side.x * shift
-    motion.director.target.y = point.y
+    motion.director.target.y = point.y - drop
     motion.director.target.z = point.z - side.z * shift
+
+    // Dim the whole scene once the cards scroll in, like the other decks.
+    // Phones stack the copy over the planet, so it starts dimmer there.
+    const fade = (1 - THREE.MathUtils.smoothstep(motion.scroll, 0.25, 0.7) * 0.78) * (narrow ? 0.5 : 1)
+    extras.current.forEach((material) => {
+      if (material) material.opacity = (material.userData.base ?? 1) * fade
+    })
 
     planets.current.forEach((mesh, index) => {
       if (!mesh) return
       const material = mesh.material as THREE.ShaderMaterial
+      material.uniforms.uFade.value = fade
       const activeness = 1 - Math.min(1, Math.abs(travel.current - index))
       material.uniforms.uActive.value = activeness
       material.uniforms.uTime.value = time
@@ -195,6 +215,7 @@ export function FlightPath() {
     if (routeUniforms) {
       routeUniforms.uTime.value = time
       routeUniforms.uProgress.value = u
+      routeUniforms.uFade.value = fade
     }
   })
 
@@ -206,21 +227,21 @@ export function FlightPath() {
         <group key={stop.id} position={positions[index]}>
           <mesh ref={(mesh) => { planets.current[index] = mesh }}>
             <sphereGeometry args={[stop.radius, 48, 32]} />
-            <shaderMaterial vertexShader={planetVertex} fragmentShader={planetFragment} uniforms={planetUniforms[index]} />
+            <shaderMaterial vertexShader={planetVertex} fragmentShader={planetFragment} uniforms={planetUniforms[index]} transparent />
           </mesh>
           {stop.ring && (
             <mesh rotation={[Math.PI / 2.4, 0.2, 0]}>
               <ringGeometry args={[stop.radius * 1.45, stop.radius * 1.9, 96]} />
-              <meshBasicMaterial color={stop.colors[0]} transparent opacity={0.22} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} />
+              <meshBasicMaterial ref={track(0.22)} color={stop.colors[0]} transparent opacity={0.22} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} />
             </mesh>
           )}
           {stop.inProgress && (
             <points rotation={[Math.PI / 2.2, 0, 0]} geometry={orbitGeometries[index] ?? undefined}>
-              <pointsMaterial color="#a17eff" size={0.16} map={dotTexture} alphaTest={0.4} transparent depthWrite={false} />
+              <pointsMaterial ref={track(1)} color="#a17eff" size={0.16} map={dotTexture} alphaTest={0.4} transparent depthWrite={false} />
             </points>
           )}
-          <sprite position={[0, stop.radius + 1.1, 0]} scale={[4.2, 0.84, 1]}>
-            <spriteMaterial map={labelTextures[index]} transparent depthWrite={false} />
+          <sprite position={[0, -(stop.radius + 1.2), 0]} scale={[4.2, 0.84, 1]}>
+            <spriteMaterial ref={track(1)} map={labelTextures[index]} transparent depthWrite={false} />
           </sprite>
         </group>
       ))}
@@ -228,7 +249,7 @@ export function FlightPath() {
       {(ROUTE[DEFAULT_STOP]?.moons ?? []).map((color, index) => (
         <mesh key={color} ref={(mesh) => { moons.current[index] = mesh }}>
           <sphereGeometry args={[0.32 - index * 0.06, 24, 16]} />
-          <meshBasicMaterial color={color} />
+          <meshBasicMaterial ref={track(1)} color={color} transparent />
         </mesh>
       ))}
     </group>
