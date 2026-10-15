@@ -1,6 +1,17 @@
 import { Link } from 'react-router-dom'
-import { missions } from '../content/portfolio'
+import { missions, skills } from '../content/portfolio'
+import { BrowserFrame } from '../components/BrowserFrame'
 import { DeckKicker } from '../components/DeckKicker'
+
+// The live client site is the strongest proof on the page: real, public, solo.
+const featured = missions.find((mission) => mission.id === 'alec-ev-hybrid') ?? missions[0]
+const toolCount = skills.reduce((total, skill) => total + skill.tags.length, 0)
+
+const proof = [
+  { value: '~5 yrs', label: 'shipping production React', to: '/journey' },
+  { value: '0→1', label: 'live client site, built and run solo', to: '/missions' },
+  { value: String(toolCount), label: `tools across ${skills.length} domains`, to: '/arsenal' },
+]
 
 export function HomePage() {
   return (
@@ -24,39 +35,33 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="intro-strip" id="origin">
-        <p className="section-kicker">/ philosophy</p>
-        <div>
-          <h2>Ideas should feel <span>alive.</span></h2>
-          <p>I care about the part of a product people touch: interfaces that make complex data readable and interactions that feel immediate. Years of business dashboards taught me to keep things fast. This ship is where I make them feel alive.</p>
-        </div>
-      </section>
-
-      <section className="build-section">
-        <div className="build-intro">
-          <p className="section-kicker">/ inside the build</p>
-          <div>
-            <h2>A portfolio, built as a <span>world.</span></h2>
-            <p>What you’re flying through right now is the work too. Here’s what’s running under the hull.</p>
+      <section className="home-block home-featured" aria-labelledby="featured-title">
+        <div className="home-featured-copy">
+          <p className="section-kicker">/ featured mission</p>
+          <p className="home-featured-type">{featured.type} <span>· {featured.status}</span></p>
+          <h2 id="featured-title">{featured.title}</h2>
+          <p className="home-featured-summary">{featured.summary}</p>
+          <ul className="home-featured-points">
+            {featured.highlights.slice(0, 3).map((point) => <li key={point}><span aria-hidden="true">▸</span>{point}</li>)}
+          </ul>
+          <div className="hero-actions">
+            <Link className="primary-action" to="/missions">Read the brief <span>↗</span></Link>
+            {featured.link && (
+              <a className="text-action" href={featured.link.url} target="_blank" rel="noopener noreferrer">Visit {featured.link.label} <span>↗</span></a>
+            )}
           </div>
         </div>
-        <div className="build-pillars">
-          <article>
-            <span>01 / world</span>
-            <h3>One persistent WebGL world</h3>
-            <p>A single React Three Fiber canvas sits behind every page. Navigating flies the camera between decks with a light-speed warp.</p>
-          </article>
-          <article>
-            <span>02 / particle core</span>
-            <h3>42,000 particles, one shader</h3>
-            <p>Your welcome screen formed from static into a name, then burst into the stars as you boarded. It all runs in a vertex shader, and your cursor pushes the particles around.</p>
-          </article>
-          <article>
-            <span>03 / sound &amp; care</span>
-            <h3>Built for every visitor</h3>
-            <p>Opt-in ambient sound synthesised with Web Audio, quality tiers for weaker devices, and a calm version for reduced motion.</p>
-          </article>
-        </div>
+        <BrowserFrame src={featured.visual.src} alt={featured.visual.alt} label={featured.visual.frameLabel} className="home-featured-visual" />
+      </section>
+
+      <section className="home-block home-proof" aria-label="At a glance">
+        {proof.map((item) => (
+          <Link className="home-proof-item" to={item.to} key={item.label}>
+            <strong>{item.value}</strong>
+            <span>{item.label}</span>
+            <b aria-hidden="true">↗</b>
+          </Link>
+        ))}
       </section>
 
       <section className="missions-preview" id="missions">

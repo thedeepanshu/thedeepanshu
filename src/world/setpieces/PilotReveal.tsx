@@ -184,8 +184,12 @@ export function PilotReveal() {
     }
 
     // Where is the pointer on the pilot? Ray-cast it onto the plane for UV.
+    // Fully gone once the featured mission scrolls in: no ghost behind content,
+    // and no lens reacting to a pilot you can't see.
+    const fade = 1 - THREE.MathUtils.smoothstep(motion.scroll, 0.1, 0.65)
+    root.current.visible = fade > 0.01
     let over = false
-    if (plane.current && motion.pointerActive) {
+    if (plane.current && motion.pointerActive && fade > 0.5) {
       ndc.set(motion.pointer.x, motion.pointer.y)
       raycaster.setFromCamera(ndc, camera)
       const hit = raycaster.intersectObject(plane.current, false)[0]
@@ -220,7 +224,7 @@ export function PilotReveal() {
     uniforms.uRadius.value = radius.current
     uniforms.uTime.value = reducedMotion ? 0 : time
     uniforms.uIntro.value = intro.current
-    uniforms.uOpacity.value = 1 - THREE.MathUtils.smoothstep(motion.scroll, 0.1, 0.8) * 0.9
+    uniforms.uOpacity.value = fade
     setLensClass(over)
   })
 

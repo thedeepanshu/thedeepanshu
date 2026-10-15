@@ -98,6 +98,8 @@ export function CameraRig() {
     }
     const onScroll = () => {
       motion.scrollTarget = window.scrollY / Math.max(1, window.innerHeight)
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight
+      motion.scrollRemaining = (scrollable - window.scrollY) / Math.max(1, window.innerHeight)
     }
     onScroll()
     window.addEventListener('pointermove', onPointerMove, { passive: true })

@@ -107,6 +107,8 @@ export const motion = {
   scroll: 0,
   /** Raw scroll position, written by the scroll listener. */
   scrollTarget: 0,
+  /** Viewport heights left to scroll before the bottom of the page. */
+  scrollRemaining: 99,
   /**
    * Lets a set piece steer the camera while its deck is parked (the Journey
    * flight path does). The rig eases toward this pose instead of the deck's.

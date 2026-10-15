@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { missions } from '../content/portfolio'
+import { BrowserFrame } from '../components/BrowserFrame'
 import { PageFrame } from '../components/PageFrame'
 import { useFocusTracker } from '../hooks/useFocusTracker'
 import { useVessel } from '../world/store'
@@ -45,13 +46,7 @@ export function MissionsPage() {
                   <p className="mission-brief-summary">{mission.summary}</p>
                 </div>
 
-                <figure className="mission-visual">
-                  <div className="mission-visual-bar" aria-hidden="true">
-                    <i /><i /><i />
-                    <span>{mission.visual.frameLabel}</span>
-                  </div>
-                  <img src={mission.visual.src} alt={mission.visual.alt} width={1600} height={1000} loading="lazy" decoding="async" />
-                </figure>
+                <BrowserFrame src={mission.visual.src} alt={mission.visual.alt} label={mission.visual.frameLabel} />
               </div>
 
               <div className="mission-brief-tags mission-tags">

@@ -1,0 +1,8 @@
+/* ── Browser frame: screenshots and mocks shown in a slim window ── */
+.browser-frame { background: #0b1216; border: 1px solid rgba(193, 220, 224, .16); border-radius: 10px; box-shadow: 0 24px 60px -24px rgba(0, 0, 0, .8), 0 0 0 1px rgba(126, 244, 219, .04); margin: 0; overflow: hidden; position: relative; transition: border-color .3s ease, transform .5s cubic-bezier(.2, .75, .25, 1); }
+.browser-frame-bar { align-items: center; background: #111b20; border-bottom: 1px solid rgba(193, 220, 224, .1); display: flex; gap: 6px; padding: 9px 12px; }
+.browser-frame-bar i { background: #2a3a41; border-radius: 50%; height: 8px; width: 8px; }
+.browser-frame-bar span { background: #0b1216; border-radius: 5px; color: var(--muted); flex: 1; font-family: 'Courier New', monospace; font-size: .72rem; letter-spacing: .06em; margin-left: 10px; overflow: hidden; padding: 4px 10px; text-overflow: ellipsis; white-space: nowrap; }
+.browser-frame img { aspect-ratio: 16 / 10; display: block; height: auto; width: 100%; }
+
+@media (prefers-reduced-motion: reduce) { .browser-frame { transition: none; } }

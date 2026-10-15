@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { experiments } from '../../content/portfolio'
 import { mulberry32 } from '../random'
-import { deckInView, scrollDim, useVessel } from '../store'
+import { deckInView, motion, scrollDim, useVessel } from '../store'
 import { useDeckAnchor } from './useDeckAnchor'
 
 const CORE_RADIUS = 1.5
@@ -60,7 +60,7 @@ const coreFragment = /* glsl */ `
     vec3 surface = mix(deep, cyan, smoothstep(-0.45, 0.25, vHeat));
     surface = mix(surface, hot, smoothstep(0.3, 0.75, vHeat) * 0.6);
     vec3 color = surface * (0.45 + facing * 0.35) + violet * rim * 0.7;
-    gl_FragColor = vec4(color * uDim, 1.0);
+    gl_FragColor = vec4(color, uDim);
   }
 `
 
@@ -172,7 +172,11 @@ export function ReactorCore({ sparks }: { sparks: number }) {
     const narrow = size.width < size.height
     rig.current?.position.set(narrow ? 0 : 4.4, narrow ? -1.6 : 0.2, -2)
     rig.current?.scale.setScalar(narrow ? 0.5 : 1)
-    const dim = scrollDim(0.4) * (narrow ? 0.65 : 1)
+    // Fade out completely near the bottom, where "Inside the build" closes the page.
+    const nearEnd = THREE.MathUtils.smoothstep(motion.scrollRemaining, 0.6, 1.6)
+    const dim = scrollDim(0.4) * (narrow ? 0.65 : 1) * nearEnd
+    // Nothing left to see: skip drawing it at all.
+    anchorRef.current.visible = dim > 0.01
 
     // A new experiment in view gives the core a brief surge.
     if (activeExperiment !== lastActive.current) {
@@ -215,7 +219,9 @@ export function ReactorCore({ sparks }: { sparks: number }) {
     }
 
     rings.current.forEach((ring, index) => {
-      if (!ring || reducedMotion) return
+      if (!ring) return
+      ;(ring.material as THREE.MeshBasicMaterial).opacity = 0.6 * dim
+      if (reducedMotion) return
       ring.rotation.x += delta * (0.2 + index * 0.13) * (index % 2 ? -1 : 1)
       ring.rotation.y += delta * (0.12 + index * 0.07)
     })
@@ -243,7 +249,7 @@ export function ReactorCore({ sparks }: { sparks: number }) {
 
         <mesh>
           <icosahedronGeometry args={[CORE_RADIUS, 24]} />
-          <shaderMaterial ref={coreMaterial} vertexShader={coreVertex} fragmentShader={coreFragment} uniforms={coreUniforms} />
+          <shaderMaterial ref={coreMaterial} vertexShader={coreVertex} fragmentShader={coreFragment} uniforms={coreUniforms} transparent />
         </mesh>
 
         {[2.3, 2.7, 3.1].map((radius, index) => (

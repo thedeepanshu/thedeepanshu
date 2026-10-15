@@ -269,7 +269,7 @@ export const experiments: Experiment[] = [
     category: 'webgl-world',
     categoryLabel: 'Web Audio',
     status: 'running live',
-    description: 'The ship’s sound is synthesised in the browser: detuned engine drones under a breathing filter, a soft pad, filtered "air" noise, and a swept whoosh on every warp. There are no audio files.',
+    description: 'The ship’s sound is synthesised in the browser: a warm pad gliding through four chords, a soft sub, sparse bell tones and a generated hall reverb, plus a whoosh on every warp and quiet UI ticks. There are no audio files.',
     technologies: ['Web Audio API', 'TypeScript'],
     liveOn: { label: 'Turn on sound, bottom right', path: '/' },
   },
