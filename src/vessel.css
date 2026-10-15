@@ -215,3 +215,32 @@ html[data-boot='active'] .skip-link { display: none; }
 .arsenal-atlas-nav .arsenal-atlas-tab.active .atlas-tab-count { background: rgba(126, 244, 219, .18); }
 @media (max-width: 900px) { .arsenal-atlas-nav { grid-template-columns: none; } }
 .arsenal-atlas-nav .atlas-tab-label { font-size: .88rem; }
+
+/* ── Signal: availability, topic chips, tighter page ── */
+.page-intro:has(+ .page-content .signal-container) { padding-bottom: 50px; }
+.page-content:has(.signal-container) { padding-top: 44px; }
+.signal-availability { margin: 0; }
+.signal-availability dt { align-items: center; color: var(--muted); display: flex; font-family: 'Courier New', monospace; font-size: .72rem; gap: 8px; letter-spacing: .12em; margin-bottom: 6px; text-transform: uppercase; }
+.signal-availability dd { color: var(--ink); font-size: 1.1rem; margin: 0; }
+.availability-live { animation: hud-pulse 1.8s ease-in-out infinite; background: #5ee28a; border-radius: 50%; box-shadow: 0 0 8px #5ee28a; height: 7px; width: 7px; }
+
+.topic-group { border: 0; margin: 0; padding: 0; }
+.topic-group legend { color: var(--muted); font-family: 'Courier New', monospace; font-size: .72rem; letter-spacing: .1em; margin-bottom: 10px; padding: 0; text-transform: uppercase; }
+.topic-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.topic-chip { align-items: center; background: rgba(5, 10, 13, .9); border: 1px solid var(--line); border-radius: 999px; color: #c3d0d2; display: inline-flex; font-size: .95rem; gap: 9px; padding: 10px 16px 10px 14px; position: relative; transition: border-color .2s ease, background .2s ease, color .2s ease; }
+.topic-chip input { inset: 0; margin: 0; opacity: 0; position: absolute; }
+.topic-chip span::before { border: 1.5px solid var(--muted); border-radius: 50%; content: ''; display: inline-block; height: 9px; margin-right: 9px; transition: background .2s ease, border-color .2s ease, box-shadow .2s ease; vertical-align: 1px; width: 9px; }
+.topic-chip:hover { border-color: rgba(126, 244, 219, .5); color: var(--ink); }
+.topic-chip.is-selected { background: rgba(126, 244, 219, .1); border-color: var(--cyan); color: var(--ink); }
+.topic-chip.is-selected span::before { background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+.topic-chip:has(input:focus-visible) { outline: 1px solid var(--cyan); outline-offset: 3px; }
+.signal-form-note { color: var(--muted); font-size: .85rem; line-height: 1.5; margin: -8px 0 0; text-align: center; }
+@media (prefers-reduced-motion: reduce) { .availability-live { animation: none; } }
+.form-group label.topic-chip { font-family: var(--font-sans); font-size: .95rem; letter-spacing: 0; text-transform: none; }
+
+/* Wide screens: the three availability blocks are spaced evenly across the row
+   (equal gaps between them and at both edges; text stays left-aligned). Phones keep
+   the stacked, left-aligned list. */
+@media (min-width: 901px) {
+  .signal-availability { display: flex; justify-content: space-around; }
+}

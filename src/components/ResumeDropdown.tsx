@@ -98,7 +98,7 @@ export function ResumeDropdown({ variant = 'nav', align = 'right' }: ResumeDropd
                 <span className="option-title">Simple Resume</span>
                 <span className="option-badge">ATS</span>
               </div>
-              <span className="option-desc">Clean, ATS-friendly format (PDF)</span>
+              <span className="option-desc">Clean, ATS-friendly format</span>
             </div>
             <span className="option-arrow">↓</span>
           </a>
@@ -118,7 +118,7 @@ export function ResumeDropdown({ variant = 'nav', align = 'right' }: ResumeDropd
                 <span className="option-title">Fancy Resume</span>
                 <span className="option-badge fancy-badge">Visual</span>
               </div>
-              <span className="option-desc">Stylized & creative portfolio PDF</span>
+              <span className="option-desc">Stylized & creative portfolio</span>
             </div>
             <span className="option-arrow">↓</span>
           </a>

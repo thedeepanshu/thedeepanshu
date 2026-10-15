@@ -643,3 +643,13 @@ export const journeyRoute: RouteStop[] = [
   { id: 'portfolio-in-progress', when: '2026', title: 'The Vessel', kind: 'project', ongoing: true },
   { id: 'btech-cse-pkg', when: 'Ongoing', title: 'B.Tech, CSE', kind: 'education', ongoing: true },
 ]
+
+/** Signal page: what a recruiter or client most needs to know before writing. */
+export const availability = [
+  { label: 'Status', value: 'Open to frontend roles', live: true },
+  { label: 'Work style', value: 'Remote · Hybrid · Onsite' },
+  { label: 'Response', value: 'Replies within 24h' },
+]
+
+/** Contact form topics: the email subject starts with the chosen one. */
+export const contactTopics = ['A full-time role', 'A freelance project', 'A collaboration', 'Just saying hi']
