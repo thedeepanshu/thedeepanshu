@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { applyPageMeta } from '../content/seo'
+
+import { applyPageMeta } from '@/content/seo'
+
 import { deckForPath } from './decks'
 import { useVessel } from './store'
 

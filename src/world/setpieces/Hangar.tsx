@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { missions } from '../../content/portfolio'
-import { deckById } from '../decks'
-import { mulberry32 } from '../random'
-import { BACKDROP_FLOOR, deckInView, motion, useVessel } from '../store'
+
+import { missions } from '@/content/portfolio'
+import { deckById } from '@/world/decks'
+import { mulberry32 } from '@/world/random'
+import { BACKDROP_FLOOR, deckInView, motion, useVessel } from '@/world/store'
+
 import { makeLabelTexture } from './labels'
 
 const PANEL_WIDTH = 4.6
@@ -109,24 +111,34 @@ export function Hangar() {
   const floorMaterial = useRef<THREE.ShaderMaterial>(null)
   const drum = useRef(0)
 
-  const panelData = useMemo(() => missions.map((mission, index) => {
-    const texture = makeLabelTexture([
-      { text: `M/${mission.number}  ·  ${mission.type.toUpperCase()}`, size: 26, color: '#7ef4db', mono: true, tracking: 3, gap: 26 },
-      { text: mission.title, size: 70, color: '#eef8f9', weight: 500, wrap: true, gap: 20 },
-      { text: mission.status.toUpperCase(), size: 26, color: '#a17eff', mono: true, tracking: 3, gap: 16 },
-      { text: mission.role, size: 32, color: '#a8b7ba' },
-    ], 1024, Math.round(1024 / (PANEL_WIDTH / PANEL_HEIGHT)), 36, drawTelemetry(index + 11))
-    return {
-      id: mission.id,
-      uniforms: {
-        uMap: { value: texture },
-        uTime: { value: 0 },
-        uOpacity: { value: 0 },
-        uAspect: { value: PANEL_WIDTH / PANEL_HEIGHT },
-        uColor: { value: new THREE.Color('#7ef4db') },
-      },
-    }
-  }), [])
+  const panelData = useMemo(
+    () =>
+      missions.map((mission, index) => {
+        const texture = makeLabelTexture(
+          [
+            { text: `M/${mission.number}  ·  ${mission.type.toUpperCase()}`, size: 26, color: '#7ef4db', mono: true, tracking: 3, gap: 26 },
+            { text: mission.title, size: 70, color: '#eef8f9', weight: 500, wrap: true, gap: 20 },
+            { text: mission.status.toUpperCase(), size: 26, color: '#a17eff', mono: true, tracking: 3, gap: 16 },
+            { text: mission.role, size: 32, color: '#a8b7ba' },
+          ],
+          1024,
+          Math.round(1024 / (PANEL_WIDTH / PANEL_HEIGHT)),
+          36,
+          drawTelemetry(index + 11),
+        )
+        return {
+          id: mission.id,
+          uniforms: {
+            uMap: { value: texture },
+            uTime: { value: 0 },
+            uOpacity: { value: 0 },
+            uAspect: { value: PANEL_WIDTH / PANEL_HEIGHT },
+            uColor: { value: new THREE.Color('#7ef4db') },
+          },
+        }
+      }),
+    [],
+  )
 
   useEffect(() => () => panelData.forEach((panel) => panel.uniforms.uMap.value.dispose()), [panelData])
 
@@ -155,7 +167,10 @@ export function Hangar() {
     const dim = (1 - THREE.MathUtils.smoothstep(motion.scroll, 0.12, 0.5) * (1 - BACKDROP_FLOOR)) * (narrow ? 0.6 : 1)
     group.current.visible = dim > 0.01
     const { activeMission } = useVessel.getState()
-    const target = Math.max(0, missions.findIndex((mission) => mission.id === activeMission))
+    const target = Math.max(
+      0,
+      missions.findIndex((mission) => mission.id === activeMission),
+    )
     drum.current = THREE.MathUtils.damp(drum.current, target, 3.2, delta)
 
     panels.current.forEach((mesh, index) => {
@@ -183,26 +198,56 @@ export function Hangar() {
   return (
     <group ref={group}>
       <group ref={rig}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, FLOOR_Y, -4]}>
-        <planeGeometry args={[60, 60]} />
-        <shaderMaterial ref={floorMaterial} vertexShader={hologramVertex} fragmentShader={floorFragment} uniforms={floorUniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
-      </mesh>
-
-      <mesh position={[DRUM_CENTER.x, FLOOR_Y + beamHeight / 2, DRUM_CENTER.z + DRUM_RADIUS]}>
-        <cylinderGeometry args={[PANEL_WIDTH * 0.42, 0.35, beamHeight, 32, 1, true]} />
-        <shaderMaterial ref={beamMaterial} vertexShader={hologramVertex} fragmentShader={beamFragment} uniforms={beamUniforms} transparent depthWrite={false} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
-      </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[DRUM_CENTER.x, FLOOR_Y + 0.02, DRUM_CENTER.z + DRUM_RADIUS]}>
-        <ringGeometry args={[0.38, 0.62, 48]} />
-        <meshBasicMaterial color="#7ef4db" transparent opacity={0.7} blending={THREE.AdditiveBlending} depthWrite={false} />
-      </mesh>
-
-      {panelData.map((panel, index) => (
-        <mesh key={panel.id} ref={(mesh) => { panels.current[index] = mesh }}>
-          <planeGeometry args={[PANEL_WIDTH, PANEL_HEIGHT]} />
-          <shaderMaterial vertexShader={hologramVertex} fragmentShader={hologramFragment} uniforms={panel.uniforms} transparent depthWrite={false} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, FLOOR_Y, -4]}>
+          <planeGeometry args={[60, 60]} />
+          <shaderMaterial
+            ref={floorMaterial}
+            vertexShader={hologramVertex}
+            fragmentShader={floorFragment}
+            uniforms={floorUniforms}
+            transparent
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
         </mesh>
-      ))}
+
+        <mesh position={[DRUM_CENTER.x, FLOOR_Y + beamHeight / 2, DRUM_CENTER.z + DRUM_RADIUS]}>
+          <cylinderGeometry args={[PANEL_WIDTH * 0.42, 0.35, beamHeight, 32, 1, true]} />
+          <shaderMaterial
+            ref={beamMaterial}
+            vertexShader={hologramVertex}
+            fragmentShader={beamFragment}
+            uniforms={beamUniforms}
+            transparent
+            depthWrite={false}
+            side={THREE.DoubleSide}
+            blending={THREE.AdditiveBlending}
+          />
+        </mesh>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[DRUM_CENTER.x, FLOOR_Y + 0.02, DRUM_CENTER.z + DRUM_RADIUS]}>
+          <ringGeometry args={[0.38, 0.62, 48]} />
+          <meshBasicMaterial color="#7ef4db" transparent opacity={0.7} blending={THREE.AdditiveBlending} depthWrite={false} />
+        </mesh>
+
+        {panelData.map((panel, index) => (
+          <mesh
+            key={panel.id}
+            ref={(mesh) => {
+              panels.current[index] = mesh
+            }}
+          >
+            <planeGeometry args={[PANEL_WIDTH, PANEL_HEIGHT]} />
+            <shaderMaterial
+              vertexShader={hologramVertex}
+              fragmentShader={hologramFragment}
+              uniforms={panel.uniforms}
+              transparent
+              depthWrite={false}
+              side={THREE.DoubleSide}
+              blending={THREE.AdditiveBlending}
+            />
+          </mesh>
+        ))}
       </group>
     </group>
   )

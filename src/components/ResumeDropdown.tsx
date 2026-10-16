@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect, type PointerEvent } from 'react'
-import { FileText, Sparkles, ChevronDown, Download } from 'lucide-react'
+import { ChevronDown, Download, FileText, Sparkles } from 'lucide-react'
+import { type PointerEvent, useEffect, useRef, useState } from 'react'
 
 type ResumeDropdownProps = {
   variant?: 'nav' | 'button'
@@ -72,7 +72,9 @@ export function ResumeDropdown({ variant = 'nav', align = 'right' }: ResumeDropd
         aria-haspopup="true"
         aria-label="Download Resume Options"
       >
-        <span className="resume-btn-icon"><Download size={13} /></span>
+        <span className="resume-btn-icon">
+          <Download size={13} />
+        </span>
         <span className="resume-btn-label">Resume</span>
         <ChevronDown size={13} className="resume-chevron" />
       </button>
@@ -83,13 +85,7 @@ export function ResumeDropdown({ variant = 'nav', align = 'right' }: ResumeDropd
             <span className="dropdown-kicker">/ Select format</span>
           </div>
 
-          <a
-            href="/Deepanshu_Saini_V1.pdf"
-            download="Deepanshu_Saini_V1.pdf"
-            className="resume-option-item"
-            role="menuitem"
-            onClick={() => setIsOpen(false)}
-          >
+          <a href="/Deepanshu_Saini_V1.pdf" download="Deepanshu_Saini_V1.pdf" className="resume-option-item" role="menuitem" onClick={() => setIsOpen(false)}>
             <div className="option-icon-box">
               <FileText size={16} />
             </div>

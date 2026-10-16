@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { deckById } from '../decks'
-import { BACKDROP_FLOOR, deckInView, motion, useVessel } from '../store'
+
+import { deckById } from '@/world/decks'
+import { BACKDROP_FLOOR, deckInView, motion, useVessel } from '@/world/store'
 
 const PILOT_URL = '/images/pilot.webp'
 const PILOT_UNDER_URL = '/images/deepanshu-saini-cutout.webp'
@@ -112,11 +113,16 @@ const autoLens = new THREE.Vector2()
 
 function loadTexture(url: string) {
   return new Promise<THREE.Texture>((resolve, reject) => {
-    new THREE.TextureLoader().load(url, (texture) => {
-      texture.colorSpace = THREE.SRGBColorSpace
-      texture.anisotropy = 8
-      resolve(texture)
-    }, undefined, reject)
+    new THREE.TextureLoader().load(
+      url,
+      (texture) => {
+        texture.colorSpace = THREE.SRGBColorSpace
+        texture.anisotropy = 8
+        resolve(texture)
+      },
+      undefined,
+      reject,
+    )
   })
 }
 
@@ -136,16 +142,18 @@ export function PilotReveal() {
 
   useEffect(() => {
     let cancelled = false
-    Promise.all([loadTexture(PILOT_URL), loadTexture(PILOT_UNDER_URL)]).then(([pilot, under]) => {
-      if (cancelled) {
-        pilot.dispose()
-        under.dispose()
-        return
-      }
-      uniforms.uPilot.value = pilot
-      uniforms.uUnder.value = under
-      setReady(true)
-    }).catch(() => {})
+    Promise.all([loadTexture(PILOT_URL), loadTexture(PILOT_UNDER_URL)])
+      .then(([pilot, under]) => {
+        if (cancelled) {
+          pilot.dispose()
+          under.dispose()
+          return
+        }
+        uniforms.uPilot.value = pilot
+        uniforms.uUnder.value = under
+        setReady(true)
+      })
+      .catch(() => {})
     return () => {
       cancelled = true
       setLensClass(false)
@@ -168,11 +176,7 @@ export function PilotReveal() {
     // Placement: right of the hero copy on wide screens, top of the screen on phones.
     const height = narrow ? 4.7 : 8.2
     const bob = reducedMotion ? 0 : Math.sin(time * 0.7) * 0.06
-    root.current.position.set(
-      deck.target[0] + (narrow ? 0 : 4.5),
-      deck.target[1] + (narrow ? 2.95 : -0.35) + bob,
-      deck.target[2] - 1,
-    )
+    root.current.position.set(deck.target[0] + (narrow ? 0 : 4.5), deck.target[1] + (narrow ? 2.95 : -0.35) + bob, deck.target[2] - 1)
     root.current.scale.setScalar(height)
     // A slight tilt toward the pointer gives the flat images real perspective.
     const tilt = reducedMotion ? 0 : 1

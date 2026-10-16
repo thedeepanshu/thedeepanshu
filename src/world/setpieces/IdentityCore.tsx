@@ -1,8 +1,10 @@
-import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { mulberry32 } from '../random'
-import { BACKDROP_FLOOR, deckInView, motion, scrollDim, useVessel } from '../store'
+
+import { mulberry32 } from '@/world/random'
+import { BACKDROP_FLOOR, deckInView, motion, scrollDim, useVessel } from '@/world/store'
+
 import { useDeckAnchor } from './useDeckAnchor'
 
 const SPHERE_RADIUS = 1.9
@@ -159,7 +161,12 @@ function buildGeometry(count: number) {
 /** The scanner's four corner brackets. */
 function buildFrame() {
   const { x, y, arm } = FRAME
-  const corners: [number, number, number, number][] = [[-x, y, 1, -1], [x, y, -1, -1], [x, -y, -1, 1], [-x, -y, 1, 1]]
+  const corners: [number, number, number, number][] = [
+    [-x, y, 1, -1],
+    [x, y, -1, -1],
+    [x, -y, -1, 1],
+    [-x, -y, 1, 1],
+  ]
   const points: number[] = []
   for (const [cx, cy, sx, sy] of corners) {
     points.push(cx, cy, 0, cx + sx * arm, cy, 0, cx, cy, 0, cx, cy + sy * arm, 0)
@@ -189,10 +196,18 @@ export function IdentityCore({ points }: { points: number }) {
 
   const geometry = useMemo(() => buildGeometry(points), [points])
   const frameGeometry = useMemo(() => buildFrame(), [])
-  const printUniforms = useMemo(() => ({
-    uTime: { value: 0 }, uAppear: { value: 0 }, uMorph: { value: 0 }, uScan: { value: 0 },
-    uGlitch: { value: 0 }, uPixelRatio: { value: 1 }, uDim: { value: 1 },
-  }), [])
+  const printUniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uAppear: { value: 0 },
+      uMorph: { value: 0 },
+      uScan: { value: 0 },
+      uGlitch: { value: 0 },
+      uPixelRatio: { value: 1 },
+      uDim: { value: 1 },
+    }),
+    [],
+  )
   const glowUniforms = useMemo(() => ({ uDim: { value: 1 } }), [])
 
   useFrame(({ clock, gl, size }, delta) => {
@@ -251,10 +266,26 @@ export function IdentityCore({ points }: { points: number }) {
       <group ref={rig}>
         <mesh position={[0, 0, -0.4]}>
           <planeGeometry args={[5.6, 6]} />
-          <shaderMaterial ref={glowMaterial} vertexShader={glowVertex} fragmentShader={glowFragment} uniforms={glowUniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+          <shaderMaterial
+            ref={glowMaterial}
+            vertexShader={glowVertex}
+            fragmentShader={glowFragment}
+            uniforms={glowUniforms}
+            transparent
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
         </mesh>
         <points geometry={geometry} frustumCulled={false}>
-          <shaderMaterial ref={printMaterial} vertexShader={printVertex} fragmentShader={printFragment} uniforms={printUniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+          <shaderMaterial
+            ref={printMaterial}
+            vertexShader={printVertex}
+            fragmentShader={printFragment}
+            uniforms={printUniforms}
+            transparent
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
         </points>
         <mesh ref={pulse} position={[-0.12, 0.3, 0.2]}>
           <torusGeometry args={[1, 0.01, 6, 160]} />

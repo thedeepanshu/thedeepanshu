@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
-import { missions, skills } from '../content/portfolio'
-import { BrowserFrame } from '../components/BrowserFrame'
-import { DeckKicker } from '../components/DeckKicker'
+
+import { BrowserFrame } from '@/components/BrowserFrame'
+import { DeckKicker } from '@/components/DeckKicker'
+import { missions, skills } from '@/content/portfolio'
 
 // The live client site is the strongest proof on the page: real, public, solo.
 const featured = missions.find((mission) => mission.id === 'alec-ev-hybrid') ?? missions[0]
@@ -19,13 +20,22 @@ export function HomePage() {
       <section className="hero-section" id="top">
         <div className="hero-copy">
           <DeckKicker deck="bridge" topic="home" className="eyebrow" />
-          <h1>Frontend<br /><em>in motion.</em></h1>
+          <h1>
+            Frontend
+            <br />
+            <em>in motion.</em>
+          </h1>
           <p className="hero-description">
-            I’m Deepanshu, a frontend developer with ~5 years of production React: data-dense dashboards, live maps and real-time interfaces. This ship is where I push the web further.
+            I’m Deepanshu, a frontend developer with ~5 years of production React: data-dense dashboards, live maps and real-time interfaces. This ship is where
+            I push the web further.
           </p>
           <div className="hero-actions">
-            <Link className="primary-action" to="/missions">View missions <span>↗</span></Link>
-            <Link className="text-action" to="/about">Read the dossier <span>→</span></Link>
+            <Link className="primary-action" to="/missions">
+              View missions <span>↗</span>
+            </Link>
+            <Link className="text-action" to="/about">
+              Read the dossier <span>→</span>
+            </Link>
           </div>
           <div className="hero-meta">
             <span>React · TypeScript</span>
@@ -38,16 +48,27 @@ export function HomePage() {
       <section className="home-block home-featured" aria-labelledby="featured-title">
         <div className="home-featured-copy">
           <p className="section-kicker">/ featured mission</p>
-          <p className="home-featured-type">{featured.type} <span>· {featured.status}</span></p>
+          <p className="home-featured-type">
+            {featured.type} <span>· {featured.status}</span>
+          </p>
           <h2 id="featured-title">{featured.title}</h2>
           <p className="home-featured-summary">{featured.summary}</p>
           <ul className="home-featured-points">
-            {featured.highlights.slice(0, 3).map((point) => <li key={point}><span aria-hidden="true">▸</span>{point}</li>)}
+            {featured.highlights.slice(0, 3).map((point) => (
+              <li key={point}>
+                <span aria-hidden="true">▸</span>
+                {point}
+              </li>
+            ))}
           </ul>
           <div className="hero-actions">
-            <Link className="primary-action" to="/missions">Read the brief <span>↗</span></Link>
+            <Link className="primary-action" to="/missions">
+              Read the brief <span>↗</span>
+            </Link>
             {featured.link && (
-              <a className="text-action" href={featured.link.url} target="_blank" rel="noopener noreferrer">Visit {featured.link.label} <span>↗</span></a>
+              <a className="text-action" href={featured.link.url} target="_blank" rel="noopener noreferrer">
+                Visit {featured.link.label} <span>↗</span>
+              </a>
             )}
           </div>
         </div>
@@ -65,12 +86,18 @@ export function HomePage() {
       </section>
 
       <section className="missions-preview" id="missions">
-        <div className="section-heading"><p className="section-kicker">/ mission log</p><span>{missions.length} missions</span></div>
+        <div className="section-heading">
+          <p className="section-kicker">/ mission log</p>
+          <span>{missions.length} missions</span>
+        </div>
         <div className="chapter-list mission-chapters">
           {missions.map((mission) => (
             <Link className="chapter-row" to="/missions" key={mission.id}>
               <span>M/{mission.number}</span>
-              <strong>{mission.title}<small>{mission.type}</small></strong>
+              <strong>
+                {mission.title}
+                <small>{mission.type}</small>
+              </strong>
               <b aria-hidden="true">↗</b>
             </Link>
           ))}

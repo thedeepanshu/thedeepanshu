@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom'
-import { dossier, journeyRoute } from '../content/portfolio'
-import { resumeData } from '../content/resumeData'
-import { PageFrame } from '../components/PageFrame'
 import './AboutPage.css'
+
+import { Link } from 'react-router-dom'
+
+import { PageFrame } from '@/components/PageFrame'
+import { dossier, journeyRoute } from '@/content/portfolio'
+import { resumeData } from '@/content/resumeData'
 
 // Small labels over the two story paragraphs, in the order they're written.
 const STORY_LABELS = ['/ how I work', '/ how I learn']
@@ -12,8 +14,13 @@ export function AboutPage() {
 
   return (
     <PageFrame
-      deck="origin" topic="about"
-      title={<>Frontend, with <em>feeling.</em></>}
+      deck="origin"
+      topic="about"
+      title={
+        <>
+          Frontend, with <em>feeling.</em>
+        </>
+      }
       intro="Frontend developer with ~5 years of production React. I build data-dense interfaces that stay fast, and I'm pushing what the web can feel like."
     >
       <div className="dossier">
@@ -27,10 +34,22 @@ export function AboutPage() {
               <img src={dossier.portrait} alt="Portrait of Deepanshu Saini" width={1254} height={1254} decoding="async" />
             </div>
             <dl>
-              <div><dt>Name</dt><dd>{dossier.name}</dd></div>
-              <div><dt>Role</dt><dd>{dossier.role}</dd></div>
-              <div><dt>Specialty</dt><dd>{dossier.specialty}</dd></div>
-              <div><dt>Status</dt><dd className="dossier-active">Active</dd></div>
+              <div>
+                <dt>Name</dt>
+                <dd>{dossier.name}</dd>
+              </div>
+              <div>
+                <dt>Role</dt>
+                <dd>{dossier.role}</dd>
+              </div>
+              <div>
+                <dt>Specialty</dt>
+                <dd>{dossier.specialty}</dd>
+              </div>
+              <div>
+                <dt>Status</dt>
+                <dd className="dossier-active">Active</dd>
+              </div>
             </dl>
           </aside>
 
@@ -49,8 +68,12 @@ export function AboutPage() {
 
         <section className="dossier-route" aria-labelledby="dossier-route-title">
           <div className="dossier-route-head">
-            <p className="section-kicker" id="dossier-route-title">/ flight path so far</p>
-            <Link className="text-action" to="/journey">Fly the full route <span>→</span></Link>
+            <p className="section-kicker" id="dossier-route-title">
+              / flight path so far
+            </p>
+            <Link className="text-action" to="/journey">
+              Fly the full route <span>→</span>
+            </Link>
           </div>
           <ol>
             {journeyRoute.map((stop) => (
@@ -103,26 +126,38 @@ export function AboutPage() {
           <div>
             <p className="section-kicker">/ current focus</p>
             <ul className="dossier-list">
-              {dossier.focus.map((item) => <li key={item}>{item}</li>)}
+              {dossier.focus.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
           </div>
           <div>
             <p className="section-kicker">/ languages</p>
             <ul className="dossier-list">
-              {resumeData.languages.map((item) => <li key={item.language}>{item.language} <small>{item.proficiency}</small></li>)}
+              {resumeData.languages.map((item) => (
+                <li key={item.language}>
+                  {item.language} <small>{item.proficiency}</small>
+                </li>
+              ))}
             </ul>
           </div>
           <div>
             <p className="section-kicker">/ traits</p>
             <div className="dossier-traits">
-              {resumeData.strengths.map((trait) => <span key={trait}>{trait}</span>)}
+              {resumeData.strengths.map((trait) => (
+                <span key={trait}>{trait}</span>
+              ))}
             </div>
           </div>
         </section>
 
         <div className="dossier-actions">
-          <Link className="primary-action" to="/missions">See the missions <span>↗</span></Link>
-          <Link className="text-action" to="/journey">Read the full journey <span>→</span></Link>
+          <Link className="primary-action" to="/missions">
+            See the missions <span>↗</span>
+          </Link>
+          <Link className="text-action" to="/journey">
+            Read the full journey <span>→</span>
+          </Link>
         </div>
       </div>
     </PageFrame>

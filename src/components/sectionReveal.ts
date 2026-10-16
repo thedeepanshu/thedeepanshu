@@ -33,9 +33,9 @@ function decode(element: Element) {
       // React replaced this text since the last frame: leave its value alone.
       if (entry.node.data !== entry.written) continue
       const fixed = Math.max(0, settled - offset)
-      entry.written = entry.text.slice(0, fixed) + Array.from(entry.text.slice(fixed), (char) => (
-        /\s|[·/.,:]/.test(char) ? char : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
-      )).join('')
+      entry.written =
+        entry.text.slice(0, fixed) +
+        Array.from(entry.text.slice(fixed), (char) => (/\s|[·/.,:]/.test(char) ? char : GLYPHS[Math.floor(Math.random() * GLYPHS.length)])).join('')
       entry.node.data = entry.written
       offset += entry.text.length
     }
@@ -54,15 +54,18 @@ export function observeSectionReveals(root: HTMLElement) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return () => {}
 
   const stops: (() => void)[] = []
-  const observer = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      if (!entry.isIntersecting) continue
-      const element = entry.target as HTMLElement
-      observer.unobserve(element)
-      element.dataset.reveal = 'in'
-      if (element.matches('.section-kicker')) stops.push(decode(element))
-    }
-  }, { rootMargin: '0px 0px -12% 0px' })
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue
+        const element = entry.target as HTMLElement
+        observer.unobserve(element)
+        element.dataset.reveal = 'in'
+        if (element.matches('.section-kicker')) stops.push(decode(element))
+      }
+    },
+    { rootMargin: '0px 0px -12% 0px' },
+  )
 
   const fold = window.innerHeight
   root.querySelectorAll<HTMLElement>(TARGETS).forEach((element) => {

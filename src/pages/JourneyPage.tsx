@@ -1,17 +1,20 @@
 import { useState } from 'react'
-import { milestones, type MilestoneCategory } from '../content/portfolio'
-import { PageFrame } from '../components/PageFrame'
-import { useFocusTracker } from '../hooks/useFocusTracker'
-import { useVessel } from '../world/store'
+
+import { PageFrame } from '@/components/PageFrame'
+import { type MilestoneCategory, milestones } from '@/content/portfolio'
+import { useFocusTracker } from '@/hooks/useFocusTracker'
+import { useVessel } from '@/world/store'
 
 export function JourneyPage() {
   const [activeCategory, setActiveCategory] = useState<MilestoneCategory>('professional-experience')
 
   // The camera flies along the route to the milestone being read.
-  useFocusTracker(useVessel((state) => state.setActiveMilestone), activeCategory)
+  useFocusTracker(
+    useVessel((state) => state.setActiveMilestone),
+    activeCategory,
+  )
 
-  const projectCount = (category: MilestoneCategory) =>
-    milestones.filter((milestone) => milestone.category === category).length
+  const projectCount = (category: MilestoneCategory) => milestones.filter((milestone) => milestone.category === category).length
 
   const projectCountLabel = (category: MilestoneCategory) => {
     const count = projectCount(category)
@@ -33,7 +36,16 @@ export function JourneyPage() {
   const filteredMilestones = milestones.filter((milestone) => milestone.category === activeCategory)
 
   return (
-    <PageFrame deck="journey" topic="experience & education" title={<>The <em>journey.</em></>} intro="Education, frontend experience, and projects — built over time.">
+    <PageFrame
+      deck="journey"
+      topic="experience & education"
+      title={
+        <>
+          The <em>journey.</em>
+        </>
+      }
+      intro="Education, frontend experience, and projects — built over time."
+    >
       <div className="journey-container">
         {/* Filter Navigation Bar & Resume Download CTA */}
         <div className="journey-action-bar">
@@ -111,7 +123,9 @@ export function JourneyPage() {
                       <span className="block-label">Responsibilities &amp; contributions:</span>
                       <ul className="milestone-list">
                         {ms.achievements.map((ach, idx) => (
-                          <li key={idx}><span>↗</span> {ach}</li>
+                          <li key={idx}>
+                            <span>↗</span> {ach}
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -123,7 +137,9 @@ export function JourneyPage() {
                       <span className="skills-label">Tools &amp; platforms:</span>
                       <div className="skills-pills">
                         {ms.skillsUnlocked.map((skill) => (
-                          <span className="skill-pill" key={skill}>{skill}</span>
+                          <span className="skill-pill" key={skill}>
+                            {skill}
+                          </span>
                         ))}
                       </div>
                     </div>

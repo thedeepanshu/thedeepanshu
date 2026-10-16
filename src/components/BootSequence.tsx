@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
-import { playWarp } from '../audio/soundEngine'
-import { preferredSoundMode, useVessel, type BootPhase } from '../world/store'
 import './BootSequence.css'
+
+import { useEffect, useRef, useState } from 'react'
+
+import { playWarp } from '@/audio/soundEngine'
+import { type BootPhase, preferredSoundMode, useVessel } from '@/world/store'
 
 const PHASE_ORDER: BootPhase[] = ['power', 'boot', 'transmission', 'choice', 'boarding', 'done']
 const LAST_DOCKED_KEY = 'vessel:last-docked'
@@ -217,7 +219,9 @@ export function BootSequence() {
   const transmitting = PHASE_ORDER.indexOf(phase) >= PHASE_ORDER.indexOf('transmission')
   const greeting = quick
     ? 'Welcome back aboard, pilot.'
-    : visit.lastDocked ? `Welcome back, pilot. Last docked ${visit.lastDocked}.` : `${visit.greeting}, traveler.`
+    : visit.lastDocked
+      ? `Welcome back, pilot. Last docked ${visit.lastDocked}.`
+      : `${visit.greeting}, traveler.`
 
   return (
     <div
@@ -244,8 +248,12 @@ export function BootSequence() {
 
       <div className="boot-progress" aria-hidden="true">
         <span>Systems</span>
-        <strong><span ref={progressValue}>000</span>%</strong>
-        <span className="boot-progress-track"><span ref={progressBar} /></span>
+        <strong>
+          <span ref={progressValue}>000</span>%
+        </strong>
+        <span className="boot-progress-track">
+          <span ref={progressBar} />
+        </span>
       </div>
 
       <div className="boot-stage">
@@ -256,7 +264,9 @@ export function BootSequence() {
         <h2 className="boot-name" aria-label="Deepanshu">
           <ScrambleText text="DEEPANSHU" active={transmitting} instant={reducedMotion} />
         </h2>
-        <p className="boot-role">Frontend developer <span>//</span> pilot of this vessel</p>
+        <p className="boot-role">
+          Frontend developer <span>//</span> pilot of this vessel
+        </p>
 
         <div className="boot-choice">
           <p className="boot-greeting">{greeting}</p>
@@ -272,7 +282,9 @@ export function BootSequence() {
               {quick && !preferSound && <em className="boot-last">Last</em>}
             </button>
           </div>
-          <p className="boot-hint">{quick ? `Press Enter to board ${preferSound ? 'with sound' : 'silently'} (your last choice)` : 'Ambient sound · headphones recommended'}</p>
+          <p className="boot-hint">
+            {quick ? `Press Enter to board ${preferSound ? 'with sound' : 'silently'} (your last choice)` : 'Ambient sound · headphones recommended'}
+          </p>
         </div>
       </div>
 

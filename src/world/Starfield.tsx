@@ -1,6 +1,7 @@
-import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
+
 import { mulberry32 } from './random'
 import { motion } from './store'
 
@@ -79,7 +80,6 @@ const streaksFragment = /* glsl */ `
   }
 `
 
-
 type StarfieldProps = { count: number; streakCount: number }
 
 export function Starfield({ count, streakCount }: StarfieldProps) {
@@ -120,21 +120,24 @@ export function Starfield({ count, streakCount }: StarfieldProps) {
     return { points: pointsGeometry, streaks: streaksGeometry }
   }, [count, streakCount])
 
-  const uniforms = useMemo(() => ({
-    points: {
-      uOrigin: { value: new THREE.Vector3() },
-      uSize: { value: FIELD_SIZE },
-      uTime: { value: 0 },
-      uPixelRatio: { value: 1 },
-    },
-    streaks: {
-      uOrigin: { value: new THREE.Vector3() },
-      uSize: { value: FIELD_SIZE },
-      uTime: { value: 0 },
-      uVelocity: { value: new THREE.Vector3() },
-      uStretch: { value: 0.12 },
-    },
-  }), [])
+  const uniforms = useMemo(
+    () => ({
+      points: {
+        uOrigin: { value: new THREE.Vector3() },
+        uSize: { value: FIELD_SIZE },
+        uTime: { value: 0 },
+        uPixelRatio: { value: 1 },
+      },
+      streaks: {
+        uOrigin: { value: new THREE.Vector3() },
+        uSize: { value: FIELD_SIZE },
+        uTime: { value: 0 },
+        uVelocity: { value: new THREE.Vector3() },
+        uStretch: { value: 0.12 },
+      },
+    }),
+    [],
+  )
 
   useFrame(({ camera, clock, gl }, delta) => {
     const time = clock.elapsedTime

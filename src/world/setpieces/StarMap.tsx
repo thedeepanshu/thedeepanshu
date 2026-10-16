@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { skills } from '../../content/portfolio'
-import { deckById } from '../decks'
-import { mulberry32 } from '../random'
-import { BACKDROP_FLOOR, deckInView, scrollDim, useVessel } from '../store'
+
+import { skills } from '@/content/portfolio'
+import { deckById } from '@/world/decks'
+import { mulberry32 } from '@/world/random'
+import { BACKDROP_FLOOR, deckInView, scrollDim, useVessel } from '@/world/store'
+
 import { makeLabelTexture } from './labels'
 
 const GLOBE_CENTER = new THREE.Vector3(4.2, 0.3, -3)
@@ -100,18 +102,21 @@ function buildConstellations() {
 
     // Scatter one star per tool around the direction, then order them by angle
     // so the connecting line reads as a figure rather than a scribble.
-    const stars = skill.tags.map(() => {
-      const angle = random() * Math.PI * 2
-      const spread = 0.12 + random() * 0.3
-      return {
-        angle,
-        point: direction.clone()
-          .addScaledVector(tangent, Math.cos(angle) * spread)
-          .addScaledVector(bitangent, Math.sin(angle) * spread)
-          .normalize()
-          .multiplyScalar(GLOBE_RADIUS),
-      }
-    }).sort((a, b) => a.angle - b.angle)
+    const stars = skill.tags
+      .map(() => {
+        const angle = random() * Math.PI * 2
+        const spread = 0.12 + random() * 0.3
+        return {
+          angle,
+          point: direction
+            .clone()
+            .addScaledVector(tangent, Math.cos(angle) * spread)
+            .addScaledVector(bitangent, Math.sin(angle) * spread)
+            .normalize()
+            .multiplyScalar(GLOBE_RADIUS),
+        }
+      })
+      .sort((a, b) => a.angle - b.angle)
 
     stars.forEach(({ point }) => {
       positions.push(point.x, point.y, point.z)
@@ -160,8 +165,12 @@ function buildGrid() {
       const b = ((i + 1) / segments) * Math.PI * 2
       const r = GLOBE_RADIUS * 1.02
       points.push(
-        Math.cos(a) * Math.cos(phi) * r, Math.sin(a) * r, Math.cos(a) * Math.sin(phi) * r,
-        Math.cos(b) * Math.cos(phi) * r, Math.sin(b) * r, Math.cos(b) * Math.sin(phi) * r,
+        Math.cos(a) * Math.cos(phi) * r,
+        Math.sin(a) * r,
+        Math.cos(a) * Math.sin(phi) * r,
+        Math.cos(b) * Math.cos(phi) * r,
+        Math.sin(b) * r,
+        Math.cos(b) * Math.sin(phi) * r,
       )
     }
   }
@@ -190,10 +199,21 @@ export function StarMap() {
 
   const { starGeometry, lineGeometry, centres } = useMemo(() => buildConstellations(), [])
   const gridGeometry = useMemo(() => buildGrid(), [])
-  const labelTextures = useMemo(() => skills.map((skill, index) => makeLabelTexture([
-    { text: `DOMAIN / ${String(index + 1).padStart(2, '0')}`, size: 22, color: '#7ef4db', mono: true, tracking: 3, gap: 8 },
-    { text: skill.name, size: 44, color: '#eef8f9', weight: 500 },
-  ], 640, 128, 12)), [])
+  const labelTextures = useMemo(
+    () =>
+      skills.map((skill, index) =>
+        makeLabelTexture(
+          [
+            { text: `DOMAIN / ${String(index + 1).padStart(2, '0')}`, size: 22, color: '#7ef4db', mono: true, tracking: 3, gap: 8 },
+            { text: skill.name, size: 44, color: '#eef8f9', weight: 500 },
+          ],
+          640,
+          128,
+          12,
+        ),
+      ),
+    [],
+  )
 
   useEffect(() => () => labelTextures.forEach((texture) => texture.dispose()), [labelTextures])
 
@@ -267,15 +287,38 @@ export function StarMap() {
           <lineBasicMaterial ref={gridMaterial} color="#83b7ff" transparent opacity={0.07} depthWrite={false} />
         </lineSegments>
         <lineSegments geometry={lineGeometry}>
-          <shaderMaterial ref={linesMaterial} vertexShader={linesVertex} fragmentShader={linesFragment} uniforms={linesUniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+          <shaderMaterial
+            ref={linesMaterial}
+            vertexShader={linesVertex}
+            fragmentShader={linesFragment}
+            uniforms={linesUniforms}
+            transparent
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
         </lineSegments>
         <points geometry={starGeometry}>
-          <shaderMaterial ref={starsMaterial} vertexShader={starsVertex} fragmentShader={starsFragment} uniforms={starsUniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+          <shaderMaterial
+            ref={starsMaterial}
+            vertexShader={starsVertex}
+            fragmentShader={starsFragment}
+            uniforms={starsUniforms}
+            transparent
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
         </points>
         {labelTextures.map((texture, index) => {
           const position = centres[index].clone().multiplyScalar(GLOBE_RADIUS * 1.18)
           return (
-            <sprite key={skills[index].id} ref={(sprite) => { labels.current[index] = sprite }} position={position} scale={[3.2, 0.64, 1]}>
+            <sprite
+              key={skills[index].id}
+              ref={(sprite) => {
+                labels.current[index] = sprite
+              }}
+              position={position}
+              scale={[3.2, 0.64, 1]}
+            >
               <spriteMaterial map={texture} transparent depthWrite={false} opacity={0.5} />
             </sprite>
           )

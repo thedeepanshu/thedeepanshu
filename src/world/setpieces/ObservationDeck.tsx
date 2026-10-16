@@ -1,8 +1,10 @@
-import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { mulberry32 } from '../random'
-import { deckInView, motion, scrollDim, useVessel } from '../store'
+
+import { mulberry32 } from '@/world/random'
+import { deckInView, motion, scrollDim, useVessel } from '@/world/store'
+
 import { useDeckAnchor } from './useDeckAnchor'
 
 // Out-of-focus city lights: each point is a soft disc with a slightly brighter
@@ -81,12 +83,15 @@ export function ObservationDeck() {
     return shape
   }, [])
 
-  const uniforms = useMemo(() => ({
-    uTime: { value: 0 },
-    uPixelRatio: { value: 1 },
-    uPointer: { value: new THREE.Vector2() },
-    uDim: { value: 1 },
-  }), [])
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uPixelRatio: { value: 1 },
+      uPointer: { value: new THREE.Vector2() },
+      uDim: { value: 1 },
+    }),
+    [],
+  )
 
   useFrame(({ clock, gl }, delta) => {
     if (!anchorRef.current) return
@@ -107,7 +112,15 @@ export function ObservationDeck() {
   return (
     <group ref={anchorRef}>
       <points geometry={geometry} frustumCulled={false}>
-        <shaderMaterial ref={material} vertexShader={bokehVertex} fragmentShader={bokehFragment} uniforms={uniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+        <shaderMaterial
+          ref={material}
+          vertexShader={bokehVertex}
+          fragmentShader={bokehFragment}
+          uniforms={uniforms}
+          transparent
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
       </points>
     </group>
   )

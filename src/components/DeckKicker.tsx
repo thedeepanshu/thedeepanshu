@@ -1,4 +1,4 @@
-import { deckById, type DeckId } from '../world/decks'
+import { deckById, type DeckId } from '@/world/decks'
 
 /**
  * "Deck 07 · Comms array / contact": the one numbering system. Numbers and

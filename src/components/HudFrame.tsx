@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { deckById } from '../world/decks'
-import { motion, useVessel } from '../world/store'
+
+import { deckById } from '@/world/decks'
+import { motion, useVessel } from '@/world/store'
 
 function formatCoordinate(value: number) {
   return (value >= 0 ? '+' : '−') + Math.abs(value).toFixed(2).padStart(6, '0')
@@ -57,13 +58,21 @@ export function HudFrame() {
       <div className="hud-rail hud-rail-right">
         <span ref={clock} />
         <span ref={coordinates} />
-        <span className="hud-signal">SIG <i /><i /><i /><i /><i /></span>
+        <span className="hud-signal">
+          SIG <i />
+          <i />
+          <i />
+          <i />
+          <i />
+        </span>
       </div>
 
       {warpKey > 0 && (
         <div className="hud-warp" key={warpKey}>
           <span>Warp // engaged</span>
-          <strong>Deck {deck.number} — {deck.label}</strong>
+          <strong>
+            Deck {deck.number} — {deck.label}
+          </strong>
         </div>
       )}
     </div>

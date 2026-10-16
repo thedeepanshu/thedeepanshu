@@ -1,0 +1,10 @@
+# CSS keeps its deliberate compact one-rule-per-line style.
+*.css
+*.html
+dist
+node_modules
+public
+coverage
+package-lock.json
+resume-source
+design-source

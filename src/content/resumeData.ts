@@ -170,7 +170,8 @@ export const resumeData: ResumeData = {
     },
     {
       title: 'Usability & Craft',
-      description: 'Brings a strong sense for usability and visual aesthetics, paired with hands-on use of AI agents and agentic workflows to ship faster without cutting corners.',
+      description:
+        'Brings a strong sense for usability and visual aesthetics, paired with hands-on use of AI agents and agentic workflows to ship faster without cutting corners.',
     },
   ],
 
@@ -179,12 +180,5 @@ export const resumeData: ResumeData = {
     { language: 'English', proficiency: 'Professional Working' },
   ],
 
-  strengths: [
-    'Ownership Mindset',
-    'Strong Work Ethic',
-    'Disciplined',
-    'Active Listener',
-    'Problem Solver',
-    'Fast Learner',
-  ],
+  strengths: ['Ownership Mindset', 'Strong Work Ethic', 'Disciplined', 'Active Listener', 'Problem Solver', 'Fast Learner'],
 }

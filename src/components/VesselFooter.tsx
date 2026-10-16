@@ -1,7 +1,9 @@
-import { Link, useLocation } from 'react-router-dom'
-import { dossier } from '../content/portfolio'
-import { useVessel } from '../world/store'
 import './VesselFooter.css'
+
+import { Link, useLocation } from 'react-router-dom'
+
+import { dossier } from '@/content/portfolio'
+import { useVessel } from '@/world/store'
 
 const YEAR = new Date().getFullYear()
 
@@ -22,12 +24,19 @@ export function VesselFooter() {
   return (
     <footer className="vessel-footer">
       <div className="site-footer">
-        <p><i className="vessel-footer-open" aria-hidden="true" />Comms open</p>
-        <Link to={cta.to}>{cta.label} <span>↗</span></Link>
+        <p>
+          <i className="vessel-footer-open" aria-hidden="true" />
+          Comms open
+        </p>
+        <Link to={cta.to}>
+          {cta.label} <span>↗</span>
+        </Link>
       </div>
       <div className="vessel-footer-inner">
         <p className="vessel-footer-copy">
-          <span>© {YEAR} {dossier.name}</span>
+          <span>
+            © {YEAR} {dossier.name}
+          </span>
           <span className="vessel-footer-status">All systems nominal</span>
         </p>
 

@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
+import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
+
 import { deckById } from './decks'
 import { motion, useVessel } from './store'
 
@@ -70,7 +71,10 @@ export function CameraRig() {
     f.toTarget.set(...deck.target)
     // Bow the path sideways/up so long flights read as a banked arc, not a slide.
     const distance = f.fromPosition.distanceTo(f.toPosition)
-    f.swoop.set(0, 1, 0).cross(new THREE.Vector3().subVectors(f.toPosition, f.fromPosition).normalize()).multiplyScalar(distance * 0.12)
+    f.swoop
+      .set(0, 1, 0)
+      .cross(new THREE.Vector3().subVectors(f.toPosition, f.fromPosition).normalize())
+      .multiplyScalar(distance * 0.12)
     f.swoop.y += distance * 0.06
     f.duration = FLIGHT_SECONDS
     f.progress = 0

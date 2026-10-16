@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { skills, type SkillCategory } from '../content/portfolio'
-import { PageFrame } from '../components/PageFrame'
-import { useVessel } from '../world/store'
+
+import { PageFrame } from '@/components/PageFrame'
+import { type SkillCategory, skills } from '@/content/portfolio'
+import { useVessel } from '@/world/store'
 
 export function ArsenalPage() {
   const [activeCategory, setActiveCategory] = useState<SkillCategory>('core-frontend')
@@ -22,26 +23,36 @@ export function ArsenalPage() {
     { id: 'technical-exposure', label: 'Tech exposure' },
   ]
 
-  const filteredSkills = activeCategory === 'all'
-    ? skills
-    : skills.filter((skill) => skill.category === activeCategory)
+  const filteredSkills = activeCategory === 'all' ? skills : skills.filter((skill) => skill.category === activeCategory)
 
   return (
-    <PageFrame deck="arsenal" topic="skills" title={<>The <em>arsenal.</em></>} intro="My frontend toolkit, alongside the tools and technologies I've used in related areas.">
+    <PageFrame
+      deck="arsenal"
+      topic="skills"
+      title={
+        <>
+          The <em>arsenal.</em>
+        </>
+      }
+      intro="My frontend toolkit, alongside the tools and technologies I've used in related areas."
+    >
       <div className="arsenal-atlas">
         <div className="arsenal-atlas-heading">
           <div>
             <p className="section-kicker">Frontend toolkit / {skills.length} focus areas</p>
-            <h2>Tools behind my <em>frontend work.</em></h2>
+            <h2>
+              Tools behind my <em>frontend work.</em>
+            </h2>
           </div>
           <p>Explore each area to see the tools in its stack. This map describes my toolkit, not a proficiency ranking.</p>
         </div>
 
         <nav className="arsenal-atlas-nav" aria-label="Skill domains">
           {categories.map((category, index) => {
-            const count = category.id === 'all'
-              ? skills.reduce((total, skill) => total + skill.tags.length, 0)
-              : skills.find((skill) => skill.category === category.id)?.tags.length ?? 0
+            const count =
+              category.id === 'all'
+                ? skills.reduce((total, skill) => total + skill.tags.length, 0)
+                : (skills.find((skill) => skill.category === category.id)?.tags.length ?? 0)
 
             return (
               <button
@@ -86,7 +97,6 @@ export function ArsenalPage() {
             )
           })}
         </div>
-
       </div>
     </PageFrame>
   )

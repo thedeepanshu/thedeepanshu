@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { playUi, playWarp, setSoundScene, SOUND_PRESETS } from '../audio/soundEngine'
-import { useVessel } from '../world/store'
+
+import { playUi, playWarp, setSoundScene, SOUND_PRESETS } from '@/audio/soundEngine'
+import { useVessel } from '@/world/store'
 
 const INTERACTIVE = 'a, button, [role="button"], select, summary, input[type="checkbox"], input[type="radio"]'
 
@@ -92,7 +93,12 @@ export function SoundToggle() {
         aria-label={`Sound: ${current.label}. Change sound`}
         onClick={() => setOpen(!open)}
       >
-        <span className="sound-bars" aria-hidden="true"><i /><i /><i /><i /></span>
+        <span className="sound-bars" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <i />
+        </span>
         <span className="sound-label">Sound · {current.label}</span>
       </button>
     </div>
