@@ -26,6 +26,8 @@
 
 .nav-logo-name { font-size: 1.12rem; font-weight: 600; letter-spacing: -.04em; transition: text-shadow .25s ease; white-space: nowrap; }
 .nav-logo-name b { color: var(--cyan); font-weight: 600; }
+/* Inline-block so the scramble can hold the name's width (see NavLogo.tsx). */
+.nav-logo-name > span { display: inline-block; }
 .nav-logo:hover .nav-logo-name { text-shadow: 0 0 12px rgba(126, 244, 219, .4); }
 
 @media (max-width: 560px) {
