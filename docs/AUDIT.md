@@ -14,7 +14,7 @@ _Audit date: 16 Oct 2026 · Branch: `feat/vessel` · Status: **awaiting approval
 - [x] 7. Accessibility: heading order, landmarks, new-tab hints, ≥ 24 px targets; axe **0 violations** on 18 page scans; `docs/ACCESSIBILITY.md`
 - [x] 8. Refactor: `ErrorBoundary` (3D world fails soft; pages get a recovery screen), `ExternalLink`, `SectionHead`, contact email + résumé paths + site URL in `src/config/site.ts`
 - [x] 9. Reliability: CI, Playwright + axe, Dependabot, `.nvmrc`
-- [ ] 10. Documentation
+- [x] 10. Documentation
 - [ ] 11. Final verification → `docs/REPORT.md`
 
 This is the "before" picture. Every finding has a severity, where it lives, and the proposed fix. Severity means: **Critical** = hurts search visibility, security or most visitors now; **High** = clear, measurable gain; **Medium** = worth doing in this pass; **Low** = polish.
