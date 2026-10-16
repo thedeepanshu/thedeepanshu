@@ -2,6 +2,7 @@ import { type FormEvent, useEffect, useRef, useState } from 'react'
 
 import { NewTabHint } from '@/components/NewTabHint'
 import { PageFrame } from '@/components/PageFrame'
+import { contactEmail } from '@/config/site'
 import { availability, contactTopics, dossier, socialLinks } from '@/content/portfolio'
 import { useVessel } from '@/world/store'
 
@@ -27,7 +28,7 @@ export function SignalPage() {
     // The draft is sent from the visitor's own email app, so their address comes with it.
     const subject = encodeURIComponent(`${formData.topic} — from ${formData.name.trim()}`)
     const body = encodeURIComponent(`Hi Deepanshu,\n\n${formData.message.trim()}\n\n— ${formData.name.trim()}`)
-    window.location.href = `mailto:deepanshusaini971@gmail.com?subject=${subject}&body=${body}`
+    window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`
     // The words now live in the email draft, so the form starts fresh for the next one.
     setFormData(EMPTY_FORM)
     setDraftOpened(true)

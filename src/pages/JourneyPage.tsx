@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { NewTabHint } from '@/components/NewTabHint'
+import { ExternalLink } from '@/components/ExternalLink'
 import { PageFrame } from '@/components/PageFrame'
 import { type MilestoneCategory, milestones } from '@/content/portfolio'
 import { useFocusTracker } from '@/hooks/useFocusTracker'
@@ -138,10 +138,9 @@ export function JourneyPage() {
                     </section>
                   )}
                   {ms.websiteUrl && (
-                    <a className="milestone-website-link" href={ms.websiteUrl} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="milestone-website-link" href={ms.websiteUrl}>
                       Visit website <span aria-hidden="true">↗</span>
-                      <NewTabHint />
-                    </a>
+                    </ExternalLink>
                   )}
 
                   {/* Achievements */}

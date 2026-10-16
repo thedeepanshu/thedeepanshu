@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { NewTabHint } from '@/components/NewTabHint'
+import { ExternalLink } from '@/components/ExternalLink'
 import { learning } from '@/content/beyond'
 
 const SNIPPET = `const today = {
@@ -63,10 +63,9 @@ export function LearningDesk() {
             ))}
           </ul>
         )}
-        <a className="desk-link" href={learning.url} target="_blank" rel="noopener noreferrer">
+        <ExternalLink className="desk-link" href={learning.url}>
           Learn along on {learning.where} <span aria-hidden="true">↗</span>
-          <NewTabHint />
-        </a>
+        </ExternalLink>
       </div>
       <div className="desk-editor">
         <div className="desk-editor-bar" aria-hidden="true">

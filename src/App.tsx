@@ -9,6 +9,7 @@ import { BrowserRouter, useLocation } from 'react-router-dom'
 import { BootSequence } from './components/BootSequence'
 import { CommandPalette, PaletteToggle } from './components/CommandPalette'
 import { CursorEffect } from './components/CursorEffect'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { HudFrame } from './components/HudFrame'
 import { Narrator } from './components/Narrator'
 import { ScrollToTop } from './components/ScrollToTop'
@@ -27,6 +28,22 @@ import { useVessel } from './world/store'
 const World = lazy(() =>
   Promise.all([import('./world/World'), document.fonts.load("700 64px 'Space Grotesk Variable'").catch(() => [])]).then(([module]) => module),
 )
+
+/** Shown instead of a page that failed to render, so the visitor is never stuck on a blank screen. */
+function PageFault() {
+  return (
+    <main className="portfolio-shell inner-page">
+      <section className="not-found-container" role="alert">
+        <p className="not-found-kicker">System fault</p>
+        <h1>This deck hit a problem.</h1>
+        <p>Something went wrong while loading this page. The rest of the ship is fine.</p>
+        <a className="primary-action" href="/">
+          Back to the bridge <span aria-hidden="true">↗</span>
+        </a>
+      </section>
+    </main>
+  )
+}
 
 /**
  * Remounts the page on each route so it can arrive after the warp. While the
@@ -53,7 +70,9 @@ function DeckView() {
 
   return (
     <div ref={view} id="content" tabIndex={-1} className={`deck-view${held ? ' deck-view--held' : ''}`} key={location.pathname} inert={held}>
-      <PageRoutes location={location} />
+      <ErrorBoundary key={location.pathname} name="page" fallback={<PageFault />}>
+        <PageRoutes location={location} />
+      </ErrorBoundary>
       <VesselFooter />
     </div>
   )
@@ -81,9 +100,12 @@ function App() {
       </a>
       <DeckSync />
       <ScrollToTop />
-      <Suspense fallback={null}>
-        <World />
-      </Suspense>
+      {/* Without WebGL (or if the GPU gives up) the site simply runs without the 3D world. */}
+      <ErrorBoundary name="3D world" fallback={null}>
+        <Suspense fallback={null}>
+          <World />
+        </Suspense>
+      </ErrorBoundary>
       <HudFrame />
       <CursorEffect />
       <SiteHeader />
