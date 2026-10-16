@@ -23,7 +23,7 @@ const LOOKS: Record<string, Look> = {
   'diploma-cse-gp-sonepat': { radius: 1.05, colors: ['#7ef4db', '#0f2a2c'] },
   'anrx-solutions-frontend-developer': { radius: 2.3, colors: ['#7ef4db', '#123a40'], ring: true, moons: ['#7ef4db', '#a17eff'] },
   'canadian-business-website': { radius: 1.35, colors: ['#a17eff', '#21183f'] },
-  'portfolio-in-progress': { radius: 1.2, colors: ['#83b7ff', '#2a1d4a'] },
+  'the-vessel-portfolio': { radius: 1.2, colors: ['#83b7ff', '#2a1d4a'] },
   'btech-cse-pkg': { radius: 1.1, colors: ['#7ef4db', '#16233d'], inProgress: true },
 }
 const DEFAULT_LOOK: Look = { radius: 1, colors: ['#7ef4db', '#16233d'] }
