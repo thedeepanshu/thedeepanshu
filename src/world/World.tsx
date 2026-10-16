@@ -1,4 +1,3 @@
-import { PerformanceMonitor } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
 
@@ -17,6 +16,35 @@ import { Wreckage } from './setpieces/Wreckage'
 import { Starfield } from './Starfield'
 import { useVessel } from './store'
 import { Swarm } from './Swarm'
+
+/**
+ * Drops the session to the lighter tier if the frame rate stays low: three
+ * consecutive one-second windows under 40 fps, after a short warm-up so the
+ * first shader compiles and the arrival warp don't count. Fires once.
+ */
+function FrameRateGuard({ onDecline }: { onDecline: () => void }) {
+  const stats = useRef({ start: -1, frames: 0, slowSeconds: 0, done: false })
+  useFrame(({ clock }) => {
+    const w = stats.current
+    const now = clock.elapsedTime
+    if (w.done || now < 3) return
+    if (w.start < 0) {
+      w.start = now
+      return
+    }
+    w.frames += 1
+    if (now - w.start < 1) return
+    const fps = w.frames / (now - w.start)
+    w.slowSeconds = fps < 40 ? w.slowSeconds + 1 : 0
+    w.start = now
+    w.frames = 0
+    if (w.slowSeconds >= 3) {
+      w.done = true
+      onDecline()
+    }
+  })
+  return null
+}
 
 // Both tiers share one look: a soft render (capped pixel ratio) and a smooth
 // 3-octave nebula, so the scene sits calmly behind the text on every device
@@ -54,7 +82,7 @@ export default function World() {
         gl={{ antialias: false, powerPreference: 'high-performance', stencil: false }}
         fallback={null}
       >
-        <PerformanceMonitor onDecline={() => setTier('low')} />
+        <FrameRateGuard onDecline={() => setTier('low')} />
         <Nebula octaves={settings.octaves} />
         <Starfield count={settings.stars} streakCount={settings.streaks} />
         <Swarm count={settings.swarm} />

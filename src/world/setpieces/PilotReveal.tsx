@@ -136,11 +136,22 @@ export function PilotReveal() {
   const root = useRef<THREE.Group>(null)
   const plane = useRef<THREE.Mesh>(null)
   const [ready, setReady] = useState(false)
+  // The two pilot images (~260 KB) only load once the Bridge is actually shown,
+  // not on every page just because the world is mounted.
+  const [wanted, setWanted] = useState(() => useVessel.getState().deck === 'bridge')
   const intro = useRef(0)
   const radius = useRef(0)
   const lastPointer = useRef({ x: 0, y: 0, at: -100 })
 
   useEffect(() => {
+    if (wanted) return
+    return useVessel.subscribe((state) => {
+      if (state.deck === 'bridge') setWanted(true)
+    })
+  }, [wanted])
+
+  useEffect(() => {
+    if (!wanted) return
     let cancelled = false
     Promise.all([loadTexture(PILOT_URL), loadTexture(PILOT_UNDER_URL)])
       .then(([pilot, under]) => {
@@ -158,7 +169,7 @@ export function PilotReveal() {
       cancelled = true
       setLensClass(false)
     }
-  }, [])
+  }, [wanted])
 
   useFrame(({ clock, camera, size }, delta) => {
     if (!root.current) return
