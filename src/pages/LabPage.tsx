@@ -37,6 +37,7 @@ export function LabPage() {
           </div>
         </div>
 
+        <h2 className="visually-hidden">Experiments</h2>
         <div className="lab-grid">
           {experiments.map((exp) => (
             <article className="lab-card" key={exp.id} data-focus-id={exp.id}>

@@ -25,7 +25,7 @@ export function AboutPage() {
     >
       <div className="dossier">
         <section className="dossier-file" aria-label="Profile">
-          <aside className="dossier-id">
+          <section className="dossier-id" aria-label="ID card">
             <div className="dossier-id-top">
               <span>ID / {dossier.callsign}</span>
               <i aria-hidden="true" />
@@ -51,7 +51,7 @@ export function AboutPage() {
                 <dd className="dossier-active">Active</dd>
               </div>
             </dl>
-          </aside>
+          </section>
 
           <div className="dossier-story">
             <p className="lead-copy">{lead}</p>
@@ -68,9 +68,9 @@ export function AboutPage() {
 
         <section className="dossier-route" aria-labelledby="dossier-route-title">
           <div className="dossier-route-head">
-            <p className="section-kicker" id="dossier-route-title">
+            <h2 className="section-kicker" id="dossier-route-title">
               / flight path so far
-            </p>
+            </h2>
             <Link className="text-action" to="/journey">
               Fly the full route <span>→</span>
             </Link>
@@ -97,7 +97,7 @@ export function AboutPage() {
         </section>
 
         <section className="dossier-section">
-          <p className="section-kicker">/ operating principles</p>
+          <h2 className="section-kicker">/ operating principles</h2>
           <div className="dossier-grid">
             {resumeData.coreCompetencies.map((item, index) => (
               <article key={item.title}>
@@ -110,7 +110,7 @@ export function AboutPage() {
         </section>
 
         <section className="dossier-section">
-          <p className="section-kicker">/ how I work</p>
+          <h2 className="section-kicker">/ how I work</h2>
           <ol className="dossier-process">
             {dossier.process.map((step, index) => (
               <li key={step.title}>

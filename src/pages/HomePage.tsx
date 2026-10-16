@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 
 import { BrowserFrame } from '@/components/BrowserFrame'
 import { DeckKicker } from '@/components/DeckKicker'
+import { NewTabHint } from '@/components/NewTabHint'
 import { missions, skills } from '@/content/portfolio'
 
 // The live client site is the strongest proof on the page: real, public, solo.
@@ -68,6 +69,7 @@ export function HomePage() {
             {featured.link && (
               <a className="text-action" href={featured.link.url} target="_blank" rel="noopener noreferrer">
                 Visit {featured.link.label} <span>↗</span>
+                <NewTabHint />
               </a>
             )}
           </div>

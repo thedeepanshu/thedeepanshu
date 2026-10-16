@@ -844,3 +844,12 @@ h1 em { color: var(--cyan); font-style: normal; }
 @media (max-width: 340px) {
   .resume-dropdown-wrapper.variant-nav .resume-btn-label { display: none; }
 }
+
+/* Section labels that are real headings keep the kicker look. */
+h2.section-kicker { font-weight: 400; }
+
+/* WCAG 2.2 target size (2.5.8): text links get at least 24px of tap height.
+   Equal negative margins keep every link exactly where it was. */
+.site-nav a { padding-block: 6px; margin-block: -2px; }
+.site-nav a.active::after { bottom: 0; }
+.text-action, .desk-link, .mission-brief-link, .site-footer > a { padding-block: 4px; margin-block: -4px; }
