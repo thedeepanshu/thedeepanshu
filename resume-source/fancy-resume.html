@@ -86,7 +86,7 @@
     grid-template-columns: 1fr 74mm;
     gap: 8mm;
     align-items: end;
-    padding: 12mm 14mm 8mm;
+    padding: 10mm 14mm 6mm;
     border-bottom: 1px solid var(--line);
     background:
       radial-gradient(70mm 45mm at 88% 10%, rgba(126, 244, 219, 0.14), transparent 70%),
@@ -110,6 +110,7 @@
     color: var(--ink);
   }
   .top h1 span { color: var(--cyan); }
+  .top h1:first-child { margin-top: 0; }
 
   .role {
     margin-top: 2.5mm;
@@ -141,6 +142,7 @@
     font-size: 5.6pt;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    white-space: nowrap;
     color: var(--muted);
   }
 
@@ -184,8 +186,8 @@
   .contact {
     list-style: none;
     display: grid;
-    gap: 2mm;
-    padding: 3.5mm 4mm;
+    gap: 2.7mm;
+    padding: 4.2mm 4.5mm;
     border: 1px solid var(--line);
     background: rgba(11, 25, 29, 0.6);
   }
@@ -372,7 +374,6 @@
 <section class="page">
   <header class="top">
   <div>
-    <div class="kicker">/ Resume — Frontend Engineering</div>
     <h1>Deepanshu Saini<span>.</span></h1>
     <p class="role"><b>Frontend Developer</b> — React.js · TypeScript · Next.js</p>
 
