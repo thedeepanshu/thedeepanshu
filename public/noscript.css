@@ -1,0 +1,3 @@
+/* Loaded only when JavaScript is off: show the prerendered page straight away. */
+.prerender-cover { display: none; }
+#prerender .deck-view { animation: none; }

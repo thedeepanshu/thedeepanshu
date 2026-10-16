@@ -34,3 +34,12 @@ button, a { -webkit-tap-highlight-color: transparent; }
 ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #438c83, #356887); border: 2px solid #080d10; border-radius: 6px; }
 ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7ef4db, #83b7ff); }
 ::-webkit-scrollbar-corner { background: #080d10; }
+
+/* The prerendered page (for crawlers) sits under this black cover until the
+   app replaces it, so visitors see the welcome screen, never a flash of it.
+   Without JavaScript, /noscript.css removes the cover. */
+.prerender-cover { background: #030507; inset: 0; position: fixed; z-index: 400; }
+/* The cover's counter is a loading placeholder for the welcome screen's own.
+   Slightly looser tracking keeps it at least as wide as the real counter in any
+   font, so it stays the page's largest paint (LCP) instead of the later copy. */
+.prerender-cover .boot-progress strong { letter-spacing: -0.01em; }

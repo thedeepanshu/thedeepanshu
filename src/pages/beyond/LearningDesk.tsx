@@ -13,7 +13,9 @@ while (curious) keepBuilding()`
 
 /** A little editor that types the snippet out, loops, and rests on the full text. */
 function TypedSnippet() {
-  const [length, setLength] = useState(() => (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? SNIPPET.length : 0))
+  const [length, setLength] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? SNIPPET.length : 0,
+  )
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
