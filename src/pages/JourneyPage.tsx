@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { NewTabHint } from '@/components/NewTabHint'
 import { PageFrame } from '@/components/PageFrame'
 import { type MilestoneCategory, milestones } from '@/content/portfolio'
 import { useFocusTracker } from '@/hooks/useFocusTracker'
@@ -92,6 +93,7 @@ export function JourneyPage() {
         <div className="timeline-wrapper" aria-live="polite">
           <div className="timeline-spine" />
 
+          <h2 className="visually-hidden">Timeline</h2>
           <div className="timeline-list">
             {filteredMilestones.map((ms) => (
               <div className="timeline-item" key={ms.id} data-focus-id={ms.id}>
@@ -138,6 +140,7 @@ export function JourneyPage() {
                   {ms.websiteUrl && (
                     <a className="milestone-website-link" href={ms.websiteUrl} target="_blank" rel="noopener noreferrer">
                       Visit website <span aria-hidden="true">↗</span>
+                      <NewTabHint />
                     </a>
                   )}
 

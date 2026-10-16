@@ -1,5 +1,6 @@
 import { type FormEvent, useEffect, useRef, useState } from 'react'
 
+import { NewTabHint } from '@/components/NewTabHint'
 import { PageFrame } from '@/components/PageFrame'
 import { availability, contactTopics, dossier, socialLinks } from '@/content/portfolio'
 import { useVessel } from '@/world/store'
@@ -137,7 +138,7 @@ export function SignalPage() {
             )}
           </div>
 
-          <aside className="signal-sidebar">
+          <section className="signal-sidebar" aria-label="Direct channels">
             <div className="coordinates-panel">
               <p className="sidebar-label">/ DIRECT CHANNELS</p>
               <div className="social-grid">
@@ -155,6 +156,7 @@ export function SignalPage() {
                       <small className="tile-handle">{link.handle}</small>
                     </div>
                     <span className="tile-arrow">↗</span>
+                    {!link.url.startsWith('mailto:') && <NewTabHint />}
                   </a>
                 ))}
               </div>
@@ -163,7 +165,7 @@ export function SignalPage() {
               <span className="telemetry-title">&gt; FORM DELIVERY</span>
               <pre className="telemetry-log">{`> Opens your email app\n> Review the draft before sending\n> No message is sent automatically`}</pre>
             </div>
-          </aside>
+          </section>
         </div>
       </div>
     </PageFrame>

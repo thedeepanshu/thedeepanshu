@@ -1,6 +1,7 @@
 import { Camera, SquarePlay } from 'lucide-react'
 import { type CSSProperties, useEffect, useRef, useState } from 'react'
 
+import { NewTabHint } from '@/components/NewTabHint'
 import { familyChannel } from '@/content/beyond'
 
 /** Counts from 0 to `value` once it scrolls into view (instantly for reduced motion). */
@@ -89,21 +90,23 @@ export function FamilyChannel() {
       </dl>
 
       <div className="family-platforms">
-        <a href={channel.youtube.url} target="_blank" rel="noreferrer" className="family-platform family-platform--youtube">
+        <a href={channel.youtube.url} target="_blank" rel="noopener noreferrer" className="family-platform family-platform--youtube">
           <SquarePlay size={26} aria-hidden="true" />
           <span>
             <small>Watch on YouTube</small>
             <b>{channel.youtube.handle}</b>
           </span>
           <i aria-hidden="true">↗</i>
+          <NewTabHint />
         </a>
-        <a href={channel.instagram.url} target="_blank" rel="noreferrer" className="family-platform family-platform--instagram">
+        <a href={channel.instagram.url} target="_blank" rel="noopener noreferrer" className="family-platform family-platform--instagram">
           <Camera size={26} aria-hidden="true" />
           <span>
             <small>Follow on Instagram</small>
             <b>{channel.instagram.handle}</b>
           </span>
           <i aria-hidden="true">↗</i>
+          <NewTabHint />
         </a>
       </div>
 

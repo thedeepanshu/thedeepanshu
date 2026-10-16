@@ -11,7 +11,7 @@ _Audit date: 16 Oct 2026 · Branch: `feat/vessel` · Status: **awaiting approval
 - [x] 4. Security headers (strict CSP, HSTS, nosniff, referrer, permissions, frame, COOP) with 0 violations; real 404 status; `security.txt` generated at build; one `VITE_SITE_URL` drives every URL
 - [x] 5. SEO: JSON-LD on every page (Person with 5 `sameAs` profiles, WebSite, ProfilePage, BreadcrumbList, projects), 0 errors / 0 warnings on validator.schema.org; role in titles; full manifest; descriptive résumé filenames + 308s; one LinkedIn URL everywhere (PDFs regenerated); `<time>` on Journey; optional verification tags
 - [x] 6. Performance: dropped `@react-three/drei` (own 30-line frame-rate guard); pilot images load only on the Bridge (~200 KB saved on every other page); icons 217 → 62 KB, portrait 74 → 14 KB (WebP), pilot 193 → 146 KB; Vercel Analytics + Speed Insights. Deferring the 3D world on phones measured as no Lighthouse gain without losing the intro, so not done
-- [ ] 7. Accessibility fixes + `docs/ACCESSIBILITY.md`
+- [x] 7. Accessibility: heading order, landmarks, new-tab hints, ≥ 24 px targets; axe **0 violations** on 18 page scans; `docs/ACCESSIBILITY.md`
 - [ ] 8. Refactor: shared components, `src/config/site.ts`, error boundaries
 - [ ] 9. Reliability: CI, Playwright + axe, Dependabot, `.nvmrc`
 - [ ] 10. Documentation

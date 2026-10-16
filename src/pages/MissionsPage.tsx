@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import { BrowserFrame } from '@/components/BrowserFrame'
+import { NewTabHint } from '@/components/NewTabHint'
 import { PageFrame } from '@/components/PageFrame'
 import { missions } from '@/content/portfolio'
 import { useFocusTracker } from '@/hooks/useFocusTracker'
@@ -135,6 +136,7 @@ export function MissionsPage() {
                   ) : (
                     <a className="mission-brief-link" href={mission.link.url} target="_blank" rel="noopener noreferrer">
                       {mission.link.label} <span aria-hidden="true">↗</span>
+                      <NewTabHint />
                     </a>
                   ))}
                 {mission.note && <p className="mission-brief-note">{mission.note}</p>}
