@@ -13,9 +13,14 @@ import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'nod
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
+import { loadEnv } from 'vite'
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const dist = path.join(root, 'dist')
 const seo = JSON.parse(readFileSync(path.join(root, 'src/content/seo.json'), 'utf8'))
+// Same source as the app: .env (+ .env.local, or the Vercel environment).
+const siteUrl = (process.env.VITE_SITE_URL || loadEnv('production', root, 'VITE_').VITE_SITE_URL || '').replace(/\/+$/, '')
+if (!siteUrl) throw new Error('seo-build: VITE_SITE_URL is not set (see .env.example)')
 const template = readFileSync(path.join(dist, 'index.html'), 'utf8')
 const prerenderDir = path.join(root, 'dist-prerender')
 const { render } = await import(pathToFileURL(path.join(prerenderDir, 'entry-prerender.js')).href)
@@ -30,7 +35,7 @@ function setTag(html, attribute, key, value) {
 }
 
 function pageHtml(route, { title, description }) {
-  const url = seo.siteUrl + route
+  const url = siteUrl + route
   let html = template.replace(/<title>[^<]*<\/title>/, `<title>${escape(title)}</title>`)
   html = setTag(html, 'name', 'description', description)
   html = setTag(html, 'property', 'og:title', title)
@@ -85,10 +90,26 @@ rmSync(prerenderDir, { recursive: true, force: true })
 const today = new Date().toISOString().slice(0, 10)
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${routes.map(([route]) => `  <url><loc>${seo.siteUrl}${route}</loc><lastmod>${today}</lastmod><priority>${route === '/' ? '1.0' : '0.8'}</priority></url>`).join('\n')}
+${routes.map(([route]) => `  <url><loc>${siteUrl}${route}</loc><lastmod>${today}</lastmod><priority>${route === '/' ? '1.0' : '0.8'}</priority></url>`).join('\n')}
 </urlset>
 `
 writeFileSync(path.join(dist, 'sitemap.xml'), sitemap)
-writeFileSync(path.join(dist, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${seo.siteUrl}/sitemap.xml\n`)
+writeFileSync(path.join(dist, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`)
 
-console.log(`seo: ${routes.length} pages prerendered + 404.html, sitemap.xml and robots.txt written`)
+// security.txt (RFC 9116): who to contact about a vulnerability. Expires a year
+// after each build, so it never goes stale while the site is maintained.
+const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+mkdirSync(path.join(dist, '.well-known'), { recursive: true })
+writeFileSync(
+  path.join(dist, '.well-known', 'security.txt'),
+  [
+    'Contact: mailto:deepanshusaini971@gmail.com',
+    `Expires: ${expires}`,
+    'Preferred-Languages: en',
+    `Canonical: ${siteUrl}/.well-known/security.txt`,
+    'Policy: https://github.com/thedeepanshu/thedeepanshu/blob/main/SECURITY.md',
+    '',
+  ].join('\n'),
+)
+
+console.log(`seo: ${routes.length} pages prerendered + 404.html, sitemap.xml, robots.txt and security.txt written`)

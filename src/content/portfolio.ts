@@ -1,3 +1,5 @@
+import { siteHost } from '@/config/site'
+
 export type Mission = {
   id: string
   number: string
@@ -134,7 +136,7 @@ export const missions: Mission[] = [
     visual: {
       src: '/images/missions/the-vessel.webp',
       alt: 'This portfolio’s home page: the pilot hologram with the reveal lens showing the developer’s face behind the visor.',
-      frameLabel: 'thedeepanshu.vercel.app',
+      frameLabel: siteHost,
     },
   },
 ]

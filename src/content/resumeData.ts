@@ -1,3 +1,5 @@
+import { siteHost, siteUrl } from '@/config/site'
+
 export interface ResumeData {
   personalInfo: {
     name: string
@@ -59,8 +61,8 @@ export const resumeData: ResumeData = {
       url: 'https://linkedin.com/in/thedeepanshu-a97229206',
     },
     portfolio: {
-      label: 'thedeepanshu.vercel.app',
-      url: 'https://thedeepanshu.vercel.app',
+      label: siteHost,
+      url: siteUrl,
     },
   },
 

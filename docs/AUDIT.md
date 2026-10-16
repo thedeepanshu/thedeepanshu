@@ -8,7 +8,7 @@ _Audit date: 16 Oct 2026 · Branch: `feat/vessel` · Status: **awaiting approval
 - [x] 1. Dependencies and dead code: removed `framer-motion`, `gsap`, `lenis`; declared `postprocessing`; deleted template assets and ~80 dead CSS selectors; `strict` TypeScript; `npm audit` fix
 - [x] 2. Tooling: ESLint a11y (`jsx-a11y-x`, ESLint-10-ready fork) + import sorting, Prettier (TS/JS/JSON/MD, width 160), `@/` alias, Vitest (10 tests), Husky + lint-staged, `.gitattributes` (LF)
 - [x] 3. Build-time prerender + static first frame: every route ships 171–802 words of real HTML (was 0); real `404.html`; mobile LCP ~4.0 s → ~2.0 s with applied throttling (Lighthouse's simulated mode still models ~4 s, see REPORT)
-- [ ] 4. Security headers, CSP, `security.txt`, real 404 status, `VITE_SITE_URL`
+- [x] 4. Security headers (strict CSP, HSTS, nosniff, referrer, permissions, frame, COOP) with 0 violations; real 404 status; `security.txt` generated at build; one `VITE_SITE_URL` drives every URL
 - [ ] 5. SEO: JSON-LD, titles, manifest, sitemap, résumé renames, LinkedIn URL, verification tags
 - [ ] 6. Performance: deferred world on phones, drop drei, images, critical CSS, analytics
 - [ ] 7. Accessibility fixes + `docs/ACCESSIBILITY.md`

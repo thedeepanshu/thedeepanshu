@@ -1,8 +1,9 @@
+import { siteUrl } from '@/config/site'
+
 import seo from './seo.json'
 
 type PageMeta = { title: string; description: string }
 
-const site = seo
 const pages = seo.pages as Record<string, PageMeta>
 
 const NOT_FOUND: PageMeta = {
@@ -34,7 +35,7 @@ function setMeta(attribute: 'name' | 'property', key: string, value: string) {
  */
 export function applyPageMeta(pathname: string) {
   const meta = metaForPath(pathname)
-  const url = site.siteUrl + (meta.known ? (pathname === '/' ? '/' : pathname.replace(/\/+$/, '')) : '/')
+  const url = siteUrl + (meta.known ? (pathname === '/' ? '/' : pathname.replace(/\/+$/, '')) : '/')
   document.title = meta.title
   setMeta('name', 'description', meta.description)
   setMeta('property', 'og:title', meta.title)
