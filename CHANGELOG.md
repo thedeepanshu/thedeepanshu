@@ -29,11 +29,14 @@ All notable changes to this project are documented here. The format follows [Kee
 - About-page section labels are real headings; the ID card and Signal sidebar are labelled sections.
 - External links tell screen readers they open a new tab; small text links have 24 px tap areas.
 - The site declares its dark colour scheme to the browser.
+- Signal's small monospace labels are 12 px (were 11.2 px) for legibility on phones.
 - TypeScript strict mode across the codebase.
 
 ### Performance
 
-- Mobile LCP down from about 4.0 s to about 2.0 s (Lighthouse, applied throttling).
+- Faster first paint: pages arrive as HTML with a static first frame (FCP 0.1–0.9 s sooner in Lighthouse's mobile run). Lab Performance scores are within a
+  few points of before; see `docs/REPORT.md`.
+- The hidden prerendered copy is skipped by layout (`content-visibility`), so the app doesn't pay to restyle it.
 - Removed `@react-three/drei`: a small frame-rate guard replaces it.
 - Pilot images load only on the Bridge deck (about 200 KB saved on every other page).
 - Icons 217 → 62 KB, portrait 74 → 14 KB (WebP), pilot artwork 193 → 146 KB.

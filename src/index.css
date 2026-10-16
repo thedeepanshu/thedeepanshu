@@ -40,6 +40,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
    app replaces it, so visitors see the welcome screen, never a flash of it.
    Without JavaScript, /noscript.css removes the cover. */
 .prerender-cover { background: #030507; inset: 0; position: fixed; z-index: 400; }
+/* Nobody can see the copy under the cover, so skip laying it out: the text stays
+   in the HTML for crawlers, and the app doesn't pay to restyle a page it discards. */
+#prerender > :not(.prerender-cover) { content-visibility: hidden; }
 /* The cover's counter is a loading placeholder for the welcome screen's own.
    Slightly looser tracking keeps it at least as wide as the real counter in any
    font, so it stays the page's largest paint (LCP) instead of the later copy. */
