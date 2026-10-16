@@ -43,3 +43,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
    Slightly looser tracking keeps it at least as wide as the real counter in any
    font, so it stays the page's largest paint (LCP) instead of the later copy. */
 .prerender-cover .boot-progress strong { letter-spacing: -0.01em; }
+
+/* Readable by screen readers and crawlers, invisible on screen. */
+.visually-hidden { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }

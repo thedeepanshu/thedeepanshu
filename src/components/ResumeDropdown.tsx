@@ -1,6 +1,8 @@
 import { ChevronDown, Download, FileText, Sparkles } from 'lucide-react'
 import { type PointerEvent, useEffect, useRef, useState } from 'react'
 
+import { fileName, resumes } from '@/config/site'
+
 type ResumeDropdownProps = {
   variant?: 'nav' | 'button'
   align?: 'left' | 'right'
@@ -85,7 +87,7 @@ export function ResumeDropdown({ variant = 'nav', align = 'right' }: ResumeDropd
             <span className="dropdown-kicker">/ Select format</span>
           </div>
 
-          <a href="/Deepanshu_Saini_V1.pdf" download="Deepanshu_Saini_V1.pdf" className="resume-option-item" role="menuitem" onClick={() => setIsOpen(false)}>
+          <a href={resumes.ats} download={fileName(resumes.ats)} className="resume-option-item" role="menuitem" onClick={() => setIsOpen(false)}>
             <div className="option-icon-box">
               <FileText size={16} />
             </div>
@@ -100,8 +102,8 @@ export function ResumeDropdown({ variant = 'nav', align = 'right' }: ResumeDropd
           </a>
 
           <a
-            href="/Deepanshu_Saini_V2.pdf"
-            download="Deepanshu_Saini_V2.pdf"
+            href={resumes.visual}
+            download={fileName(resumes.visual)}
             className="resume-option-item fancy-item"
             role="menuitem"
             onClick={() => setIsOpen(false)}

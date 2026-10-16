@@ -3,14 +3,47 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/Deepanshu_Saini_V1.pdf",
+      "destination": "/Deepanshu-Saini-Frontend-Developer-Resume.pdf",
+      "permanent": true
+    },
+    {
+      "source": "/Deepanshu_Saini_V2.pdf",
+      "destination": "/Deepanshu-Saini-Frontend-Developer-Resume-Visual.pdf",
+      "permanent": true
+    }
+  ],
   "rewrites": [
-    { "source": "/about", "destination": "/about/index.html" },
-    { "source": "/missions", "destination": "/missions/index.html" },
-    { "source": "/arsenal", "destination": "/arsenal/index.html" },
-    { "source": "/journey", "destination": "/journey/index.html" },
-    { "source": "/lab", "destination": "/lab/index.html" },
-    { "source": "/beyond", "destination": "/beyond/index.html" },
-    { "source": "/signal", "destination": "/signal/index.html" }
+    {
+      "source": "/about",
+      "destination": "/about/index.html"
+    },
+    {
+      "source": "/missions",
+      "destination": "/missions/index.html"
+    },
+    {
+      "source": "/arsenal",
+      "destination": "/arsenal/index.html"
+    },
+    {
+      "source": "/journey",
+      "destination": "/journey/index.html"
+    },
+    {
+      "source": "/lab",
+      "destination": "/lab/index.html"
+    },
+    {
+      "source": "/beyond",
+      "destination": "/beyond/index.html"
+    },
+    {
+      "source": "/signal",
+      "destination": "/signal/index.html"
+    }
   ],
   "headers": [
     {
@@ -20,24 +53,49 @@
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; script-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; media-src 'self'; frame-src https://www.youtube-nocookie.com https://open.spotify.com; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
         },
-        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
         {
           "key": "Permissions-Policy",
           "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), serial=(), bluetooth=(), hid=(), magnetometer=(), gyroscope=(), accelerometer=(), browsing-topics=()"
         },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" }
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        }
       ]
     },
     {
       "source": "/assets/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/images/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
     }
   ]
 }

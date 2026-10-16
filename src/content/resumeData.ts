@@ -57,8 +57,8 @@ export const resumeData: ResumeData = {
     phone: '+91 70151 20411',
     // location: 'Panipat, Haryana, India',
     linkedin: {
-      label: 'linkedin.com/in/thedeepanshu-a97229206',
-      url: 'https://linkedin.com/in/thedeepanshu-a97229206',
+      label: 'linkedin.com/in/deepanshu-saini-a97229206',
+      url: 'https://www.linkedin.com/in/deepanshu-saini-a97229206/',
     },
     portfolio: {
       label: siteHost,

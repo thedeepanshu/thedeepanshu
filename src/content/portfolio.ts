@@ -294,6 +294,8 @@ export type Milestone = {
   skillsUnlocked: string[]
   status: string
   websiteUrl?: string
+  /** Machine-readable dates (YYYY or YYYY-MM), announced to screen readers and parsed by search engines. */
+  dates?: { start?: string; end?: string }
   platformEvolution?: {
     legacy: string
     modernization: string
@@ -304,6 +306,7 @@ export const milestones: Milestone[] = [
   {
     id: 'anrx-solutions-frontend-developer',
     period: '4Y 11M',
+    dates: { start: '2021-10', end: '2026-08' },
     periodNote: 'EXPERIENCE',
     title: 'Frontend Developer — ANRX Solutions',
     category: 'professional-experience',
@@ -358,6 +361,7 @@ export const milestones: Milestone[] = [
   {
     id: 'canadian-business-website',
     period: 'CLIENT',
+    dates: { start: '2026-05', end: '2026-06' },
     periodNote: 'CANADA',
     title: 'Alec EV & Hybrid Battery Services',
     category: 'client-projects',
@@ -395,6 +399,7 @@ export const milestones: Milestone[] = [
   {
     id: 'portfolio-in-progress',
     period: '2026',
+    dates: { start: '2026' },
     periodNote: 'IN PROGRESS',
     title: 'Building this portfolio',
     category: 'personal-projects',
@@ -428,6 +433,7 @@ export const milestones: Milestone[] = [
   {
     id: 'diploma-cse-gp-sonepat',
     period: '2019',
+    dates: { end: '2019' },
     periodNote: 'DIPLOMA',
     title: 'Diploma in Computer Science & Engineering',
     category: 'education',
@@ -441,6 +447,7 @@ export const milestones: Milestone[] = [
   {
     id: 'secondary-school-ibl',
     period: '2016',
+    dates: { end: '2016' },
     periodNote: 'CBSE',
     title: 'Secondary School (10th) — CBSE',
     category: 'education',

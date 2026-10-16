@@ -14,6 +14,8 @@ import { SiteHeader } from '@/components/SiteHeader'
 import { VesselFooter } from '@/components/VesselFooter'
 import { PageRoutes } from '@/pages/PageRoutes'
 
+export { structuredDataScript } from '@/seo/structuredData'
+
 export function render(url: string) {
   return renderToString(
     <StaticRouter location={url}>

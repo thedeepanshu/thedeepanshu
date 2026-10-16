@@ -5,6 +5,7 @@ import { type KeyboardEvent, type ReactNode, useEffect, useMemo, useRef, useStat
 import { useNavigate } from 'react-router-dom'
 
 import { SOUND_PRESETS } from '@/audio/soundEngine'
+import { resumes } from '@/config/site'
 import { missions, socialLinks } from '@/content/portfolio'
 import { type DeckId, decks } from '@/world/decks'
 import { useVessel } from '@/world/store'
@@ -180,7 +181,7 @@ function PaletteDialog() {
         icon: <FileDown size={16} />,
         keywords: 'resume cv pdf',
         run: () => {
-          download('/Deepanshu_Saini_V1.pdf')
+          download(resumes.ats)
         },
       },
       {
@@ -191,7 +192,7 @@ function PaletteDialog() {
         icon: <FileDown size={16} />,
         keywords: 'resume cv pdf fancy',
         run: () => {
-          download('/Deepanshu_Saini_V2.pdf')
+          download(resumes.visual)
         },
       },
       ...(email

@@ -5,6 +5,29 @@ import { type MilestoneCategory, milestones } from '@/content/portfolio'
 import { useFocusTracker } from '@/hooks/useFocusTracker'
 import { useVessel } from '@/world/store'
 
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+/** "2021-10" -> "Oct 2021", "2019" -> "2019" */
+const readable = (date: string) => {
+  const [year, month] = date.split('-')
+  return month ? `${MONTHS[Number(month) - 1]} ${year}` : year
+}
+
+/**
+ * The milestone's dates as <time> elements: read out by screen readers and
+ * parsed by search engines. Visually the card keeps its "4Y 11M"-style label.
+ */
+function MilestoneDates({ dates }: { dates: { start?: string; end?: string } }) {
+  return (
+    <span className="visually-hidden">
+      {dates.start && <time dateTime={dates.start}>{readable(dates.start)}</time>}
+      {dates.start && dates.end && ' to '}
+      {!dates.start && dates.end && 'Completed '}
+      {dates.end && <time dateTime={dates.end}>{readable(dates.end)}</time>}
+    </span>
+  )
+}
+
 export function JourneyPage() {
   const [activeCategory, setActiveCategory] = useState<MilestoneCategory>('professional-experience')
 
@@ -78,6 +101,7 @@ export function JourneyPage() {
                   <div className="timeline-date-block">
                     <span className="node-year">{ms.period}</span>
                     {ms.periodNote && <span className="node-quarter">{ms.periodNote}</span>}
+                    {ms.dates && <MilestoneDates dates={ms.dates} />}
                   </div>
                 </div>
 

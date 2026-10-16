@@ -11,5 +11,14 @@ export const siteUrl = rawUrl.replace(/\/+$/, '')
 /** Host only, for display, e.g. thedeepanshu.vercel.app */
 export const siteHost = new URL(siteUrl).host
 
+/** The two résumé PDFs in public/ (descriptive names for search and for recruiters' downloads folders). */
+export const resumes = {
+  ats: '/Deepanshu-Saini-Frontend-Developer-Resume.pdf',
+  visual: '/Deepanshu-Saini-Frontend-Developer-Resume-Visual.pdf',
+} as const
+
+/** File name for a download attribute, e.g. "Deepanshu-Saini-Frontend-Developer-Resume.pdf". */
+export const fileName = (path: string) => path.split('/').pop() ?? path
+
 /** Absolute URL for a site path. */
 export const absoluteUrl = (path: string) => siteUrl + (path.startsWith('/') ? path : `/${path}`)
