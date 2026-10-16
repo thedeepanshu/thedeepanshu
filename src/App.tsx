@@ -1,8 +1,8 @@
 import './App.css'
 import './vessel.css'
 
-import { lazy, Suspense, useEffect, useRef } from 'react'
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef } from 'react'
+import { BrowserRouter, useLocation } from 'react-router-dom'
 
 import { BootSequence } from './components/BootSequence'
 import { CommandPalette, PaletteToggle } from './components/CommandPalette'
@@ -15,7 +15,7 @@ import { ShipConsole } from './components/ShipConsole'
 import { SiteHeader } from './components/SiteHeader'
 import { SoundToggle } from './components/SoundToggle'
 import { VesselFooter } from './components/VesselFooter'
-import { AboutPage, ArsenalPage, BeyondPage, HomePage, JourneyPage, LabPage, MissionsPage, NotFoundPage, SignalPage } from './pages'
+import { PageRoutes } from './pages/PageRoutes'
 import { DeckSync } from './world/DeckSync'
 import { useVessel } from './world/store'
 
@@ -51,25 +51,29 @@ function DeckView() {
 
   return (
     <div ref={view} id="content" tabIndex={-1} className={`deck-view${held ? ' deck-view--held' : ''}`} key={location.pathname} inert={held}>
-      <Routes location={location}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/missions" element={<MissionsPage />} />
-        <Route path="/arsenal" element={<ArsenalPage />} />
-        <Route path="/journey" element={<JourneyPage />} />
-        <Route path="/lab" element={<LabPage />} />
-        <Route path="/beyond" element={<BeyondPage />} />
-        <Route path="/signal" element={<SignalPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <PageRoutes location={location} />
       <VesselFooter />
     </div>
   )
 }
 
+/**
+ * The built HTML carries a prerendered copy of the page (for crawlers that
+ * don't run JavaScript) under a cover showing the welcome screen's first frame.
+ * Once the app's first render has committed, drop it, before the browser
+ * paints, so there's never a flash, a layout shift or two copies on screen.
+ */
+function RemovePrerender() {
+  useLayoutEffect(() => {
+    document.getElementById('prerender')?.remove()
+  }, [])
+  return null
+}
+
 function App() {
   return (
     <BrowserRouter>
+      <RemovePrerender />
       <a className="skip-link" href="#content">
         Skip to content
       </a>
