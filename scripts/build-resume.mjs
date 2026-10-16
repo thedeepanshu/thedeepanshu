@@ -2,8 +2,8 @@
  * Prints the HTML resumes in resume-source/ to PDFs in public/ using headless Chrome.
  *
  *   npm run resume          -> both
- *   npm run resume:simple   -> resume-source/simple-resume.html -> public/Deepanshu_Saini_V1.pdf
- *   npm run resume:fancy    -> resume-source/fancy-resume.html  -> public/Deepanshu_Saini_V2.pdf
+ *   npm run resume:simple   -> resume-source/simple-resume.html -> public/Deepanshu-Saini-Frontend-Developer-Resume.pdf
+ *   npm run resume:fancy    -> resume-source/fancy-resume.html  -> public/Deepanshu-Saini-Frontend-Developer-Resume-Visual.pdf
  *
  * Set CHROME_PATH if Chrome/Edge lives somewhere unusual.
  */
@@ -16,8 +16,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
 const RESUMES = {
-  simple: { source: 'resume-source/simple-resume.html', output: 'public/Deepanshu_Saini_V1.pdf' },
-  fancy: { source: 'resume-source/fancy-resume.html', output: 'public/Deepanshu_Saini_V2.pdf' },
+  simple: { source: 'resume-source/simple-resume.html', output: 'public/Deepanshu-Saini-Frontend-Developer-Resume.pdf' },
+  fancy: { source: 'resume-source/fancy-resume.html', output: 'public/Deepanshu-Saini-Frontend-Developer-Resume-Visual.pdf' },
 }
 
 const BROWSERS = [

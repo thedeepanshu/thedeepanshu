@@ -3,6 +3,7 @@ import './ShipConsole.css'
 import { type FormEvent, type KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { fileName, resumes } from '@/config/site'
 import { dossier, missions, skills, socialLinks } from '@/content/portfolio'
 import { decks } from '@/world/decks'
 import { preferredSoundMode, useVessel } from '@/world/store'
@@ -146,8 +147,8 @@ export function ShipConsole() {
         return skills.map((skill) => out(`${skill.name}: ${skill.tags.slice(0, 4).join(', ')}${skill.tags.length > 4 ? '…' : ''}`))
       case 'resume': {
         const link = document.createElement('a')
-        link.href = '/Deepanshu_Saini_V1.pdf'
-        link.download = 'Deepanshu_Saini_V1.pdf'
+        link.href = resumes.ats
+        link.download = fileName(resumes.ats)
         link.click()
         return [out('Downloading résumé (ATS-friendly PDF)…')]
       }

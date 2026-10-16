@@ -23,7 +23,7 @@ const siteUrl = (process.env.VITE_SITE_URL || loadEnv('production', root, 'VITE_
 if (!siteUrl) throw new Error('seo-build: VITE_SITE_URL is not set (see .env.example)')
 const template = readFileSync(path.join(dist, 'index.html'), 'utf8')
 const prerenderDir = path.join(root, 'dist-prerender')
-const { render } = await import(pathToFileURL(path.join(prerenderDir, 'entry-prerender.js')).href)
+const { render, structuredDataScript } = await import(pathToFileURL(path.join(prerenderDir, 'entry-prerender.js')).href)
 
 const escape = (value) => value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
@@ -56,10 +56,21 @@ const COVER = `<div class="prerender-cover boot boot--boot" aria-hidden="true"><
 // font (a later, wider repaint in the real font would count as a new LCP).
 const latinFont = readdirSync(path.join(dist, 'assets')).find((name) => /^space-grotesk-latin-wght-normal-.*\.woff2$/.test(name))
 if (!latinFont) throw new Error('seo-build: latin Space Grotesk woff2 not found in dist/assets')
+// Search Console / Bing Webmaster ownership tags, only when configured.
+const env = { ...loadEnv('production', root, 'VITE_'), ...process.env }
+const verification = [
+  env.VITE_GOOGLE_SITE_VERIFICATION && `<meta name="google-site-verification" content="${escape(env.VITE_GOOGLE_SITE_VERIFICATION)}" />`,
+  env.VITE_BING_SITE_VERIFICATION && `<meta name="msvalidate.01" content="${escape(env.VITE_BING_SITE_VERIFICATION)}" />`,
+].filter(Boolean)
+
 const HEAD_EXTRAS = [
   `<link rel="preload" href="/assets/${latinFont}" as="font" type="font/woff2" crossorigin />`,
   '<noscript><link rel="stylesheet" href="/noscript.css" /></noscript>',
+  ...verification,
 ].join('\n    ')
+
+/** schema.org JSON-LD for the route (a data block, so the CSP doesn't apply to it). */
+const jsonLd = (route) => `<script type="application/ld+json">${structuredDataScript(route)}</script>`
 
 /** Images in the prerendered copy stay crawlable but never compete with the app's own loading. */
 const quietImages = (markup) => markup.replace(/<img /g, '<img fetchpriority="low" ').replace(/<img (?![^>]*\bloading=)/g, '<img loading="lazy" ')
@@ -70,7 +81,8 @@ function withBody(html, route) {
   if (!html.includes(root)) throw new Error('index.html is missing <div id="root"></div>')
   const body = `${root}
     <div id="prerender">${COVER}${quietImages(render(route))}</div>`
-  return html.replace(root, body).replace('</head>', `    ${HEAD_EXTRAS}\n  </head>`)
+  const head = route === '/404' ? HEAD_EXTRAS : `${HEAD_EXTRAS}\n    ${jsonLd(route)}`
+  return html.replace(root, body).replace('</head>', `    ${head}\n  </head>`)
 }
 
 const routes = Object.entries(seo.pages)
