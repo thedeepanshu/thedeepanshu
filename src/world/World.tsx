@@ -21,8 +21,8 @@ import { useVessel } from './store'
 // 3-octave nebula, so the scene sits calmly behind the text on every device
 // and never changes mid-visit. Tiers only differ in how much there is.
 const tierSettings = {
-  high: { dpr: [1, 1.25] as [number, number], stars: 7000, streaks: 1800, octaves: 3, swarm: 42000, sparks: 900, identity: 3200 },
-  low: { dpr: [1, 1.25] as [number, number], stars: 2800, streaks: 700, octaves: 3, swarm: 16000, sparks: 350, identity: 1600 },
+  high: { dpr: [1, 1.25] as [number, number], stars: 7000, streaks: 1800, octaves: 3, swarm: 42000, sparks: 900, identity: 9000 },
+  low: { dpr: [1, 1.25] as [number, number], stars: 2800, streaks: 700, octaves: 3, swarm: 16000, sparks: 350, identity: 5000 },
 }
 
 /** Tells the welcome sequence the world has actually drawn, not just loaded. */

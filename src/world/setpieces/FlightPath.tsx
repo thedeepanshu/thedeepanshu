@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { journeyRoute, milestones } from '../../content/portfolio'
 import { deckById } from '../decks'
-import { deckInView, motion, useVessel } from '../store'
+import { BACKDROP_FLOOR, deckInView, motion, useVessel } from '../store'
 import { makeLabelTexture } from './labels'
 import { planetFragment, planetVertex } from './planetShader'
 
@@ -186,9 +186,9 @@ export function FlightPath() {
     motion.director.target.y = point.y - drop
     motion.director.target.z = point.z - side.z * shift
 
-    // Dim the whole scene once the cards scroll in, like the other decks.
+    // Settle to half brightness once the cards scroll in, like the other decks.
     // Phones stack the copy over the planet, so it starts dimmer there.
-    const fade = (1 - THREE.MathUtils.smoothstep(motion.scroll, 0.25, 0.7) * 0.78) * (narrow ? 0.5 : 1)
+    const fade = (1 - THREE.MathUtils.smoothstep(motion.scroll, 0.25, 0.7) * (1 - BACKDROP_FLOOR)) * (narrow ? 0.5 : 1)
     extras.current.forEach((material) => {
       if (material) material.opacity = (material.userData.base ?? 1) * fade
     })

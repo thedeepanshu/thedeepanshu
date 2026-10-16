@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { playWarp } from '../../audio/soundEngine'
-import { deckInView, scrollDim, useVessel } from '../store'
+import { BACKDROP_FLOOR, deckInView, scrollDim, useVessel } from '../store'
 import { useDeckAnchor } from './useDeckAnchor'
 
 const DISH_RADIUS = 3.2
@@ -110,7 +110,7 @@ export function CommsArray() {
     const narrow = size.width < size.height
     rig.current?.position.set(narrow ? 0 : 5, narrow ? 2.6 : -0.6, -1)
     rig.current?.scale.setScalar(narrow ? 0.55 : 1)
-    const dim = scrollDim(0.45) * (narrow ? 0.7 : 1)
+    const dim = scrollDim(BACKDROP_FLOOR) * (narrow ? 0.7 : 1)
 
     if (signalShots !== shots.current) {
       shots.current = signalShots

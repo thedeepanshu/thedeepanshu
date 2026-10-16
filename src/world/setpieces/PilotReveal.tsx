@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { deckById } from '../decks'
-import { deckInView, motion, useVessel } from '../store'
+import { BACKDROP_FLOOR, deckInView, motion, useVessel } from '../store'
 
 const PILOT_URL = '/images/pilot.webp'
 const PILOT_UNDER_URL = '/images/deepanshu-saini-cutout.webp'
@@ -170,7 +170,7 @@ export function PilotReveal() {
     const bob = reducedMotion ? 0 : Math.sin(time * 0.7) * 0.06
     root.current.position.set(
       deck.target[0] + (narrow ? 0 : 4.5),
-      deck.target[1] + (narrow ? 2.95 : -0.35) + bob + motion.scroll * 3,
+      deck.target[1] + (narrow ? 2.95 : -0.35) + bob,
       deck.target[2] - 1,
     )
     root.current.scale.setScalar(height)
@@ -184,12 +184,13 @@ export function PilotReveal() {
     }
 
     // Where is the pointer on the pilot? Ray-cast it onto the plane for UV.
-    // Fully gone once the featured mission scrolls in: no ghost behind content,
-    // and no lens reacting to a pilot you can't see.
-    const fade = 1 - THREE.MathUtils.smoothstep(motion.scroll, 0.1, 0.65)
-    root.current.visible = fade > 0.01
+    // A fixed backdrop: the pilot stays put and settles to half brightness as
+    // content scrolls over it. The lens only reacts near the top of the page,
+    // so hovering text further down never opens it.
+    const fade = 1 - THREE.MathUtils.smoothstep(motion.scroll, 0.1, 0.65) * (1 - BACKDROP_FLOOR)
+    const lensReady = motion.scroll < 0.35
     let over = false
-    if (plane.current && motion.pointerActive && fade > 0.5) {
+    if (plane.current && motion.pointerActive && lensReady) {
       ndc.set(motion.pointer.x, motion.pointer.y)
       raycaster.setFromCamera(ndc, camera)
       const hit = raycaster.intersectObject(plane.current, false)[0]

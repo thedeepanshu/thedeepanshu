@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import { skills } from '../../content/portfolio'
 import { deckById } from '../decks'
 import { mulberry32 } from '../random'
-import { deckInView, motion, scrollDim, useVessel } from '../store'
+import { BACKDROP_FLOOR, deckInView, scrollDim, useVessel } from '../store'
 import { makeLabelTexture } from './labels'
 
 const GLOBE_CENTER = new THREE.Vector3(4.2, 0.3, -3)
@@ -213,14 +213,12 @@ export function StarMap() {
     // Portrait screens: centre the globe, smaller.
     const narrow = size.width < size.height
     if (globe.current) {
-      // Wide screens: smaller and further right, clear of the intro and atlas copy.
-      // It rides up with the page (≈22 world units per viewport height at this
-      // depth), staying beside the intro instead of sliding behind the atlas copy.
-      const lift = motion.scroll * (narrow ? 26 : 22.3)
-      globe.current.position.set(narrow ? 0 : 6.4, (narrow ? 2 : 0.9) + lift, narrow ? -6 : GLOBE_CENTER.z)
+      // Wide screens: smaller and further right. A fixed backdrop: it stays in
+      // place while the atlas scrolls over it.
+      globe.current.position.set(narrow ? 0 : 6.4, narrow ? 2 : 0.9, narrow ? -6 : GLOBE_CENTER.z)
       globe.current.scale.setScalar(narrow ? 0.72 : 0.74)
     }
-    const dim = scrollDim(0.3) * (narrow ? 0.75 : 1)
+    const dim = scrollDim(BACKDROP_FLOOR) * (narrow ? 0.75 : 1)
     const { activeSkill, reducedMotion } = useVessel.getState()
     const active = skills.findIndex((skill) => skill.category === activeSkill)
 

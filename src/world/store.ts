@@ -158,6 +158,9 @@ export function deckInView(id: DeckId) {
 }
 
 /** Dims a set piece as the page scrolls over it: 1 at the top, `floor` once well into the content. */
+/** How bright a set piece stays once content has scrolled over it. */
+export const BACKDROP_FLOOR = 0.5
+
 export function scrollDim(floor: number) {
   const t = Math.min(1, Math.max(0, (motion.scroll - 0.2) / 0.6))
   return 1 - t * t * (3 - 2 * t) * (1 - floor)

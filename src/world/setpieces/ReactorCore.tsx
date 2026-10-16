@@ -3,7 +3,9 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { experiments } from '../../content/portfolio'
 import { mulberry32 } from '../random'
-import { deckInView, motion, scrollDim, useVessel } from '../store'
+import { deckInView, scrollDim, useVessel } from '../store'
+
+const LAB_FLOOR = 0.3
 import { useDeckAnchor } from './useDeckAnchor'
 
 const CORE_RADIUS = 1.5
@@ -58,8 +60,9 @@ const coreFragment = /* glsl */ `
     vec3 deep = vec3(0.05, 0.28, 0.3);
     // Dark troughs, bright crests: keeps the boiling surface readable under bloom.
     vec3 surface = mix(deep, cyan, smoothstep(-0.45, 0.25, vHeat));
-    surface = mix(surface, hot, smoothstep(0.3, 0.75, vHeat) * 0.6);
-    vec3 color = surface * (0.45 + facing * 0.35) + violet * rim * 0.7;
+    surface = mix(surface, hot, smoothstep(0.3, 0.75, vHeat) * 0.25);
+    // Exposure kept low so the core never blows out to white under bloom.
+    vec3 color = (surface * (0.45 + facing * 0.35) + violet * rim * 0.6) * 0.62;
     gl_FragColor = vec4(color, uDim);
   }
 `
@@ -100,7 +103,7 @@ const glowFragment = /* glsl */ `
   void main() {
     float d = length(vUv - 0.5) * 2.0;
     float glow = pow(max(0.0, 1.0 - d), 2.4);
-    gl_FragColor = vec4(vec3(0.49, 0.96, 0.86), glow * 0.32 * uDim);
+    gl_FragColor = vec4(vec3(0.49, 0.96, 0.86), glow * 0.2 * uDim);
   }
 `
 
@@ -172,9 +175,9 @@ export function ReactorCore({ sparks }: { sparks: number }) {
     const narrow = size.width < size.height
     rig.current?.position.set(narrow ? 0 : 4.4, narrow ? -1.6 : 0.2, -2)
     rig.current?.scale.setScalar(narrow ? 0.5 : 1)
-    // Fade out completely near the bottom, where "Inside the build" closes the page.
-    const nearEnd = THREE.MathUtils.smoothstep(motion.scrollRemaining, 0.6, 1.6)
-    const dim = scrollDim(0.4) * (narrow ? 0.65 : 1) * nearEnd
+    // A fixed backdrop. The Lab's cards sit right over it, so it settles lower
+    // than other decks (30%) to keep their text easy to read.
+    const dim = scrollDim(LAB_FLOOR) * (narrow ? 0.65 : 1)
     // Nothing left to see: skip drawing it at all.
     anchorRef.current.visible = dim > 0.01
 
@@ -199,10 +202,11 @@ export function ReactorCore({ sparks }: { sparks: number }) {
       const x = Math.sin(angle) * radius
       const z = Math.cos(angle) * radius
       cell.position.set(x, z * Math.sin(ORBIT_TILT) * -0.6 + (isActive ? 0.4 : 0), z * Math.cos(ORBIT_TILT))
-      const scale = THREE.MathUtils.damp(cell.scale.x, isActive ? 1.9 : 1, 5, delta)
+      const scale = THREE.MathUtils.damp(cell.scale.x, isActive ? 1.55 : 1, 5, delta)
       cell.scale.setScalar(scale + Math.sin(time * 3 + index) * 0.04)
       const material = cell.material as THREE.MeshBasicMaterial
-      material.opacity = (isActive ? 1 : 0.55) * dim
+      // Additive and bloomed, so even the highlighted cell stays well short of full.
+      material.opacity = (isActive ? 0.5 : 0.32) * dim
     })
 
     // Energy link from core to the active cell, flickering.

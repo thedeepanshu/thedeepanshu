@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import { missions } from '../../content/portfolio'
 import { deckById } from '../decks'
 import { mulberry32 } from '../random'
-import { deckInView, motion, useVessel } from '../store'
+import { BACKDROP_FLOOR, deckInView, motion, useVessel } from '../store'
 import { makeLabelTexture } from './labels'
 
 const PANEL_WIDTH = 4.6
@@ -147,13 +147,12 @@ export function Hangar() {
     // Portrait screens: a smaller drum centred in the gap below the intro copy.
     // The rig's scale also shrinks the drum's offset, so correct by the scaled amount.
     const narrow = size.width < size.height
-    // Wide screens: smaller, pushed right and up beside the page title, clear of
-    // the briefs. It fades out completely as they scroll in, so it never sits
-    // behind text.
+    // Wide screens: smaller, pushed right and up beside the page title. A fixed
+    // backdrop: it settles to half brightness as the briefs scroll over it.
     const scale = narrow ? 0.55 : 0.78
     rig.current?.position.set(narrow ? -DRUM_CENTER.x * scale : 2.4, narrow ? -0.9 : 1.6, 0)
     rig.current?.scale.setScalar(scale)
-    const dim = (1 - THREE.MathUtils.smoothstep(motion.scroll, 0.12, 0.5)) * (narrow ? 0.6 : 1)
+    const dim = (1 - THREE.MathUtils.smoothstep(motion.scroll, 0.12, 0.5) * (1 - BACKDROP_FLOOR)) * (narrow ? 0.6 : 1)
     group.current.visible = dim > 0.01
     const { activeMission } = useVessel.getState()
     const target = Math.max(0, missions.findIndex((mission) => mission.id === activeMission))
