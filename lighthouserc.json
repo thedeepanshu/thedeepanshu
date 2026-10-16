@@ -1,0 +1,33 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "npx vite preview --port 4173 --strictPort",
+      "startServerReadyPattern": "4173",
+      "url": [
+        "http://localhost:4173/",
+        "http://localhost:4173/about",
+        "http://localhost:4173/missions",
+        "http://localhost:4173/arsenal",
+        "http://localhost:4173/journey",
+        "http://localhost:4173/lab",
+        "http://localhost:4173/beyond",
+        "http://localhost:4173/signal"
+      ],
+      "numberOfRuns": 1,
+      "settings": {
+        "chromeFlags": "--no-sandbox --use-angle=swiftshader --enable-unsafe-swiftshader"
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "categories:best-practices": ["error", { "minScore": 0.95 }],
+        "categories:seo": ["error", { "minScore": 0.95 }],
+        "categories:performance": ["warn", { "minScore": 0.8 }]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

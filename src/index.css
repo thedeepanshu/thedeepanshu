@@ -1,6 +1,7 @@
 :root {
   --font-sans: 'Space Grotesk Variable', 'Space Grotesk', 'Segoe UI', sans-serif;
   font-family: var(--font-sans);
+  color-scheme: dark;
   color: #e9f2f4;
   background: #070b0e;
   font-synthesis: none;
