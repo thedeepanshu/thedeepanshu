@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "Deepanshu Saini · Frontend Developer",
+  "short_name": "thedeepanshu",
+  "description": "Portfolio of Deepanshu Saini, a frontend developer with ~5 years of production React, presented as an explorable 3D ship.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "lang": "en",
+  "dir": "ltr",
+  "theme_color": "#070b0e",
+  "background_color": "#070b0e",
+  "categories": ["portfolio", "developer", "technology"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

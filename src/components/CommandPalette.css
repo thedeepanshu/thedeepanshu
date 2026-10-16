@@ -1,0 +1,42 @@
+/* ── Command palette (Ctrl/⌘ K) ── */
+.palette-toggle { align-items: center; background: #070b0e; border: 1px solid rgba(193, 220, 224, .16); color: var(--muted); display: inline-flex; font-family: 'Courier New', monospace; font-size: .7rem; gap: 9px; letter-spacing: .16em; padding: 6px 7px 6px 11px; text-transform: uppercase; transition: border-color .2s ease, color .2s ease; }
+.palette-toggle svg { color: var(--cyan); }
+.palette-toggle:hover, .palette-toggle:focus-visible { border-color: var(--cyan); color: var(--ink); }
+.palette-toggle:focus-visible { outline: 1px solid var(--cyan); outline-offset: 3px; }
+.palette-toggle kbd, .palette kbd { background: rgba(193, 220, 224, .06); border: 1px solid rgba(193, 220, 224, .2); border-bottom-width: 2px; border-radius: 3px; color: var(--ink); font-family: 'Courier New', monospace; font-size: .68rem; letter-spacing: .04em; padding: 2px 5px; text-transform: none; }
+
+.palette-backdrop { align-items: flex-start; background: rgba(3, 5, 7, .55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; inset: 0; justify-content: center; padding: 14vh 16px 16px; position: fixed; z-index: 400; }
+.palette { animation: console-open .24s cubic-bezier(.2, .75, .25, 1) both; background: rgba(5, 9, 11, .95); border: 1px solid rgba(126, 244, 219, .32); box-shadow: 0 30px 80px rgba(0, 0, 0, .6), 0 0 40px rgba(126, 244, 219, .07); display: grid; grid-template-rows: auto 1fr auto; max-height: min(560px, 76vh); width: min(620px, 100%); }
+
+.palette-search { align-items: center; border-bottom: 1px solid var(--line); color: var(--cyan); display: flex; gap: 12px; padding: 14px 16px; }
+.palette-search input { background: transparent; border: 0; caret-color: var(--cyan); color: var(--ink); flex: 1; font-family: var(--font-sans); font-size: 1.05rem; min-width: 0; outline: none; }
+.palette-search input::placeholder { color: #7f8f93; }
+body.has-custom-cursor .palette-search input { cursor: text !important; }
+
+.palette-results { overflow-y: auto; overscroll-behavior: contain; padding: 6px 8px 10px; }
+.palette-group + .palette-group { margin-top: 6px; }
+.palette-group-name { color: var(--purple); font-family: 'Courier New', monospace; font-size: .7rem; letter-spacing: .2em; margin: 0; padding: 10px 10px 6px; text-transform: uppercase; }
+.palette-option { align-items: center; border: 1px solid transparent; cursor: pointer; display: flex; gap: 12px; padding: 9px 10px; }
+.palette-option[aria-selected='true'] { background: rgba(126, 244, 219, .08); border-color: rgba(126, 244, 219, .3); }
+.palette-option-icon { align-items: center; border: 1px solid var(--line); color: var(--cyan); display: inline-flex; flex-shrink: 0; height: 32px; justify-content: center; width: 32px; }
+.palette-option[aria-selected='true'] .palette-option-icon { border-color: rgba(126, 244, 219, .45); }
+.palette-option-text { display: grid; flex: 1; gap: 2px; min-width: 0; }
+.palette-option-text b { color: var(--ink); font-size: .95rem; font-weight: 500; }
+.palette-option-text small { color: var(--muted); font-size: .8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.palette-option-enter { color: var(--cyan); flex-shrink: 0; }
+.palette-empty { color: var(--muted); font-size: .9rem; margin: 0; padding: 22px 10px; text-align: center; }
+
+.palette-foot { border-top: 1px solid var(--line); color: var(--muted); display: flex; font-family: 'Courier New', monospace; font-size: .7rem; gap: 18px; letter-spacing: .08em; padding: 10px 16px; }
+.palette-foot span { align-items: center; display: inline-flex; gap: 5px; }
+
+/* Touch-first devices have the nav drawer; the palette is a keyboard shortcut. */
+@media (hover: none) and (pointer: coarse) {
+  .palette-toggle { display: none; }
+}
+@media (max-width: 900px) {
+  .palette-toggle-label { display: none; }
+  .palette-backdrop { padding-top: 10vh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .palette { animation: none; }
+}

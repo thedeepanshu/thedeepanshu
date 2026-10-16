@@ -1,0 +1,52 @@
+:root {
+  --font-sans: 'Space Grotesk Variable', 'Space Grotesk', 'Segoe UI', sans-serif;
+  font-family: var(--font-sans);
+  color-scheme: dark;
+  color: #e9f2f4;
+  background: #070b0e;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --ink: #e9f2f4;
+  /* Muted labels: WCAG AA (4.5:1) even over bright nebula glow. */
+  --muted: #a9b7bb;
+  --line: rgba(193, 220, 224, 0.18);
+  --cyan: #7ef4db;
+  --blue: #83b7ff;
+  --purple: #a17eff;
+  scrollbar-color: #347a78 #080d10;
+  scrollbar-width: thin;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
+
+body { margin: 0; min-width: 320px; }
+
+a { color: inherit; }
+
+button, a { -webkit-tap-highlight-color: transparent; }
+
+::selection { color: #07100f; background: var(--cyan); }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #080d10; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #438c83, #356887); border: 2px solid #080d10; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7ef4db, #83b7ff); }
+::-webkit-scrollbar-corner { background: #080d10; }
+
+/* The prerendered page (for crawlers) sits under this black cover until the
+   app replaces it, so visitors see the welcome screen, never a flash of it.
+   Without JavaScript, /noscript.css removes the cover. */
+.prerender-cover { background: #030507; inset: 0; position: fixed; z-index: 400; }
+/* Nobody can see the copy under the cover, so skip laying it out: the text stays
+   in the HTML for crawlers, and the app doesn't pay to restyle a page it discards. */
+#prerender > :not(.prerender-cover) { content-visibility: hidden; }
+/* The cover's counter is a loading placeholder for the welcome screen's own.
+   Slightly looser tracking keeps it at least as wide as the real counter in any
+   font, so it stays the page's largest paint (LCP) instead of the later copy. */
+.prerender-cover .boot-progress strong { letter-spacing: -0.01em; }
+
+/* Readable by screen readers and crawlers, invisible on screen. */
+.visually-hidden { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }

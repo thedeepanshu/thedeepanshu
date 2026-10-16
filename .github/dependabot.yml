@@ -1,0 +1,23 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # One PR for routine tooling bumps instead of one per package.
+      dev-tooling:
+        dependency-type: development
+        update-types: [minor, patch]
+      runtime:
+        dependency-type: production
+        update-types: [minor, patch]
+      # three, R3F and postprocessing move together; review these by hand.
+      3d:
+        patterns: ['three', '@types/three', '@react-three/*', 'postprocessing']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

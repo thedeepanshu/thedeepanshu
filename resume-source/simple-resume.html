@@ -1,0 +1,209 @@
+<!doctype html>
+<!--
+  Simple (ATS-friendly) resume — source for public/Deepanshu-Saini-Frontend-Developer-Resume.pdf
+  Edit this file, then run: npm run resume:simple
+  Content flows onto as many A4 pages as needed; entries never split awkwardly across pages.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deepanshu Saini — Frontend Developer Resume</title>
+<meta name="author" content="Deepanshu Saini">
+<style>
+  @page { size: A4; margin: 12mm 12mm 10mm; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, Helvetica, 'Liberation Sans', sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #222;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  strong { color: #000; font-weight: 700; }
+
+  /* ---------- Header ---------- */
+
+  header h1 { font-size: 21pt; line-height: 1.15; font-weight: 700; color: #000; }
+  .title { margin-top: 4pt; font-size: 10.5pt; color: #333; }
+  .contact { margin-top: 8pt; font-size: 9.3pt; color: #333; }
+  .contact + .contact { margin-top: 2pt; }
+
+  /* ---------- Sections ---------- */
+
+  section { margin-top: 13pt; }
+
+  h2 {
+    font-size: 10.8pt;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #000;
+    padding-bottom: 4pt;
+    margin-bottom: 7pt;
+    border-bottom: 1pt solid #000;
+    break-after: avoid;
+  }
+
+  h3 { font-size: 10.2pt; font-weight: 700; color: #000; }
+
+  /* ---------- Skills ---------- */
+
+  .skills { display: grid; grid-template-columns: 41mm 1fr; row-gap: 3pt; }
+  .skills dt { font-weight: 700; color: #000; }
+
+  /* ---------- Entries (jobs, projects, education) ---------- */
+
+  .entry + .entry { margin-top: 10pt; }
+
+  .entry-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8mm;
+    break-after: avoid;
+  }
+  .date { flex-shrink: 0; font-size: 9.3pt; color: #333; white-space: nowrap; }
+
+  ul { margin-top: 4pt; padding-left: 17pt; }
+  li { break-inside: avoid; }
+  li + li { margin-top: 2.5pt; }
+
+  .edu { break-inside: avoid; }
+  .edu + .edu { margin-top: 9pt; }
+  .edu p { margin-top: 3pt; }
+
+  .competency { break-inside: avoid; }
+  .competency + .competency { margin-top: 7pt; }
+  .competency p { margin-top: 2pt; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; column-gap: 8mm; break-inside: avoid; }
+  .two-col p + p { margin-top: 3pt; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Deepanshu Saini</h1>
+  <p class="title">Frontend Developer</p>
+  <p class="contact">
+    <a href="mailto:deepanshusaini971@gmail.com">deepanshusaini971@gmail.com</a> |
+    <a href="tel:+917015120411">+91 70151 20411</a> |
+    Panipat, Haryana, India
+  </p>
+  <p class="contact">
+    <a href="https://thedeepanshu.vercel.app">thedeepanshu.vercel.app</a> |
+    <a href="https://github.com/thedeepanshu">github.com/thedeepanshu</a> |
+    <a href="https://www.linkedin.com/in/deepanshu-saini-a97229206/">linkedin.com/in/deepanshu-saini-a97229206</a>
+  </p>
+</header>
+
+<section>
+  <h2>Profile</h2>
+  <p>
+    Frontend Developer with <strong>~5 years of experience</strong> architecting, scaling, and testing high-performance enterprise web applications using <strong>React.js</strong> and modern JavaScript (ES6+). Builds clean, reusable component systems, optimizes rendering performance, and ships <strong>data-dense dashboards</strong> and interactive <strong>Google Maps</strong> experiences used across large-scale business operations. Comfortable across the stack with working exposure to <strong>Next.js API Routes</strong> and <strong>MongoDB</strong>. An <strong>AI-augmented developer</strong> who uses modern AI tools daily to accelerate delivery and raise code quality, partnering with backend developers, UI/UX designers, QA, and stakeholders across the full product lifecycle.
+  </p>
+</section>
+
+<section>
+  <h2>Technical Skills</h2>
+  <dl class="skills">
+    <dt>Tech Stack:</dt>          <dd>HTML5, CSS3, JavaScript (ES6+), TypeScript, React.js, Next.js, i18n / Localization</dd>
+    <dt>State Management:</dt>    <dd>React Hooks, Redux, Redux Toolkit, Context API, TanStack React Query, Jotai, Zustand</dd>
+    <dt>UI &amp; Styling:</dt>    <dd>Bootstrap, Tailwind CSS, Material UI, Sass (SCSS), LESS</dd>
+    <dt>Testing &amp; TDD:</dt>   <dd>Jest, React Testing Library, React Hook Form, Zod, Storybook, Postman</dd>
+    <dt>Performance &amp; A11y:</dt> <dd>WCAG, Cross-Browser Compatibility, Lighthouse, Web Vitals, Accessibility Testing</dd>
+    <dt>Tools &amp; Analytics:</dt> <dd>Git &amp; GitHub, NPM / Vite, Chrome DevTools, VS Code, Google Analytics (GA4)</dd>
+    <dt>AI Coding Tools:</dt>     <dd>Claude, Claude Code, GitHub Copilot, ChatGPT, Gemini</dd>
+    <dt>Tech Exposure:</dt>       <dd>Vue.js, Next.js API Routes, Node.js, Express.js, MongoDB, Mongoose</dd>
+  </dl>
+</section>
+
+<section>
+  <h2>Professional Experience</h2>
+
+  <article class="entry">
+    <div class="entry-head">
+      <h3>ANRX Solutions — Frontend Developer</h3>
+      <span class="date">Oct 2021 – Aug 2026</span>
+    </div>
+    <ul>
+      <li>Developed and tested <strong>enterprise-grade React.js applications</strong> and business-critical dashboards handling large-scale operational datasets, creating reusable components and building new features end-to-end from design through QA.</li>
+      <li>Developed scalable application state using <strong>Redux, Redux Toolkit, and the Context API</strong>, and integrated <strong>REST APIs</strong> to support dynamic, data-driven UI functionality — identifying and fixing bugs through debugging and refactoring.</li>
+      <li>Built <strong>high-density, performance-optimized React data tables</strong> with nested rows, server-driven search, advanced filtering, custom sorting, and pagination — leveraging memoization to keep large datasets fast and responsive.</li>
+      <li>Implemented charts and <strong>Google Analytics 4 (GA4)</strong> tracking within React components for user interactions, custom events, downloads, and engagement metrics, enabling data-driven product decisions.</li>
+      <li>Built interactive, high-performance geospatial interfaces with the <strong>Google Maps JavaScript API</strong> — integrating marker clustering, feature layers, and polygon &amp; boundary rendering with geocoding to visualize thousands of location points.</li>
+      <li>Engineered a <strong>real-time notification component using WebSockets</strong>, implementing resilient leader-election to auto-reassign the active connection on disconnect, ensuring duplicate-free live updates.</li>
+      <li>Converted <strong>Figma</strong> designs into pixel-perfect, responsive components with clear technical documentation.</li>
+      <li>Collaborated cross-functionally with backend developers, designers, and QA within an <strong>Agile/Scrum workflow</strong> — participating in sprint planning, and Git-based version control to uphold engineering development standards.</li>
+      <li>Adopted <strong>AI-augmented development approach</strong>, using AI-assisted tools and agentic workflows to accelerate feature delivery.</li>
+    </ul>
+  </article>
+
+  <article class="entry">
+    <div class="entry-head">
+      <h3>Alec EV &amp; Hybrid Battery Services (0→1 Build) — Independent Project</h3>
+      <span class="date">May 2026 – Jun 2026</span>
+    </div>
+    <ul>
+      <li>Built and deployed a <strong>production-ready business website</strong> using <strong>Next.js, TypeScript, and Tailwind CSS</strong>, delivering a responsive, modern, and SEO-optimized experience: <a href="https://alecevhybrid.com">alecevhybrid.com</a>.</li>
+      <li>Owned the <strong>end-to-end development lifecycle</strong>, collaborating directly with the client to transform business requirements into production-ready features.</li>
+      <li>Implemented <strong>technical SEO</strong> (schema, sitemap, robots.txt, canonical URLs, metadata, Core Web Vitals) and integrated <strong>Google Search Console, GA4, Google Ads Conversion Tracking, and Google Maps</strong>.</li>
+      <li>Developed conversion-focused features including <strong>WhatsApp lead generation</strong>, optimized contact forms, interactive maps, and click-to-call actions.</li>
+      <li>Managed deployment, domain configuration (Namecheap), and automated <strong>Vercel CI/CD</strong>, ensuring reliable production releases and ongoing maintenance.</li>
+      <li>Used AI-assisted development workflows and agentic tools (Claude, ChatGPT, Gemini) to accelerate delivery and iteration speed without compromising code quality — the kind of leverage-driven, AI-augmented workflow product teams increasingly expect.</li>
+    </ul>
+  </article>
+</section>
+
+<section>
+  <h2>Education</h2>
+  <div class="edu">
+    <div class="entry-head"><h3>B.Tech in Computer Science &amp; Engineering</h3><span class="date">Ongoing</span></div>
+    <p>PKG Group of Institutions, Panipat, Haryana</p>
+  </div>
+  <div class="edu">
+    <div class="entry-head"><h3>Diploma in Computer Science &amp; Engineering</h3><span class="date">2019</span></div>
+    <p>Government Polytechnic, Sonepat, Haryana</p>
+  </div>
+  <div class="edu">
+    <div class="entry-head"><h3>Secondary School (10th), CBSE</h3><span class="date">2016</span></div>
+    <p>I.B.(L) Public School, Panipat, Haryana</p>
+  </div>
+</section>
+
+<section>
+  <h2>Core Competencies</h2>
+  <div class="competency">
+    <h3>Ownership &amp; Accountability</h3>
+    <p>Owns features from design through testing — going beyond the assigned ticket to catch bugs and edge cases early.</p>
+  </div>
+  <div class="competency">
+    <h3>Cross-Functional Collaboration</h3>
+    <p>Works directly with Product, Design, Backend and QA to turn ambiguous requirements into shipped, reliable features.</p>
+  </div>
+  <div class="competency">
+    <h3>Self-Driven Execution</h3>
+    <p>Delivered an independent project solo, end-to-end — direction, development, and deployment infrastructure.</p>
+  </div>
+  <div class="competency">
+    <h3>Usability &amp; Craft</h3>
+    <p>Brings a strong sense for usability and visual aesthetics, paired with hands-on use of AI agents and agentic workflows to ship faster without cutting corners.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Languages &amp; Strengths</h2>
+  <div class="two-col">
+    <div>
+      <p><strong>Hindi</strong> — Native / Full Professional</p>
+      <p><strong>English</strong> — Professional Working</p>
+    </div>
+    <p>Ownership Mindset, Strong Work Ethic, Disciplined, Active Listener, Problem Solver, Fast Learner</p>
+  </div>
+</section>
+
+</body>
+</html>
