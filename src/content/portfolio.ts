@@ -483,7 +483,7 @@ export const dossier = {
   role: 'Frontend Developer',
   specialty: 'React · TypeScript · 3D on the web',
   /** Served from public/images; shown in the dossier ID card and the Signal terminal. */
-  portrait: '/images/deepanshu-saini.jpeg',
+  portrait: '/images/deepanshu-saini.webp',
   stats: [
     { value: '~5 yrs', label: 'shipping production React' },
     { value: '1000s', label: 'of locations on a single map view' },

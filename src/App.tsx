@@ -1,6 +1,8 @@
 import './App.css'
 import './vessel.css'
 
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import { lazy, Suspense, useEffect, useLayoutEffect, useRef } from 'react'
 import { BrowserRouter, useLocation } from 'react-router-dom'
 
@@ -94,6 +96,9 @@ function App() {
       <Narrator />
       <DeckView />
       <BootSequence />
+      {/* Cookie-free page views and real-visitor Core Web Vitals (served from this domain on Vercel). */}
+      <Analytics />
+      <SpeedInsights />
     </BrowserRouter>
   )
 }

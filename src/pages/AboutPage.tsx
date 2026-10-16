@@ -31,7 +31,7 @@ export function AboutPage() {
               <i aria-hidden="true" />
             </div>
             <div className="dossier-id-avatar">
-              <img src={dossier.portrait} alt="Portrait of Deepanshu Saini" width={1254} height={1254} decoding="async" />
+              <img src={dossier.portrait} alt="Portrait of Deepanshu Saini" width={640} height={640} decoding="async" />
             </div>
             <dl>
               <div>
