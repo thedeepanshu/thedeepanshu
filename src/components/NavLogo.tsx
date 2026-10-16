@@ -8,10 +8,19 @@ import { useVessel } from '@/world/store'
 const NAME = 'thedeepanshu'
 const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/<>_'
 
-/** Decodes `element` from random glyphs into `text`, left to right. */
+/**
+ * Decodes `element` from random glyphs into `text`, left to right. The glyphs
+ * are wider than the name's letters, so the element keeps the name's width
+ * while it runs (extra glyph width overflows) and the nav never shifts.
+ */
 function scramble(element: HTMLElement, text: string, duration: number) {
   const start = performance.now()
   let frame = 0
+  element.style.width = `${element.getBoundingClientRect().width}px`
+  const finish = () => {
+    element.textContent = text
+    element.style.width = ''
+  }
   const tick = () => {
     const progress = (performance.now() - start) / duration
     element.textContent = text
@@ -19,10 +28,13 @@ function scramble(element: HTMLElement, text: string, duration: number) {
       .map((char, index) => (char === ' ' || progress > index / text.length ? char : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]))
       .join('')
     if (progress < 1) frame = requestAnimationFrame(tick)
-    else element.textContent = text
+    else finish()
   }
   frame = requestAnimationFrame(tick)
-  return () => cancelAnimationFrame(frame)
+  return () => {
+    cancelAnimationFrame(frame)
+    finish()
+  }
 }
 
 /**
@@ -33,6 +45,7 @@ function scramble(element: HTMLElement, text: string, duration: number) {
 export function NavLogo() {
   const deck = useVessel((state) => state.deck)
   const name = useRef<HTMLSpanElement>(null)
+  const stopScramble = useRef<(() => void) | null>(null)
   const [warpKey, setWarpKey] = useState(0)
   const [previousDeck, setPreviousDeck] = useState(deck)
 
@@ -44,7 +57,9 @@ export function NavLogo() {
 
   const onEnter = () => {
     if (!name.current || useVessel.getState().reducedMotion) return
-    scramble(name.current, NAME, 420)
+    // Restart cleanly if the pointer re-enters mid-scramble.
+    stopScramble.current?.()
+    stopScramble.current = scramble(name.current, NAME, 420)
   }
 
   return (
