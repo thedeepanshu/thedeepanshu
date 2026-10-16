@@ -11,6 +11,9 @@ export const siteUrl = rawUrl.replace(/\/+$/, '')
 /** Host only, for display, e.g. thedeepanshu.vercel.app */
 export const siteHost = new URL(siteUrl).host
 
+/** Where messages go: the contact form, the mailto links, the résumé data. */
+export const contactEmail = 'deepanshusaini971@gmail.com'
+
 /** The two résumé PDFs in public/ (descriptive names for search and for recruiters' downloads folders). */
 export const resumes = {
   ats: '/Deepanshu-Saini-Frontend-Developer-Resume.pdf',

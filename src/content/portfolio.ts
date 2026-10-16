@@ -1,4 +1,4 @@
-import { siteHost } from '@/config/site'
+import { contactEmail, siteHost } from '@/config/site'
 
 export type Mission = {
   id: string
@@ -468,7 +468,7 @@ export type SocialLink = {
 }
 
 export const socialLinks: SocialLink[] = [
-  { name: 'Direct Email', handle: 'deepanshusaini971@gmail.com', url: 'mailto:deepanshusaini971@gmail.com', platform: 'Primary Channel' },
+  { name: 'Direct Email', handle: contactEmail, url: `mailto:${contactEmail}`, platform: 'Primary Channel' },
   { name: 'WhatsApp', handle: '+91 70151 20411', url: 'https://wa.me/917015120411', platform: 'Instant Signal' },
   { name: 'GitHub', handle: '@thedeepanshu', url: 'https://github.com/thedeepanshu', platform: 'Code Repositories' },
   { name: 'LinkedIn', handle: '@thedeepanshu', url: 'https://www.linkedin.com/in/deepanshu-saini-a97229206/', platform: 'Professional Network' },

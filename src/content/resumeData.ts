@@ -1,4 +1,4 @@
-import { siteHost, siteUrl } from '@/config/site'
+import { contactEmail, siteHost, siteUrl } from '@/config/site'
 
 export interface ResumeData {
   personalInfo: {
@@ -53,7 +53,7 @@ export const resumeData: ResumeData = {
   personalInfo: {
     name: 'Deepanshu Saini',
     title: 'Frontend Developer',
-    email: 'deepanshusaini971@gmail.com',
+    email: contactEmail,
     phone: '+91 70151 20411',
     // location: 'Panipat, Haryana, India',
     linkedin: {
