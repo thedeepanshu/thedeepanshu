@@ -2,8 +2,8 @@
 
 | Source file          | Generates                     | Command                 |
 | -------------------- | ----------------------------- | ----------------------- |
-| `simple-resume.html` | `public/Deepanshu_Saini_V1.pdf`  | `npm run resume:simple` |
-| `fancy-resume.html`  | `public/Deepanshu_Saini_V2.pdf`     | `npm run resume:fancy`  |
+| `simple-resume.html` | `public/Deepanshu-Saini-Frontend-Developer-Resume.pdf` | `npm run resume:simple` |
+| `fancy-resume.html`  | `public/Deepanshu-Saini-Frontend-Developer-Resume-Visual.pdf` | `npm run resume:fancy`  |
 
 `npm run resume` builds both.
 

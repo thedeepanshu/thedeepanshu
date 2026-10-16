@@ -1,5 +1,7 @@
-import { useState, useRef, useEffect, type PointerEvent } from 'react'
-import { FileText, Sparkles, ChevronDown, Download } from 'lucide-react'
+import { ChevronDown, Download, FileText, Sparkles } from 'lucide-react'
+import { type PointerEvent, useEffect, useRef, useState } from 'react'
+
+import { fileName, resumes } from '@/config/site'
 
 type ResumeDropdownProps = {
   variant?: 'nav' | 'button'
@@ -72,7 +74,9 @@ export function ResumeDropdown({ variant = 'nav', align = 'right' }: ResumeDropd
         aria-haspopup="true"
         aria-label="Download Resume Options"
       >
-        <span className="resume-btn-icon"><Download size={13} /></span>
+        <span className="resume-btn-icon">
+          <Download size={13} />
+        </span>
         <span className="resume-btn-label">Resume</span>
         <ChevronDown size={13} className="resume-chevron" />
       </button>
@@ -83,13 +87,7 @@ export function ResumeDropdown({ variant = 'nav', align = 'right' }: ResumeDropd
             <span className="dropdown-kicker">/ Select format</span>
           </div>
 
-          <a
-            href="/Deepanshu_Saini_V1.pdf"
-            download="Deepanshu_Saini_V1.pdf"
-            className="resume-option-item"
-            role="menuitem"
-            onClick={() => setIsOpen(false)}
-          >
+          <a href={resumes.ats} download={fileName(resumes.ats)} className="resume-option-item" role="menuitem" onClick={() => setIsOpen(false)}>
             <div className="option-icon-box">
               <FileText size={16} />
             </div>
@@ -98,14 +96,14 @@ export function ResumeDropdown({ variant = 'nav', align = 'right' }: ResumeDropd
                 <span className="option-title">Simple Resume</span>
                 <span className="option-badge">ATS</span>
               </div>
-              <span className="option-desc">Clean, ATS-friendly format (PDF)</span>
+              <span className="option-desc">Clean, ATS-friendly format</span>
             </div>
             <span className="option-arrow">↓</span>
           </a>
 
           <a
-            href="/Deepanshu_Saini_V2.pdf"
-            download="Deepanshu_Saini_V2.pdf"
+            href={resumes.visual}
+            download={fileName(resumes.visual)}
             className="resume-option-item fancy-item"
             role="menuitem"
             onClick={() => setIsOpen(false)}
@@ -118,7 +116,7 @@ export function ResumeDropdown({ variant = 'nav', align = 'right' }: ResumeDropd
                 <span className="option-title">Fancy Resume</span>
                 <span className="option-badge fancy-badge">Visual</span>
               </div>
-              <span className="option-desc">Stylized & creative portfolio PDF</span>
+              <span className="option-desc">Stylized & creative portfolio</span>
             </div>
             <span className="option-arrow">↓</span>
           </a>

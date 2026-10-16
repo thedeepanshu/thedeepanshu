@@ -1,0 +1,40 @@
+{
+  "siteName": "thedeepanshu",
+  "author": "Deepanshu Saini",
+  "image": "/og-image.jpg",
+  "imageAlt": "Deepanshu Saini, Frontend Developer: a futuristic pilot on a dark starfield",
+  "pages": {
+    "/": {
+      "title": "Deepanshu Saini | Frontend Developer",
+      "description": "Frontend developer with ~5 years of production React: data-dense dashboards, live maps and real-time interfaces, presented as an explorable 3D ship."
+    },
+    "/about": {
+      "title": "Origin · Deepanshu Saini, Frontend Developer",
+      "description": "The pilot dossier: how Deepanshu Saini works, what he values, and five years of building React interfaces people rely on every day."
+    },
+    "/missions": {
+      "title": "Missions · Deepanshu Saini, Frontend Developer",
+      "description": "Selected work: operations dashboards, a ground-up platform rebuild, a live client website built solo, and this 3D portfolio."
+    },
+    "/arsenal": {
+      "title": "Arsenal · Deepanshu Saini, Frontend Developer",
+      "description": "The frontend toolkit across 8 domains: React, TypeScript, state and data, styling, testing, performance, accessibility and AI-assisted development."
+    },
+    "/journey": {
+      "title": "Journey · Deepanshu Saini, Frontend Developer",
+      "description": "Experience and education: ~5 years as a frontend developer at ANRX Solutions, a client launch in Canada, and ongoing B.Tech studies."
+    },
+    "/lab": {
+      "title": "Lab · Deepanshu Saini, Frontend Developer",
+      "description": "Experiments behind this site: WebGL shaders, a 42,000-particle core, the pilot reveal lens and procedural Web Audio."
+    },
+    "/beyond": {
+      "title": "Beyond · Deepanshu Saini, Frontend Developer",
+      "description": "Off duty with Deepanshu Saini: what he’s watching, listening to and learning right now, plus life with his family."
+    },
+    "/signal": {
+      "title": "Contact · Deepanshu Saini, Frontend Developer",
+      "description": "Open to frontend roles, remote or hybrid. Send a message and get a reply within 24 hours."
+    }
+  }
+}

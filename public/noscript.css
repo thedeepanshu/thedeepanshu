@@ -1,0 +1,4 @@
+/* Loaded only when JavaScript is off: show the prerendered page straight away. */
+.prerender-cover { display: none; }
+html #prerender > :not(.prerender-cover) { content-visibility: visible; }
+#prerender .deck-view { animation: none; }

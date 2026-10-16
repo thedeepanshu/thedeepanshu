@@ -1,85 +1,109 @@
-import { lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import { SiteHeader } from '../components/SiteHeader'
 
-const HeroScene = lazy(() => import('../scenes/HeroScene').then(({ HeroScene }) => ({ default: HeroScene })))
+import { BrowserFrame } from '@/components/BrowserFrame'
+import { DeckKicker } from '@/components/DeckKicker'
+import { ExternalLink } from '@/components/ExternalLink'
+import { missions, skills } from '@/content/portfolio'
+
+// The live client site is the strongest proof on the page: real, public, solo.
+const featured = missions.find((mission) => mission.id === 'alec-ev-hybrid') ?? missions[0]
+const toolCount = skills.reduce((total, skill) => total + skill.tags.length, 0)
+
+const proof = [
+  { value: '~5 yrs', label: 'shipping production React', to: '/journey' },
+  { value: '0→1', label: 'live client site, built and run solo', to: '/missions' },
+  { value: String(toolCount), label: `tools across ${skills.length} domains`, to: '/arsenal' },
+]
 
 export function HomePage() {
   return (
     <main className="portfolio-shell">
-      <SiteHeader />
-
       <section className="hero-section" id="top">
         <div className="hero-copy">
-          <p className="eyebrow"><span>01</span> digital workshop / future systems</p>
-          <h1>Frontend<br /><em>in motion.</em></h1>
+          <DeckKicker deck="bridge" topic="home" className="eyebrow" />
+          <h1>
+            Frontend
+            <br />
+            <em>in motion.</em>
+          </h1>
           <p className="hero-description">
-            Frontend developer building this portfolio as an anime-inspired 3D experience.
+            I’m Deepanshu, a frontend developer with ~5 years of production React: data-dense dashboards, live maps and real-time interfaces. This ship is where
+            I push the web further.
           </p>
           <div className="hero-actions">
-            <a className="primary-action" href="#missions">See the project <span>↗</span></a>
-            <a className="text-action" href="#origin">About me <span>↓</span></a>
+            <Link className="primary-action" to="/missions">
+              View missions <span>↗</span>
+            </Link>
+            <Link className="text-action" to="/about">
+              Read the dossier <span>→</span>
+            </Link>
           </div>
-        </div>
-
-        <div className="scene-stage" role="img" aria-label="An anime-inspired 3D frontend creator and futuristic car in a neon workshop">
-          <Suspense fallback={<div className="scene-fallback" role="status">Loading 3D scene</div>}>
-            <HeroScene />
-          </Suspense>
-          <div className="scene-sky" />
-          <div className="moon" />
-          <div className="workshop-grid" />
-          <div className="hud-card hud-card-top"><span>AI / VISUAL THEME</span><strong>Interface concept</strong><i /></div>
-          <div className="scene-label">the future is a material</div>
+          <div className="hero-meta">
+            <span>React · TypeScript</span>
+            <span>Three.js · GLSL</span>
+            <span>~5 yrs in production</span>
+          </div>
         </div>
       </section>
 
-      <section className="intro-strip" id="origin">
-        <p className="section-kicker">/ 001 — origin</p>
-        <div>
-          <h2>Ideas should feel <span>alive.</span></h2>
-          <p>I’m a frontend developer. This portfolio is where I’m bringing that work into an anime-inspired world of motion and 3D.</p>
-        </div>
-      </section>
-
-      <section className="build-section">
-        <div className="build-intro">
-          <p className="section-kicker">/ 002 — inside the build</p>
-          <div>
-            <h2>A frontend portfolio, built as a <span>world.</span></h2>
-            <p>Every visual layer is part of the same project: interface, scene, and motion working together.</p>
+      <section className="home-block home-featured" aria-labelledby="featured-title">
+        <div className="home-featured-copy">
+          <p className="section-kicker">/ featured mission</p>
+          <p className="home-featured-type">
+            {featured.type} <span>· {featured.status}</span>
+          </p>
+          <h2 id="featured-title">{featured.title}</h2>
+          <p className="home-featured-summary">{featured.summary}</p>
+          <ul className="home-featured-points">
+            {featured.highlights.slice(0, 3).map((point) => (
+              <li key={point}>
+                <span aria-hidden="true">▸</span>
+                {point}
+              </li>
+            ))}
+          </ul>
+          <div className="hero-actions">
+            <Link className="primary-action" to="/missions">
+              Read the brief <span>↗</span>
+            </Link>
+            {featured.link && (
+              <ExternalLink className="text-action" href={featured.link.url}>
+                Visit {featured.link.label} <span>↗</span>
+              </ExternalLink>
+            )}
           </div>
         </div>
-        <div className="build-pillars">
-          <article>
-            <span>01 / interface</span>
-            <h3>React + TypeScript</h3>
-            <p>Reusable page layouts and route-based navigation form the portfolio’s structure.</p>
-          </article>
-          <article>
-            <span>02 / scene</span>
-            <h3>Three.js in React</h3>
-            <p>The hero brings together an original stylized character, a futuristic car, lighting, and a workshop floor.</p>
-          </article>
-          <article>
-            <span>03 / motion</span>
-            <h3>Movement with a purpose</h3>
-            <p>The opening reveal introduces the scene and interface in sequence, with a reduced-motion option.</p>
-          </article>
-        </div>
+        <BrowserFrame src={featured.visual.src} alt={featured.visual.alt} label={featured.visual.frameLabel} className="home-featured-visual" />
+      </section>
+
+      <section className="home-block home-proof" aria-label="At a glance">
+        {proof.map((item) => (
+          <Link className="home-proof-item" to={item.to} key={item.label}>
+            <strong>{item.value}</strong>
+            <span>{item.label}</span>
+            <b aria-hidden="true">↗</b>
+          </Link>
+        ))}
       </section>
 
       <section className="missions-preview" id="missions">
-        <div className="section-heading"><p className="section-kicker">/ 003 — current project</p><span>in progress</span></div>
-        <article className="mission-card">
-          <div><p className="mission-type">personal project / in progress</p><h2>thedeepanshu portfolio<span>.</span></h2></div>
-        </article>
+        <div className="section-heading">
+          <p className="section-kicker">/ mission log</p>
+          <span>{missions.length} missions</span>
+        </div>
+        <div className="chapter-list mission-chapters">
+          {missions.map((mission) => (
+            <Link className="chapter-row" to="/missions" key={mission.id}>
+              <span>M/{mission.number}</span>
+              <strong>
+                {mission.title}
+                <small>{mission.type}</small>
+              </strong>
+              <b aria-hidden="true">↗</b>
+            </Link>
+          ))}
+        </div>
       </section>
-
-      <footer className="site-footer" id="signal">
-        <p>thedeepanshu</p>
-        <Link to="/signal">Let&apos;s connect <span>↗</span></Link>
-      </footer>
     </main>
   )
 }

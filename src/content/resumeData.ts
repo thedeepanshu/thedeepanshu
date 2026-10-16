@@ -1,3 +1,5 @@
+import { contactEmail, siteHost, siteUrl } from '@/config/site'
+
 export interface ResumeData {
   personalInfo: {
     name: string
@@ -51,16 +53,16 @@ export const resumeData: ResumeData = {
   personalInfo: {
     name: 'Deepanshu Saini',
     title: 'Frontend Developer',
-    email: 'deepanshusaini971@gmail.com',
+    email: contactEmail,
     phone: '+91 70151 20411',
     // location: 'Panipat, Haryana, India',
     linkedin: {
-      label: 'linkedin.com/in/thedeepanshu-a97229206',
-      url: 'https://linkedin.com/in/thedeepanshu-a97229206',
+      label: 'linkedin.com/in/deepanshu-saini-a97229206',
+      url: 'https://www.linkedin.com/in/deepanshu-saini-a97229206/',
     },
     portfolio: {
-      label: 'thedeepanshu.dev',
-      url: 'https://thedeepanshu.dev',
+      label: siteHost,
+      url: siteUrl,
     },
   },
 
@@ -170,7 +172,8 @@ export const resumeData: ResumeData = {
     },
     {
       title: 'Usability & Craft',
-      description: 'Brings a strong sense for usability and visual aesthetics, paired with hands-on use of AI agents and agentic workflows to ship faster without cutting corners.',
+      description:
+        'Brings a strong sense for usability and visual aesthetics, paired with hands-on use of AI agents and agentic workflows to ship faster without cutting corners.',
     },
   ],
 
@@ -179,12 +182,5 @@ export const resumeData: ResumeData = {
     { language: 'English', proficiency: 'Professional Working' },
   ],
 
-  strengths: [
-    'Ownership Mindset',
-    'Strong Work Ethic',
-    'Disciplined',
-    'Active Listener',
-    'Problem Solver',
-    'Fast Learner',
-  ],
+  strengths: ['Ownership Mindset', 'Strong Work Ethic', 'Disciplined', 'Active Listener', 'Problem Solver', 'Fast Learner'],
 }

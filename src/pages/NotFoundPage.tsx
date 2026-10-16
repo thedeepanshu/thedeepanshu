@@ -1,13 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { SiteHeader } from '../components/SiteHeader'
+
+import { useVessel } from '@/world/store'
 
 export function NotFoundPage() {
   const [countdown, setCountdown] = useState(5)
   const navigate = useNavigate()
   const location = useLocation()
 
+  // Don't start the return countdown until the visitor has boarded.
+  const boarded = useVessel((state) => state.bootPhase === 'done')
+
   useEffect(() => {
+    if (!boarded) return
     if (countdown <= 0) {
       navigate('/')
       return
@@ -18,16 +23,17 @@ export function NotFoundPage() {
     }, 1000)
 
     return () => clearTimeout(timer)
-  }, [countdown, navigate])
+  }, [boarded, countdown, navigate])
 
   return (
     <main className="portfolio-shell inner-page">
-      <SiteHeader />
       <section className="not-found-container">
         <div className="not-found-content">
           {/* Glitch 404 display */}
           <div className="not-found-code" aria-hidden="true">
-            <span className="glitch-text" data-text="404">404</span>
+            <span className="glitch-text" data-text="404">
+              404
+            </span>
           </div>
 
           <p className="not-found-kicker">/ signal lost</p>
@@ -45,10 +51,7 @@ export function NotFoundPage() {
             </Link>
             <div className="not-found-countdown">
               <div className="countdown-bar">
-                <div
-                  className="countdown-fill"
-                  style={{ width: `${(countdown / 5) * 100}%` }}
-                />
+                <div className="countdown-fill" style={{ width: `${(countdown / 5) * 100}%` }} />
               </div>
               <span className="countdown-label">
                 Auto-redirecting in <strong>{countdown}s</strong>
@@ -63,11 +66,6 @@ export function NotFoundPage() {
           </div>
         </div>
       </section>
-
-      <footer className="site-footer">
-        <p>thedeepanshu</p>
-        <Link to="/signal">Let&apos;s build something alive <span>↗</span></Link>
-      </footer>
     </main>
   )
 }

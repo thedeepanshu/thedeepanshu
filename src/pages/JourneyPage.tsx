@@ -1,12 +1,44 @@
 import { useState } from 'react'
-import { milestones, type MilestoneCategory } from '../content/portfolio'
-import { PageFrame } from '../components/PageFrame'
+
+import { ExternalLink } from '@/components/ExternalLink'
+import { PageFrame } from '@/components/PageFrame'
+import { type MilestoneCategory, milestones } from '@/content/portfolio'
+import { useFocusTracker } from '@/hooks/useFocusTracker'
+import { useVessel } from '@/world/store'
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+/** "2021-10" -> "Oct 2021", "2019" -> "2019" */
+const readable = (date: string) => {
+  const [year, month] = date.split('-')
+  return month ? `${MONTHS[Number(month) - 1]} ${year}` : year
+}
+
+/**
+ * The milestone's dates as <time> elements: read out by screen readers and
+ * parsed by search engines. Visually the card keeps its "4Y 11M"-style label.
+ */
+function MilestoneDates({ dates }: { dates: { start?: string; end?: string } }) {
+  return (
+    <span className="visually-hidden">
+      {dates.start && <time dateTime={dates.start}>{readable(dates.start)}</time>}
+      {dates.start && dates.end && ' to '}
+      {!dates.start && dates.end && 'Completed '}
+      {dates.end && <time dateTime={dates.end}>{readable(dates.end)}</time>}
+    </span>
+  )
+}
 
 export function JourneyPage() {
   const [activeCategory, setActiveCategory] = useState<MilestoneCategory>('professional-experience')
 
-  const projectCount = (category: MilestoneCategory) =>
-    milestones.filter((milestone) => milestone.category === category).length
+  // The camera flies along the route to the milestone being read.
+  useFocusTracker(
+    useVessel((state) => state.setActiveMilestone),
+    activeCategory,
+  )
+
+  const projectCount = (category: MilestoneCategory) => milestones.filter((milestone) => milestone.category === category).length
 
   const projectCountLabel = (category: MilestoneCategory) => {
     const count = projectCount(category)
@@ -28,7 +60,16 @@ export function JourneyPage() {
   const filteredMilestones = milestones.filter((milestone) => milestone.category === activeCategory)
 
   return (
-    <PageFrame eyebrow="004 / growth timeline" title={<>The <em>journey.</em></>} intro="Education, frontend experience, and projects — built over time.">
+    <PageFrame
+      deck="journey"
+      topic="experience & education"
+      title={
+        <>
+          The <em>journey.</em>
+        </>
+      }
+      intro="Education, frontend experience, and projects — built over time."
+    >
       <div className="journey-container">
         {/* Filter Navigation Bar & Resume Download CTA */}
         <div className="journey-action-bar">
@@ -52,15 +93,17 @@ export function JourneyPage() {
         <div className="timeline-wrapper" aria-live="polite">
           <div className="timeline-spine" />
 
+          <h2 className="visually-hidden">Timeline</h2>
           <div className="timeline-list">
             {filteredMilestones.map((ms) => (
-              <div className="timeline-item" key={ms.id}>
+              <div className="timeline-item" key={ms.id} data-focus-id={ms.id}>
                 {/* Node indicator */}
                 <div className="timeline-node">
                   <div className="node-dot" />
                   <div className="timeline-date-block">
                     <span className="node-year">{ms.period}</span>
                     {ms.periodNote && <span className="node-quarter">{ms.periodNote}</span>}
+                    {ms.dates && <MilestoneDates dates={ms.dates} />}
                   </div>
                 </div>
 
@@ -95,9 +138,9 @@ export function JourneyPage() {
                     </section>
                   )}
                   {ms.websiteUrl && (
-                    <a className="milestone-website-link" href={ms.websiteUrl} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="milestone-website-link" href={ms.websiteUrl}>
                       Visit website <span aria-hidden="true">↗</span>
-                    </a>
+                    </ExternalLink>
                   )}
 
                   {/* Achievements */}
@@ -106,7 +149,9 @@ export function JourneyPage() {
                       <span className="block-label">Responsibilities &amp; contributions:</span>
                       <ul className="milestone-list">
                         {ms.achievements.map((ach, idx) => (
-                          <li key={idx}><span>↗</span> {ach}</li>
+                          <li key={idx}>
+                            <span>↗</span> {ach}
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -118,7 +163,9 @@ export function JourneyPage() {
                       <span className="skills-label">Tools &amp; platforms:</span>
                       <div className="skills-pills">
                         {ms.skillsUnlocked.map((skill) => (
-                          <span className="skill-pill" key={skill}>{skill}</span>
+                          <span className="skill-pill" key={skill}>
+                            {skill}
+                          </span>
                         ))}
                       </div>
                     </div>

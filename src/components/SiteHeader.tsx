@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
+
+import { NavLogo } from './NavLogo'
 import { ResumeDropdown } from './ResumeDropdown'
 
 const navigation = [
@@ -63,11 +65,13 @@ export function SiteHeader() {
   return (
     <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
       <div className="site-header-inner">
-        <Link className="wordmark" to="/">thedeepanshu<span className="wordmark-dot">.</span></Link>
+        <NavLogo />
 
         <nav className="site-nav" aria-label="Primary navigation">
           {navigation.map(([label, path]) => (
-            <NavLink key={path} to={path}>{label}</NavLink>
+            <NavLink key={path} to={path}>
+              {label}
+            </NavLink>
           ))}
         </nav>
 
@@ -87,13 +91,15 @@ export function SiteHeader() {
       </div>
 
       {drawerOpen && (
-        <div className="drawer-root" role="presentation" onClick={closeDrawer}>
-          <nav
-            id="mobile-drawer"
-            className="mobile-drawer"
-            aria-label="Mobile navigation"
-            onClick={(event) => event.stopPropagation()}
-          >
+        <div
+          className="drawer-root"
+          role="presentation"
+          onClick={(event) => {
+            // Only a click on the dimmed backdrop itself closes the drawer.
+            if (event.target === event.currentTarget) closeDrawer()
+          }}
+        >
+          <nav id="mobile-drawer" className="mobile-drawer" aria-label="Mobile navigation">
             <p className="drawer-kicker">/ navigation</p>
             {navigation.map(([label, path], index) => (
               <NavLink key={path} to={path} className="drawer-link">
