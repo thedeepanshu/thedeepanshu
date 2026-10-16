@@ -1,7 +1,9 @@
+import './NavLogo.css'
+
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useVessel } from '../world/store'
-import './NavLogo.css'
+
+import { useVessel } from '@/world/store'
 
 const NAME = 'thedeepanshu'
 const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/<>_'
@@ -63,7 +65,10 @@ export function NavLogo() {
         <path className="nav-logo-d" d="M20 18h9.5a14 14 0 0 1 0 28H20Z" pathLength={100} />
         <circle className="nav-logo-dot" cx="47.5" cy="43" r="3.6" />
       </svg>
-      <span className="nav-logo-name" aria-hidden="true"><span ref={name}>{NAME}</span><b>.</b></span>
+      <span className="nav-logo-name" aria-hidden="true">
+        <span ref={name}>{NAME}</span>
+        <b>.</b>
+      </span>
     </Link>
   )
 }

@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { dossier, missions, skills, socialLinks } from '../content/portfolio'
-import { decks } from '../world/decks'
-import { preferredSoundMode, useVessel } from '../world/store'
 import './ShipConsole.css'
+
+import { type FormEvent, type KeyboardEvent, useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { dossier, missions, skills, socialLinks } from '@/content/portfolio'
+import { decks } from '@/world/decks'
+import { preferredSoundMode, useVessel } from '@/world/store'
 
 type Line = { id: number; kind: 'input' | 'output' | 'error'; text: string }
 
@@ -11,10 +13,31 @@ const CHARTED = decks.filter((deck) => deck.id !== 'void')
 /** Deck names you can type, mapped to routes. Page names work as aliases. */
 const DESTINATIONS: Record<string, string> = {
   ...Object.fromEntries(CHARTED.map((deck) => [deck.id, deck.path])),
-  home: '/', about: '/about', contact: '/signal', skills: '/arsenal', projects: '/missions', work: '/missions',
+  home: '/',
+  about: '/about',
+  contact: '/signal',
+  skills: '/arsenal',
+  projects: '/missions',
+  work: '/missions',
 }
 
-const COMMANDS = ['help', 'goto', 'decks', 'whoami', 'missions', 'skills', 'resume', 'hire', 'contact', 'sound', 'scan', 'warp', 'clear', 'exit', 'self-destruct']
+const COMMANDS = [
+  'help',
+  'goto',
+  'decks',
+  'whoami',
+  'missions',
+  'skills',
+  'resume',
+  'hire',
+  'contact',
+  'sound',
+  'scan',
+  'warp',
+  'clear',
+  'exit',
+  'self-destruct',
+]
 
 const HELP = [
   'help                 this list',
@@ -131,7 +154,10 @@ export function ShipConsole() {
       case 'hire':
       case 'contact':
         flyTo('/signal')
-        return [out('Opening a channel to the pilot. Comms array is on the Signal deck.'), ...socialLinks.slice(0, 2).map((link) => out(`${link.name}: ${link.handle}`))]
+        return [
+          out('Opening a channel to the pilot. Comms array is on the Signal deck.'),
+          ...socialLinks.slice(0, 2).map((link) => out(`${link.name}: ${link.handle}`)),
+        ]
       case 'sudo':
         if (arg.startsWith('hire')) {
           flyTo('/signal')
@@ -202,13 +228,20 @@ export function ShipConsole() {
 
   return (
     <>
-
       {open && (
-        <div className="ship-console-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false) }}>
+        <div
+          className="ship-console-backdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setOpen(false)
+          }}
+        >
           <div className="ship-console" role="dialog" aria-modal="true" aria-label="Ship console">
             <header className="ship-console-head">
               <span>VESSEL OS // console</span>
-              <button type="button" onClick={() => setOpen(false)} aria-label="Close console">Esc ×</button>
+              <button type="button" onClick={() => setOpen(false)} aria-label="Close console">
+                Esc ×
+              </button>
             </header>
             <div className="ship-console-log" ref={log} role="log" aria-live="polite">
               {lines.map((entry) => (
@@ -219,7 +252,9 @@ export function ShipConsole() {
               ))}
             </div>
             <form className="ship-console-prompt" onSubmit={submit}>
-              <label htmlFor="ship-console-input" aria-hidden="true">pilot@vessel:~$</label>
+              <label htmlFor="ship-console-input" aria-hidden="true">
+                pilot@vessel:~$
+              </label>
               <input
                 id="ship-console-input"
                 ref={input}

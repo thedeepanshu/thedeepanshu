@@ -1,6 +1,8 @@
-import { useState, type PointerEvent } from 'react'
 import { Play, RotateCcw } from 'lucide-react'
-import { watching, type WatchItem, type WatchStatus } from '../../content/beyond'
+import { type PointerEvent, useState } from 'react'
+
+import { watching, type WatchItem, type WatchStatus } from '@/content/beyond'
+
 import { VideoDialog } from './VideoDialog'
 
 const STATUS: Record<WatchStatus, string> = {
@@ -34,12 +36,13 @@ export function WatchShelf() {
   const [flipped, setFlipped] = useState<Set<string>>(() => new Set())
   const [trailer, setTrailer] = useState<WatchItem | null>(null)
 
-  const flip = (id: string) => setFlipped((current) => {
-    const next = new Set(current)
-    if (next.has(id)) next.delete(id)
-    else next.add(id)
-    return next
-  })
+  const flip = (id: string) =>
+    setFlipped((current) => {
+      const next = new Set(current)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
 
   return (
     <>
@@ -49,11 +52,20 @@ export function WatchShelf() {
           return (
             <article className={`watch-card watch-card--${item.status}${isFlipped ? ' is-flipped' : ''}`} key={item.id}>
               <div className="watch-tilt" onPointerMove={tilt} onPointerLeave={untilt}>
-                <button type="button" className="watch-flip" aria-pressed={isFlipped} aria-label={`${isFlipped ? 'Hide' : 'Show'} details for ${item.title}`} onClick={() => flip(item.id)}>
+                <button
+                  type="button"
+                  className="watch-flip"
+                  aria-pressed={isFlipped}
+                  aria-label={`${isFlipped ? 'Hide' : 'Show'} details for ${item.title}`}
+                  onClick={() => flip(item.id)}
+                >
                   <span className="watch-inner">
                     <span className="watch-face watch-front">
                       <img src={item.poster} alt="" loading="lazy" width={420} height={630} />
-                      <span className="watch-status"><i aria-hidden="true" />{STATUS[item.status]}</span>
+                      <span className="watch-status">
+                        <i aria-hidden="true" />
+                        {STATUS[item.status]}
+                      </span>
                       <span className="watch-glare" aria-hidden="true" />
                     </span>
                     <span className="watch-face watch-back" aria-hidden={!isFlipped}>
@@ -62,14 +74,21 @@ export function WatchShelf() {
                       <span className="watch-back-label">Starring</span>
                       <span className="watch-back-cast">{item.starring.join(', ')}</span>
                       {item.note && <span className="watch-back-note">“{item.note}”</span>}
-                      <span className="watch-back-hint"><RotateCcw size={13} aria-hidden="true" /> Tap to flip back</span>
+                      <span className="watch-back-hint">
+                        <RotateCcw size={13} aria-hidden="true" /> Tap to flip back
+                      </span>
                     </span>
                   </span>
                 </button>
               </div>
               <div className="watch-caption">
-                <h3>{item.title}{item.season && <small> {item.season}</small>}</h3>
-                <p>{item.kind} · {item.year} · {item.platform}</p>
+                <h3>
+                  {item.title}
+                  {item.season && <small> {item.season}</small>}
+                </h3>
+                <p>
+                  {item.kind} · {item.year} · {item.platform}
+                </p>
                 <button type="button" className="watch-trailer" onClick={() => setTrailer(item)}>
                   <Play size={14} aria-hidden="true" /> Watch trailer
                 </button>

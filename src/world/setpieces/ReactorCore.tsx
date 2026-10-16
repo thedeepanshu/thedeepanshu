@@ -1,9 +1,10 @@
-import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { experiments } from '../../content/portfolio'
-import { mulberry32 } from '../random'
-import { deckInView, scrollDim, useVessel } from '../store'
+
+import { experiments } from '@/content/portfolio'
+import { mulberry32 } from '@/world/random'
+import { deckInView, scrollDim, useVessel } from '@/world/store'
 
 const LAB_FLOOR = 0.3
 import { useDeckAnchor } from './useDeckAnchor'
@@ -157,10 +158,14 @@ export function ReactorCore({ sparks }: { sparks: number }) {
     return geometry
   }, [sparks])
 
-  const beamLine = useMemo(() => new THREE.Line(
-    new THREE.BufferGeometry().setFromPoints(beamPoints),
-    new THREE.LineBasicMaterial({ color: '#7ef4db', transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }),
-  ), [])
+  const beamLine = useMemo(
+    () =>
+      new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(beamPoints),
+        new THREE.LineBasicMaterial({ color: '#7ef4db', transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }),
+      ),
+    [],
+  )
 
   const coreUniforms = useMemo(() => ({ uTime: { value: 0 }, uSurge: { value: 0 }, uDim: { value: 1 } }), [])
   const sparkUniforms = useMemo(() => ({ uTime: { value: 0 }, uPixelRatio: { value: 1 }, uDim: { value: 1 } }), [])
@@ -248,7 +253,15 @@ export function ReactorCore({ sparks }: { sparks: number }) {
       <group ref={rig}>
         <mesh position={[0, 0, -0.5]}>
           <planeGeometry args={[9, 9]} />
-          <shaderMaterial ref={glowMaterial} vertexShader={passVertex} fragmentShader={glowFragment} uniforms={glowUniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+          <shaderMaterial
+            ref={glowMaterial}
+            vertexShader={passVertex}
+            fragmentShader={glowFragment}
+            uniforms={glowUniforms}
+            transparent
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
         </mesh>
 
         <mesh>
@@ -257,20 +270,39 @@ export function ReactorCore({ sparks }: { sparks: number }) {
         </mesh>
 
         {[2.3, 2.7, 3.1].map((radius, index) => (
-          <mesh key={radius} ref={(mesh) => { rings.current[index] = mesh }} rotation={[index * 0.9, index * 0.5, 0]}>
+          <mesh
+            key={radius}
+            ref={(mesh) => {
+              rings.current[index] = mesh
+            }}
+            rotation={[index * 0.9, index * 0.5, 0]}
+          >
             <torusGeometry args={[radius, 0.025, 8, 160]} />
             <meshBasicMaterial color={index === 1 ? '#a17eff' : '#7ef4db'} transparent opacity={0.6} blending={THREE.AdditiveBlending} depthWrite={false} />
           </mesh>
         ))}
 
         <points geometry={sparkGeometry} frustumCulled={false}>
-          <shaderMaterial ref={sparkMaterial} vertexShader={sparkVertex} fragmentShader={sparkFragment} uniforms={sparkUniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+          <shaderMaterial
+            ref={sparkMaterial}
+            vertexShader={sparkVertex}
+            fragmentShader={sparkFragment}
+            uniforms={sparkUniforms}
+            transparent
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
         </points>
 
         <primitive ref={beam} object={beamLine} />
 
         {experiments.map((experiment, index) => (
-          <mesh key={experiment.id} ref={(mesh) => { cells.current[index] = mesh }}>
+          <mesh
+            key={experiment.id}
+            ref={(mesh) => {
+              cells.current[index] = mesh
+            }}
+          >
             <icosahedronGeometry args={[0.28, 2]} />
             <meshBasicMaterial color={cellColors[index % cellColors.length]} transparent opacity={0.6} blending={THREE.AdditiveBlending} depthWrite={false} />
           </mesh>

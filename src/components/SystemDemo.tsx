@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
-import { mulberry32 } from '../world/random'
+
+import { mulberry32 } from '@/world/random'
 
 export type DemoKind = 'warp-starfield' | 'particle-core' | 'procedural-ambience' | 'pilot-reveal'
 
@@ -28,7 +29,10 @@ function warp(): Draw {
     for (const s of stars) {
       const pz = s.z
       s.z -= speed * dt
-      if (s.z <= 0.02) { s.z = 1; continue }
+      if (s.z <= 0.02) {
+        s.z = 1
+        continue
+      }
       const x = cx + (s.x / s.z) * scale
       const y = cy + (s.y / s.z) * scale
       const px = cx + (s.x / pz) * scale

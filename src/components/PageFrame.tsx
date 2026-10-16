@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
-import type { DeckId } from '../world/decks'
+
+import type { DeckId } from '@/world/decks'
+
 import { DeckKicker } from './DeckKicker'
 
 type PageFrameProps = {

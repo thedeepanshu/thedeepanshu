@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import type * as THREE from 'three'
-import { deckById, type DeckId } from '../decks'
+
+import { deckById, type DeckId } from '@/world/decks'
 
 /**
  * A group placed at a deck's target and turned to face its camera, so local +X

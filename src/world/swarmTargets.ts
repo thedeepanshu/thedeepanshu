@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+
 import { mulberry32 } from './random'
 import { SANS } from './setpieces/labels'
 
@@ -13,7 +14,6 @@ export type SwarmTargets = {
 const CYAN = new THREE.Color('#7ef4db')
 const PURPLE = new THREE.Color('#a17eff')
 const WHITE = new THREE.Color('#eafffb')
-
 
 /** Samples filled pixels of the rendered word into a centred point cloud `width` units wide. */
 function sampleText(text: string, width: number, count: number, random: () => number) {

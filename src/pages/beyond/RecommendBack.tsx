@@ -1,6 +1,7 @@
-import { useState, type FormEvent } from 'react'
-import { familyChannel } from '../../content/beyond'
-import { socialLinks } from '../../content/portfolio'
+import { type FormEvent, useState } from 'react'
+
+import { familyChannel } from '@/content/beyond'
+import { socialLinks } from '@/content/portfolio'
 
 type Kind = {
   id: string
@@ -15,11 +16,53 @@ type Kind = {
 }
 
 const KINDS: Kind[] = [
-  { id: 'watch', label: 'Movie or series', group: 'recommend', prompt: 'What should I watch?', placeholder: 'A movie or a show', subject: (text) => `Watch this: ${text}`, intro: 'You should watch:' },
-  { id: 'music', label: 'Music', group: 'recommend', prompt: 'What should I listen to?', placeholder: 'A song, an album or an artist', subject: (text) => `Listen to this: ${text}`, intro: 'You should listen to:' },
-  { id: 'learn', label: 'Something to learn', group: 'recommend', prompt: 'What should I learn?', placeholder: 'A course, a channel or a topic', subject: (text) => `Learn this: ${text}`, intro: 'You should learn:' },
-  { id: 'vlog-idea', label: 'A vlog idea', group: 'vlog', prompt: 'What should we film next?', placeholder: 'A challenge, a trip, a question you want answered…', long: true, subject: () => `Vlog idea for ${familyChannel.name}`, intro: `An idea for ${familyChannel.name}:` },
-  { id: 'vlog-opinion', label: 'Your take on our vlog', group: 'vlog', prompt: 'What do you think of our vlogs?', placeholder: 'What you enjoy, what we could do better, what you miss…', long: true, subject: () => `Thoughts on ${familyChannel.name}`, intro: `My thoughts on ${familyChannel.name}:` },
+  {
+    id: 'watch',
+    label: 'Movie or series',
+    group: 'recommend',
+    prompt: 'What should I watch?',
+    placeholder: 'A movie or a show',
+    subject: (text) => `Watch this: ${text}`,
+    intro: 'You should watch:',
+  },
+  {
+    id: 'music',
+    label: 'Music',
+    group: 'recommend',
+    prompt: 'What should I listen to?',
+    placeholder: 'A song, an album or an artist',
+    subject: (text) => `Listen to this: ${text}`,
+    intro: 'You should listen to:',
+  },
+  {
+    id: 'learn',
+    label: 'Something to learn',
+    group: 'recommend',
+    prompt: 'What should I learn?',
+    placeholder: 'A course, a channel or a topic',
+    subject: (text) => `Learn this: ${text}`,
+    intro: 'You should learn:',
+  },
+  {
+    id: 'vlog-idea',
+    label: 'A vlog idea',
+    group: 'vlog',
+    prompt: 'What should we film next?',
+    placeholder: 'A challenge, a trip, a question you want answered…',
+    long: true,
+    subject: () => `Vlog idea for ${familyChannel.name}`,
+    intro: `An idea for ${familyChannel.name}:`,
+  },
+  {
+    id: 'vlog-opinion',
+    label: 'Your take on our vlog',
+    group: 'vlog',
+    prompt: 'What do you think of our vlogs?',
+    placeholder: 'What you enjoy, what we could do better, what you miss…',
+    long: true,
+    subject: () => `Thoughts on ${familyChannel.name}`,
+    intro: `My thoughts on ${familyChannel.name}:`,
+  },
 ]
 
 /**
@@ -61,27 +104,64 @@ export function RecommendBack() {
       <fieldset className="recommend-kinds">
         <legend>What’s it about?</legend>
         <div className="recommend-chip-row">
-          <span className="recommend-group-label" aria-hidden="true">For me</span>
+          <span className="recommend-group-label" aria-hidden="true">
+            For me
+          </span>
           {KINDS.filter((item) => item.group === 'recommend').map(chip)}
         </div>
         <div className="recommend-chip-row">
-          <span className="recommend-group-label" aria-hidden="true">For our vlog</span>
+          <span className="recommend-group-label" aria-hidden="true">
+            For our vlog
+          </span>
           {KINDS.filter((item) => item.group === 'vlog').map(chip)}
         </div>
       </fieldset>
       <div className="recommend-fields">
         <label className="recommend-field">
           <span>{kind.prompt}</span>
-          {kind.long
-            ? <textarea required maxLength={600} rows={3} placeholder={kind.placeholder} value={text} onChange={(event) => { setText(event.target.value); setSent(false) }} />
-            : <input type="text" required maxLength={120} placeholder={kind.placeholder} value={text} onChange={(event) => { setText(event.target.value); setSent(false) }} />}
+          {kind.long ? (
+            <textarea
+              required
+              maxLength={600}
+              rows={3}
+              placeholder={kind.placeholder}
+              value={text}
+              onChange={(event) => {
+                setText(event.target.value)
+                setSent(false)
+              }}
+            />
+          ) : (
+            <input
+              type="text"
+              required
+              maxLength={120}
+              placeholder={kind.placeholder}
+              value={text}
+              onChange={(event) => {
+                setText(event.target.value)
+                setSent(false)
+              }}
+            />
+          )}
         </label>
         <label className="recommend-field">
-          <span>Your name <small>(optional)</small></span>
-          <input type="text" maxLength={60} autoComplete="name" placeholder="So we can thank you" value={name} onChange={(event) => setName(event.target.value)} />
+          <span>
+            Your name <small>(optional)</small>
+          </span>
+          <input
+            type="text"
+            maxLength={60}
+            autoComplete="name"
+            placeholder="So we can thank you"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
         </label>
       </div>
-      <button type="submit" className="recommend-send">{kind.group === 'vlog' ? 'Send it to us' : 'Send it my way'} <span aria-hidden="true">↗</span></button>
+      <button type="submit" className="recommend-send">
+        {kind.group === 'vlog' ? 'Send it to us' : 'Send it my way'} <span aria-hidden="true">↗</span>
+      </button>
       <p className="recommend-note" role="status">
         {sent ? 'Draft opened in your email app. Thank you! Send another anytime.' : 'Opens a ready-to-send draft in your email app.'}
       </p>

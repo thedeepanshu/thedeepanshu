@@ -1,8 +1,9 @@
-import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Bloom, ChromaticAberration, EffectComposer, Vignette } from '@react-three/postprocessing'
 import type { ChromaticAberrationEffect } from 'postprocessing'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
+
 import { motion, type QualityTier } from './store'
 
 export function Effects({ tier }: { tier: QualityTier }) {

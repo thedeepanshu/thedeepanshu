@@ -1,39 +1,30 @@
-import { lazy, Suspense, useEffect, useRef } from 'react'
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
 import './vessel.css'
+
+import { lazy, Suspense, useEffect, useRef } from 'react'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+
 import { BootSequence } from './components/BootSequence'
 import { CommandPalette, PaletteToggle } from './components/CommandPalette'
 import { CursorEffect } from './components/CursorEffect'
 import { HudFrame } from './components/HudFrame'
 import { Narrator } from './components/Narrator'
-import { ShipConsole } from './components/ShipConsole'
 import { ScrollToTop } from './components/ScrollToTop'
 import { observeSectionReveals } from './components/sectionReveal'
+import { ShipConsole } from './components/ShipConsole'
 import { SiteHeader } from './components/SiteHeader'
 import { SoundToggle } from './components/SoundToggle'
 import { VesselFooter } from './components/VesselFooter'
+import { AboutPage, ArsenalPage, BeyondPage, HomePage, JourneyPage, LabPage, MissionsPage, NotFoundPage, SignalPage } from './pages'
 import { DeckSync } from './world/DeckSync'
 import { useVessel } from './world/store'
-import {
-  HomePage,
-  AboutPage,
-  ArsenalPage,
-  BeyondPage,
-  JourneyPage,
-  LabPage,
-  MissionsPage,
-  NotFoundPage,
-  SignalPage,
-} from './pages'
 
 // three.js is heavy; the page renders first and the world fades in behind it.
 // The world also waits for the display font: the particle name and 3D labels are
 // drawn to canvas, which would silently fall back to another font if it weren't ready.
-const World = lazy(() => Promise.all([
-  import('./world/World'),
-  document.fonts.load("700 64px 'Space Grotesk Variable'").catch(() => []),
-]).then(([module]) => module))
+const World = lazy(() =>
+  Promise.all([import('./world/World'), document.fonts.load("700 64px 'Space Grotesk Variable'").catch(() => [])]).then(([module]) => module),
+)
 
 /**
  * Remounts the page on each route so it can arrive after the warp. While the
@@ -79,7 +70,9 @@ function DeckView() {
 function App() {
   return (
     <BrowserRouter>
-      <a className="skip-link" href="#content">Skip to content</a>
+      <a className="skip-link" href="#content">
+        Skip to content
+      </a>
       <DeckSync />
       <ScrollToTop />
       <Suspense fallback={null}>

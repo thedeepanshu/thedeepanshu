@@ -1,22 +1,25 @@
+import './MissionsPage.css'
+
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { missions } from '../content/portfolio'
-import { BrowserFrame } from '../components/BrowserFrame'
-import { PageFrame } from '../components/PageFrame'
-import { useFocusTracker } from '../hooks/useFocusTracker'
-import { motion, useVessel } from '../world/store'
-import './MissionsPage.css'
+
+import { BrowserFrame } from '@/components/BrowserFrame'
+import { PageFrame } from '@/components/PageFrame'
+import { missions } from '@/content/portfolio'
+import { useFocusTracker } from '@/hooks/useFocusTracker'
+import { motion, useVessel } from '@/world/store'
 
 export function MissionsPage() {
   // The Hangar's hologram drum turns to the mission being read.
   useFocusTracker(useVessel((state) => state.setActiveMission))
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set())
-  const toggle = (id: string) => setExpanded((current) => {
-    const next = new Set(current)
-    if (next.has(id)) next.delete(id)
-    else next.add(id)
-    return next
-  })
+  const toggle = (id: string) =>
+    setExpanded((current) => {
+      const next = new Set(current)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
 
   // Deep links (/missions#alec-ev-hybrid, used by the command palette) open that
   // brief and bring it into view once the warp has landed, so the scroll never
@@ -42,8 +45,13 @@ export function MissionsPage() {
 
   return (
     <PageFrame
-      deck="missions" topic="selected work"
-      title={<>Ideas in <em>motion.</em></>}
+      deck="missions"
+      topic="selected work"
+      title={
+        <>
+          Ideas in <em>motion.</em>
+        </>
+      }
       intro="Selected work, from production dashboards to a live client site to the ship you're standing in."
     >
       <div className="mission-log">
@@ -62,8 +70,14 @@ export function MissionsPage() {
                 <div className="mission-brief-intro">
                   <h2 id={`${mission.id}-title`}>{mission.title}</h2>
                   <dl className="mission-brief-meta">
-                    <div><dt>Role</dt><dd>{mission.role}</dd></div>
-                    <div><dt>Period</dt><dd>{mission.period}</dd></div>
+                    <div>
+                      <dt>Role</dt>
+                      <dd>{mission.role}</dd>
+                    </div>
+                    <div>
+                      <dt>Period</dt>
+                      <dd>{mission.period}</dd>
+                    </div>
                   </dl>
                   <p className="mission-brief-summary">{mission.summary}</p>
                 </div>
@@ -72,7 +86,9 @@ export function MissionsPage() {
               </div>
 
               <div className="mission-brief-tags mission-tags">
-                {mission.technologies.map((technology) => <span key={technology}>{technology}</span>)}
+                {mission.technologies.map((technology) => (
+                  <span key={technology}>{technology}</span>
+                ))}
               </div>
 
               <div className="mission-brief-details" id={`${mission.id}-details`} inert={!open}>
@@ -90,7 +106,12 @@ export function MissionsPage() {
                   <section className="mission-brief-highlights">
                     <h3>What shipped</h3>
                     <ul>
-                      {mission.highlights.map((item) => <li key={item}><span aria-hidden="true">▸</span>{item}</li>)}
+                      {mission.highlights.map((item) => (
+                        <li key={item}>
+                          <span aria-hidden="true">▸</span>
+                          {item}
+                        </li>
+                      ))}
                     </ul>
                   </section>
                 </div>
@@ -106,13 +127,16 @@ export function MissionsPage() {
                 >
                   {open ? 'Collapse brief' : 'Expand brief'} <span aria-hidden="true">{open ? '−' : '+'}</span>
                 </button>
-                {mission.link && (internal ? (
-                  <Link className="mission-brief-link" to={mission.link.url}>{mission.link.label} <span aria-hidden="true">↗</span></Link>
-                ) : (
-                  <a className="mission-brief-link" href={mission.link.url} target="_blank" rel="noopener noreferrer">
-                    {mission.link.label} <span aria-hidden="true">↗</span>
-                  </a>
-                ))}
+                {mission.link &&
+                  (internal ? (
+                    <Link className="mission-brief-link" to={mission.link.url}>
+                      {mission.link.label} <span aria-hidden="true">↗</span>
+                    </Link>
+                  ) : (
+                    <a className="mission-brief-link" href={mission.link.url} target="_blank" rel="noopener noreferrer">
+                      {mission.link.label} <span aria-hidden="true">↗</span>
+                    </a>
+                  ))}
                 {mission.note && <p className="mission-brief-note">{mission.note}</p>}
               </footer>
             </article>

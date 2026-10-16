@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react'
 import './CursorEffect.css'
+
+import { useEffect, useRef } from 'react'
 
 const INTERACTIVE = 'a, button, [role="button"], select, summary'
 const TEXT_FIELD = 'input:not([type="button"]):not([type="checkbox"]):not([type="radio"]), textarea, [contenteditable="true"]'
@@ -117,7 +118,6 @@ export function CursorEffect() {
           lock.current.style.height = `${box.h}px`
         }
       }
-
     }
     frame = requestAnimationFrame(tick)
 
@@ -142,7 +142,10 @@ export function CursorEffect() {
   return (
     <div className="site-cursor" aria-hidden="true">
       <div className="cursor-lock" ref={lock}>
-        <i /><i /><i /><i />
+        <i />
+        <i />
+        <i />
+        <i />
       </div>
       <div className="cursor-ring" ref={ring}>
         <svg viewBox="0 0 40 40" width="40" height="40">

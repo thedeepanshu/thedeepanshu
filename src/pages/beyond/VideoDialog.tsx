@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react'
 import { X } from 'lucide-react'
-import { useMusicDuck } from '../../hooks/useMusicDuck'
+import { useEffect, useRef } from 'react'
+
+import { useMusicDuck } from '@/hooks/useMusicDuck'
 
 type VideoDialogProps = {
   /** YouTube video id. */
@@ -19,17 +20,19 @@ export function VideoDialog({ videoId, title, caption, onClose }: VideoDialogPro
   useMusicDuck(true)
 
   useEffect(() => {
-    dialog.current?.showModal()
+    const element = dialog.current
+    if (!element) return
+    element.showModal()
+    // A click on the backdrop (outside the frame) closes it; Escape works natively.
+    const onClick = (event: MouseEvent) => {
+      if (event.target === element) element.close()
+    }
+    element.addEventListener('click', onClick)
+    return () => element.removeEventListener('click', onClick)
   }, [])
 
   return (
-    <dialog
-      ref={dialog}
-      className="trailer-dialog"
-      aria-label={title}
-      onClose={onClose}
-      onClick={(event) => { if (event.target === event.currentTarget) dialog.current?.close() }}
-    >
+    <dialog ref={dialog} className="trailer-dialog" aria-label={title} onClose={onClose}>
       <div className="trailer-frame">
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`}
@@ -40,7 +43,9 @@ export function VideoDialog({ videoId, title, caption, onClose }: VideoDialogPro
       </div>
       <div className="trailer-bar">
         <span>{caption}</span>
-        <button type="button" onClick={() => dialog.current?.close()}><X size={16} aria-hidden="true" /> Close</button>
+        <button type="button" onClick={() => dialog.current?.close()}>
+          <X size={16} aria-hidden="true" /> Close
+        </button>
       </div>
     </dialog>
   )

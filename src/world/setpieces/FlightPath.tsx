@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { journeyRoute, milestones } from '../../content/portfolio'
-import { deckById } from '../decks'
-import { BACKDROP_FLOOR, deckInView, motion, useVessel } from '../store'
+
+import { journeyRoute, milestones } from '@/content/portfolio'
+import { deckById } from '@/world/decks'
+import { BACKDROP_FLOOR, deckInView, motion, useVessel } from '@/world/store'
+
 import { makeLabelTexture } from './labels'
 import { planetFragment, planetVertex } from './planetShader'
 
@@ -30,7 +32,10 @@ const ROUTE = journeyRoute
   .filter((stop) => milestones.some((milestone) => milestone.id === stop.id))
   .map((stop) => ({ ...stop, ...(LOOKS[stop.id] ?? DEFAULT_LOOK) }))
 
-const DEFAULT_STOP = Math.max(0, ROUTE.findIndex((stop) => stop.id === 'anrx-solutions-frontend-developer'))
+const DEFAULT_STOP = Math.max(
+  0,
+  ROUTE.findIndex((stop) => stop.id === 'anrx-solutions-frontend-developer'),
+)
 const UP = new THREE.Vector3(0, 1, 0)
 
 const routeVertex = /* glsl */ `
@@ -95,12 +100,18 @@ export function FlightPath() {
   // Lay the stops out along the deck's viewing direction, weaving gently.
   const { curve, positions } = useMemo(() => {
     const target = new THREE.Vector3(...deck.target)
-    const forward = target.clone().sub(new THREE.Vector3(...deck.camera)).normalize()
+    const forward = target
+      .clone()
+      .sub(new THREE.Vector3(...deck.camera))
+      .normalize()
     const right = forward.clone().cross(UP).normalize()
-    const points = ROUTE.map((_, index) => target.clone()
-      .addScaledVector(forward, (index - DEFAULT_STOP) * 18)
-      .addScaledVector(right, Math.sin(index * 1.7) * 6)
-      .addScaledVector(UP, Math.cos(index * 1.1) * 3.5))
+    const points = ROUTE.map((_, index) =>
+      target
+        .clone()
+        .addScaledVector(forward, (index - DEFAULT_STOP) * 18)
+        .addScaledVector(right, Math.sin(index * 1.7) * 6)
+        .addScaledVector(UP, Math.cos(index * 1.1) * 3.5),
+    )
     return { curve: new THREE.CatmullRomCurve3(points, false, 'centripetal'), positions: points }
   }, [deck])
 
@@ -108,7 +119,13 @@ export function FlightPath() {
     const samples = 400
     const points = curve.getPoints(samples)
     const geometry = new THREE.BufferGeometry().setFromPoints(points)
-    geometry.setAttribute('aU', new THREE.Float32BufferAttribute(points.map((_, i) => i / samples), 1))
+    geometry.setAttribute(
+      'aU',
+      new THREE.Float32BufferAttribute(
+        points.map((_, i) => i / samples),
+        1,
+      ),
+    )
     const material = new THREE.ShaderMaterial({
       vertexShader: routeVertex,
       fragmentShader: routeFragment,
@@ -120,14 +137,18 @@ export function FlightPath() {
     return new THREE.Line(geometry, material)
   }, [curve])
 
-  const planetUniforms = useMemo(() => ROUTE.map((stop) => ({
-    uColorA: { value: new THREE.Color(stop.colors[0]) },
-    uColorB: { value: new THREE.Color(stop.colors[1]) },
-    uActive: { value: 0 },
-    uTime: { value: 0 },
-    uRadius: { value: stop.radius },
-    uFade: { value: 1 },
-  })), [])
+  const planetUniforms = useMemo(
+    () =>
+      ROUTE.map((stop) => ({
+        uColorA: { value: new THREE.Color(stop.colors[0]) },
+        uColorB: { value: new THREE.Color(stop.colors[1]) },
+        uActive: { value: 0 },
+        uTime: { value: 0 },
+        uRadius: { value: stop.radius },
+        uFade: { value: 1 },
+      })),
+    [],
+  )
 
   const orbitGeometries = useMemo(() => ROUTE.map((stop) => (stop.inProgress ? orbitDots(stop.radius * 1.9) : null)), [])
   const dotTexture = useMemo(() => {
@@ -142,16 +163,29 @@ export function FlightPath() {
     }
     return new THREE.CanvasTexture(canvas)
   }, [])
-  const labelTextures = useMemo(() => ROUTE.map((stop) => makeLabelTexture([
-    { text: stop.when.toUpperCase(), size: 24, color: '#7ef4db', mono: true, tracking: 3, gap: 6 },
-    { text: stop.title, size: 46, color: '#eef8f9', weight: 500 },
-  ], 640, 128, 12)), [])
+  const labelTextures = useMemo(
+    () =>
+      ROUTE.map((stop) =>
+        makeLabelTexture(
+          [
+            { text: stop.when.toUpperCase(), size: 24, color: '#7ef4db', mono: true, tracking: 3, gap: 6 },
+            { text: stop.title, size: 46, color: '#eef8f9', weight: 500 },
+          ],
+          640,
+          128,
+          12,
+        ),
+      ),
+    [],
+  )
   useEffect(() => () => labelTextures.forEach((texture) => texture.dispose()), [labelTextures])
 
   // Claim the camera while this set piece exists.
   useEffect(() => {
     motion.director.deck = 'journey'
-    return () => { motion.director.deck = null }
+    return () => {
+      motion.director.deck = null
+    }
   }, [])
 
   useFrame(({ clock, size }, delta) => {
@@ -225,14 +259,26 @@ export function FlightPath() {
 
       {ROUTE.map((stop, index) => (
         <group key={stop.id} position={positions[index]}>
-          <mesh ref={(mesh) => { planets.current[index] = mesh }}>
+          <mesh
+            ref={(mesh) => {
+              planets.current[index] = mesh
+            }}
+          >
             <sphereGeometry args={[stop.radius, 48, 32]} />
             <shaderMaterial vertexShader={planetVertex} fragmentShader={planetFragment} uniforms={planetUniforms[index]} transparent />
           </mesh>
           {stop.ring && (
             <mesh rotation={[Math.PI / 2.4, 0.2, 0]}>
               <ringGeometry args={[stop.radius * 1.45, stop.radius * 1.9, 96]} />
-              <meshBasicMaterial ref={track(0.22)} color={stop.colors[0]} transparent opacity={0.22} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} />
+              <meshBasicMaterial
+                ref={track(0.22)}
+                color={stop.colors[0]}
+                transparent
+                opacity={0.22}
+                side={THREE.DoubleSide}
+                depthWrite={false}
+                blending={THREE.AdditiveBlending}
+              />
             </mesh>
           )}
           {stop.inProgress && (
@@ -247,7 +293,12 @@ export function FlightPath() {
       ))}
 
       {(ROUTE[DEFAULT_STOP]?.moons ?? []).map((color, index) => (
-        <mesh key={color} ref={(mesh) => { moons.current[index] = mesh }}>
+        <mesh
+          key={color}
+          ref={(mesh) => {
+            moons.current[index] = mesh
+          }}
+        >
           <sphereGeometry args={[0.32 - index * 0.06, 24, 16]} />
           <meshBasicMaterial ref={track(1)} color={color} transparent />
         </mesh>

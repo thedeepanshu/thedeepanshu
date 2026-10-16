@@ -1,5 +1,7 @@
 import { create } from 'zustand'
-import { setSoundMode, type SoundMode } from '../audio/soundEngine'
+
+import { setSoundMode, type SoundMode } from '@/audio/soundEngine'
+
 import { deckForPath, type DeckId } from './decks'
 
 export type QualityTier = 'high' | 'low'

@@ -1,8 +1,10 @@
-import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { playWarp } from '../../audio/soundEngine'
-import { BACKDROP_FLOOR, deckInView, scrollDim, useVessel } from '../store'
+
+import { playWarp } from '@/audio/soundEngine'
+import { BACKDROP_FLOOR, deckInView, scrollDim, useVessel } from '@/world/store'
+
 import { useDeckAnchor } from './useDeckAnchor'
 
 const DISH_RADIUS = 3.2
@@ -92,7 +94,7 @@ export function CommsArray() {
     const profile: THREE.Vector2[] = []
     for (let i = 0; i <= 24; i++) {
       const r = (i / 24) * DISH_RADIUS
-      profile.push(new THREE.Vector2(r, (r * r) / (DISH_RADIUS * DISH_RADIUS) * DISH_DEPTH))
+      profile.push(new THREE.Vector2(r, ((r * r) / (DISH_RADIUS * DISH_RADIUS)) * DISH_DEPTH))
     }
     return new THREE.LatheGeometry(profile, 72)
   }, [])
@@ -151,11 +153,28 @@ export function CommsArray() {
         {/* The dish, aimed up and away into the sky. */}
         <group rotation={[0.3, 0.35, -0.55]} position={[0, -0.6, 0]}>
           <mesh geometry={dishGeometry}>
-            <shaderMaterial ref={dishMaterial} vertexShader={passVertex} fragmentShader={dishFragment} uniforms={dishUniforms} transparent depthWrite={false} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
+            <shaderMaterial
+              ref={dishMaterial}
+              vertexShader={passVertex}
+              fragmentShader={dishFragment}
+              uniforms={dishUniforms}
+              transparent
+              depthWrite={false}
+              side={THREE.DoubleSide}
+              blending={THREE.AdditiveBlending}
+            />
           </mesh>
           <mesh position={[0, DISH_DEPTH, 0]} rotation={[Math.PI / 2, 0, 0]}>
             <torusGeometry args={[DISH_RADIUS + 0.12, 0.05, 8, 160]} />
-            <shaderMaterial ref={chargeMaterial} vertexShader={passVertex} fragmentShader={chargeFragment} uniforms={chargeUniforms} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+            <shaderMaterial
+              ref={chargeMaterial}
+              vertexShader={passVertex}
+              fragmentShader={chargeFragment}
+              uniforms={chargeUniforms}
+              transparent
+              depthWrite={false}
+              blending={THREE.AdditiveBlending}
+            />
           </mesh>
           {/* Feed struts and horn at the focal point */}
           {[0, 1, 2].map((index) => {
@@ -183,11 +202,28 @@ export function CommsArray() {
           {/* Transmission beam, along the dish axis out of the focal point. */}
           <mesh position={[0, DISH_DEPTH + 1.6 + BEAM_LENGTH / 2, 0]}>
             <planeGeometry args={[0.8, BEAM_LENGTH]} />
-            <shaderMaterial ref={beamMaterial} vertexShader={passVertex} fragmentShader={beamFragment} uniforms={beamUniforms} transparent depthWrite={false} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
+            <shaderMaterial
+              ref={beamMaterial}
+              vertexShader={passVertex}
+              fragmentShader={beamFragment}
+              uniforms={beamUniforms}
+              transparent
+              depthWrite={false}
+              side={THREE.DoubleSide}
+              blending={THREE.AdditiveBlending}
+            />
           </mesh>
           <mesh position={[0, DISH_DEPTH + 1.6 + BEAM_LENGTH / 2, 0]} rotation={[0, Math.PI / 2, 0]}>
             <planeGeometry args={[0.8, BEAM_LENGTH]} />
-            <shaderMaterial vertexShader={passVertex} fragmentShader={beamFragment} uniforms={beamUniforms} transparent depthWrite={false} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} />
+            <shaderMaterial
+              vertexShader={passVertex}
+              fragmentShader={beamFragment}
+              uniforms={beamUniforms}
+              transparent
+              depthWrite={false}
+              side={THREE.DoubleSide}
+              blending={THREE.AdditiveBlending}
+            />
           </mesh>
         </group>
       </group>

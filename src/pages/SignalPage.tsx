@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { availability, contactTopics, dossier, socialLinks } from '../content/portfolio'
-import { PageFrame } from '../components/PageFrame'
-import { useVessel } from '../world/store'
+import { type FormEvent, useEffect, useRef, useState } from 'react'
+
+import { PageFrame } from '@/components/PageFrame'
+import { availability, contactTopics, dossier, socialLinks } from '@/content/portfolio'
+import { useVessel } from '@/world/store'
 
 const EMPTY_FORM = { name: '', topic: '', message: '' }
 
@@ -40,12 +41,24 @@ export function SignalPage() {
   }
 
   return (
-    <PageFrame deck="signal" topic="contact" title={<>Send a <em>signal.</em></>} intro="For frontend opportunities, project conversations, or a hello, reach out through one of the channels below.">
+    <PageFrame
+      deck="signal"
+      topic="contact"
+      title={
+        <>
+          Send a <em>signal.</em>
+        </>
+      }
+      intro="For frontend opportunities, project conversations, or a hello, reach out through one of the channels below."
+    >
       <div className="signal-container">
         <dl className="signal-stats-bar signal-availability">
           {availability.map((item) => (
             <div className="stat-pill" key={item.label}>
-              <dt>{item.live && <i className="availability-live" aria-hidden="true" />}{item.label}</dt>
+              <dt>
+                {item.live && <i className="availability-live" aria-hidden="true" />}
+                {item.label}
+              </dt>
               <dd>{item.value}</dd>
             </div>
           ))}
@@ -74,14 +87,31 @@ export function SignalPage() {
               <form className="signal-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="contact-name">Your name</label>
-                  <input ref={nameInput} id="contact-name" name="name" type="text" autoComplete="name" required placeholder="Your name" value={formData.name} onChange={(event) => setFormData({ ...formData, name: event.target.value })} />
+                  <input
+                    ref={nameInput}
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    required
+                    placeholder="Your name"
+                    value={formData.name}
+                    onChange={(event) => setFormData({ ...formData, name: event.target.value })}
+                  />
                 </div>
                 <fieldset className="form-group topic-group">
                   <legend>What’s on your mind?</legend>
                   <div className="topic-chips">
                     {contactTopics.map((topic) => (
                       <label key={topic} className={`topic-chip${formData.topic === topic ? ' is-selected' : ''}`}>
-                        <input type="radio" name="topic" value={topic} required checked={formData.topic === topic} onChange={() => setFormData({ ...formData, topic })} />
+                        <input
+                          type="radio"
+                          name="topic"
+                          value={topic}
+                          required
+                          checked={formData.topic === topic}
+                          onChange={() => setFormData({ ...formData, topic })}
+                        />
                         <span>{topic}</span>
                       </label>
                     ))}
@@ -89,9 +119,19 @@ export function SignalPage() {
                 </fieldset>
                 <div className="form-group">
                   <label htmlFor="contact-message">Message</label>
-                  <textarea id="contact-message" name="message" rows={5} required placeholder="Tell me a little about it..." value={formData.message} onChange={(event) => setFormData({ ...formData, message: event.target.value })} />
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    rows={5}
+                    required
+                    placeholder="Tell me a little about it..."
+                    value={formData.message}
+                    onChange={(event) => setFormData({ ...formData, message: event.target.value })}
+                  />
                 </div>
-                <button type="submit" className="primary-action submit-btn">Open email draft <span>↗</span></button>
+                <button type="submit" className="primary-action submit-btn">
+                  Open email draft <span>↗</span>
+                </button>
                 <p className="signal-form-note">Opens a ready-to-send draft in your own email app, so I can reply straight to you.</p>
               </form>
             )}
@@ -102,8 +142,18 @@ export function SignalPage() {
               <p className="sidebar-label">/ DIRECT CHANNELS</p>
               <div className="social-grid">
                 {socialLinks.map((link) => (
-                  <a className="social-tile" href={link.url} target={link.url.startsWith('mailto:') ? undefined : '_blank'} rel={link.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'} key={link.name}>
-                    <div><span className="tile-platform">{link.platform}</span><strong className="tile-name">{link.name}</strong><small className="tile-handle">{link.handle}</small></div>
+                  <a
+                    className="social-tile"
+                    href={link.url}
+                    target={link.url.startsWith('mailto:') ? undefined : '_blank'}
+                    rel={link.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                    key={link.name}
+                  >
+                    <div>
+                      <span className="tile-platform">{link.platform}</span>
+                      <strong className="tile-name">{link.name}</strong>
+                      <small className="tile-handle">{link.handle}</small>
+                    </div>
                     <span className="tile-arrow">↗</span>
                   </a>
                 ))}

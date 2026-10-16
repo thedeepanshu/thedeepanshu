@@ -1,7 +1,7 @@
-export { HomePage } from './HomePage'
 export { AboutPage } from './AboutPage'
 export { ArsenalPage } from './ArsenalPage'
 export { BeyondPage } from './BeyondPage'
+export { HomePage } from './HomePage'
 export { JourneyPage } from './JourneyPage'
 export { LabPage } from './LabPage'
 export { MissionsPage } from './MissionsPage'

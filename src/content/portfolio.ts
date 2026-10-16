@@ -35,9 +35,12 @@ export const missions: Mission[] = [
     role: 'Sole frontend developer',
     period: 'Oct 2021 – Aug 2026',
     status: 'Live in production',
-    summary: 'React dashboards that business teams used every day to run large-scale operations: dense data tables, live notifications and maps of thousands of locations.',
-    challenge: 'Large operational datasets had to stay fast and readable in the browser, and the product had to keep evolving while people relied on it all day.',
-    approach: 'Reusable React components, Redux-managed state and memoised data tables with server-side search, filtering, sorting and pagination, delivered in Agile sprints with backend, design and QA.',
+    summary:
+      'React dashboards that business teams used every day to run large-scale operations: dense data tables, live notifications and maps of thousands of locations.',
+    challenge:
+      'Large operational datasets had to stay fast and readable in the browser, and the product had to keep evolving while people relied on it all day.',
+    approach:
+      'Reusable React components, Redux-managed state and memoised data tables with server-side search, filtering, sorting and pagination, delivered in Agile sprints with backend, design and QA.',
     highlights: [
       'Data tables with nested rows, server-driven search, filtering, sorting and pagination, kept responsive with memoisation.',
       'Google Maps interfaces with marker clustering, feature layers, polygon and boundary rendering, and geocoding for thousands of locations.',
@@ -117,7 +120,8 @@ export const missions: Mission[] = [
     status: 'In progress',
     summary: 'This portfolio: one persistent WebGL world in which every page is a deck of a ship, connected by warp flights.',
     challenge: 'Make a portfolio feel like a cinematic, explorable place without sacrificing readability, performance on phones or accessibility.',
-    approach: 'A single React Three Fiber canvas behind every route, custom GLSL shaders, quality tiers that adapt to the device, and a calm path for reduced motion.',
+    approach:
+      'A single React Three Fiber canvas behind every route, custom GLSL shaders, quality tiers that adapt to the device, and a calm path for reduced motion.',
     highlights: [
       'Starfield and nebula shaders with camera flights and light-speed warp streaks between routes.',
       'A 42,000-particle core that morphs from static into a name, then bursts into the stars, all in the vertex shader.',
@@ -136,15 +140,7 @@ export const missions: Mission[] = [
 ]
 
 export type SkillCategory =
-  | 'all'
-  | 'core-frontend'
-  | 'state-data'
-  | 'ui-styling'
-  | 'testing-forms'
-  | 'performance-accessibility'
-  | 'tools-analytics'
-  | 'ai-coding'
-  | 'technical-exposure'
+  'all' | 'core-frontend' | 'state-data' | 'ui-styling' | 'testing-forms' | 'performance-accessibility' | 'tools-analytics' | 'ai-coding' | 'technical-exposure'
 
 export type Skill = {
   id: string
@@ -241,7 +237,8 @@ export const experiments: Experiment[] = [
     title: 'Warp starfield',
     categoryLabel: 'WebGL / GLSL',
     status: 'running live',
-    description: 'Seven thousand shader-driven stars wrapped around the camera, so the field never runs out. Streaks follow the camera’s real velocity during a warp jump, and chromatic aberration peaks mid-flight.',
+    description:
+      'Seven thousand shader-driven stars wrapped around the camera, so the field never runs out. Streaks follow the camera’s real velocity during a warp jump, and chromatic aberration peaks mid-flight.',
     technologies: ['Three.js', 'GLSL', 'React Three Fiber', 'Post-processing'],
     liveOn: { label: 'Jump to any deck to trigger a warp', path: '/journey' },
   },
@@ -251,7 +248,8 @@ export const experiments: Experiment[] = [
     title: 'Particle core',
     categoryLabel: 'WebGL / GLSL',
     status: 'running live',
-    description: 'A 42,000-point swarm that morphs from static into a name and bursts into the stars on boarding, entirely in the vertex shader with staggered timing. The cursor pushes particles away in screen space.',
+    description:
+      'A 42,000-point swarm that morphs from static into a name and bursts into the stars on boarding, entirely in the vertex shader with staggered timing. The cursor pushes particles away in screen space.',
     technologies: ['Three.js', 'GLSL', 'Canvas text sampling', 'Additive blending'],
     liveOn: { label: 'Reload to see it on the welcome screen', path: '/' },
   },
@@ -261,7 +259,8 @@ export const experiments: Experiment[] = [
     title: 'Procedural ambience',
     categoryLabel: 'Web Audio',
     status: 'running live',
-    description: 'The ship’s sound is synthesised in the browser: a warm pad gliding through four chords, a soft sub, sparse bell tones and a generated hall reverb, plus a whoosh on every warp and quiet UI ticks. There are no audio files.',
+    description:
+      'The ship’s sound is synthesised in the browser: a warm pad gliding through four chords, a soft sub, sparse bell tones and a generated hall reverb, plus a whoosh on every warp and quiet UI ticks. There are no audio files.',
     technologies: ['Web Audio API', 'TypeScript'],
     liveOn: { label: 'Turn on sound, bottom right', path: '/' },
   },
@@ -271,7 +270,8 @@ export const experiments: Experiment[] = [
     title: 'Pilot reveal lens',
     categoryLabel: 'WebGL / GLSL',
     status: 'running live',
-    description: 'The pilot on the home page is two images on one shader plane: the helmeted pilot on top and my photo underneath. A soft lens follows the cursor and dissolves the suit inside it, with a wobbling edge, a glowing ring and fine scan lines. On touch screens you drag to reveal, and an occasional automatic scan hints that it’s there.',
+    description:
+      'The pilot on the home page is two images on one shader plane: the helmeted pilot on top and my photo underneath. A soft lens follows the cursor and dissolves the suit inside it, with a wobbling edge, a glowing ring and fine scan lines. On touch screens you drag to reveal, and an occasional automatic scan hints that it’s there.',
     technologies: ['Three.js', 'GLSL', 'React Three Fiber', 'Texture masking'],
     liveOn: { label: 'Hover over the pilot on the home page', path: '/' },
   },
@@ -309,8 +309,10 @@ export const milestones: Milestone[] = [
     summary: 'Developed React features for operational dashboards and data-heavy business applications.',
     narrative: 'Worked as the sole frontend developer, collaborating with backend engineers, designers, QA, and senior engineers.',
     platformEvolution: {
-      legacy: 'Maintained the large, live application by resolving bugs, delivering new features, and enhancing existing functionality while users continued working in it.',
-      modernization: 'Collaborated with senior engineers on a ground-up rebuild while the previous version remained in operation. The new frontend used TypeScript, Jotai, Zod, TanStack Query, React Hook Form, Storybook, and Jest.',
+      legacy:
+        'Maintained the large, live application by resolving bugs, delivering new features, and enhancing existing functionality while users continued working in it.',
+      modernization:
+        'Collaborated with senior engineers on a ground-up rebuild while the previous version remained in operation. The new frontend used TypeScript, Jotai, Zod, TanStack Query, React Hook Form, Storybook, and Jest.',
     },
     achievements: [
       'Built reusable React components and responsive features for operational dashboards.',
@@ -324,9 +326,31 @@ export const milestones: Milestone[] = [
       'Collaborated with backend engineers, designers, and QA in an Agile/Scrum workflow, contributing to sprint planning, code reviews, and bug fixing.',
       'Adopted an AI-augmented development approach, using AI-assisted tools and agentic workflows to accelerate feature delivery.',
     ],
-    skillsUnlocked: ['HTML', 'CSS / LESS', 'JavaScript', 'TypeScript', 'React', 'Redux', 'Redux Toolkit', 'Context API', 'Jotai', 'Zod', 'TanStack Query', 
-      'React Hook Form', 'REST APIs', 'Google Maps API', 'Chart.js', 'WebSockets', 'Google Analytics 4', 'Git & Github', 'React / Redux Developer Tools', 
-      'Storybook', 'Jest', 'Agile/Scrum Workflow', 'AI-assisted development',],
+    skillsUnlocked: [
+      'HTML',
+      'CSS / LESS',
+      'JavaScript',
+      'TypeScript',
+      'React',
+      'Redux',
+      'Redux Toolkit',
+      'Context API',
+      'Jotai',
+      'Zod',
+      'TanStack Query',
+      'React Hook Form',
+      'REST APIs',
+      'Google Maps API',
+      'Chart.js',
+      'WebSockets',
+      'Google Analytics 4',
+      'Git & Github',
+      'React / Redux Developer Tools',
+      'Storybook',
+      'Jest',
+      'Agile/Scrum Workflow',
+      'AI-assisted development',
+    ],
     status: 'Oct 2021 – Aug 2026',
   },
   {
@@ -350,7 +374,19 @@ export const milestones: Milestone[] = [
       'Maintained the website after launch.',
       'Used Claude, ChatGPT, Gemini, and agentic workflows to support implementation and iteration, reviewing generated output during development.',
     ],
-    skillsUnlocked: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Google Maps', 'Google Analytics 4', 'Google Search Console', 'Google Ads', 'Lighthouse', 'Fast & Performant', 'SEO optimization', 'Vercel'],
+    skillsUnlocked: [
+      'Next.js',
+      'TypeScript',
+      'Tailwind CSS',
+      'Google Maps',
+      'Google Analytics 4',
+      'Google Search Console',
+      'Google Ads',
+      'Lighthouse',
+      'Fast & Performant',
+      'SEO optimization',
+      'Vercel',
+    ],
     status: 'Live',
     websiteUrl: 'https://alecevhybrid.com',
   },
@@ -362,7 +398,8 @@ export const milestones: Milestone[] = [
     category: 'personal-projects',
     categoryLabel: 'Personal project',
     summary: 'The Vessel: a portfolio built as one persistent 3D world, where every page is a deck of a ship.',
-    narrative: 'An ongoing personal project in React, TypeScript and React Three Fiber that explores how far cinematic 3D, motion and sound can go on the web while staying readable and accessible.',
+    narrative:
+      'An ongoing personal project in React, TypeScript and React Three Fiber that explores how far cinematic 3D, motion and sound can go on the web while staying readable and accessible.',
     achievements: [
       'Built one WebGL world that persists across every route, with camera flights and warp transitions',
       'Wrote GLSL shaders for the starfield, nebula and a 42,000-particle morphing core',

@@ -1,8 +1,10 @@
-import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { mulberry32 } from '../random'
-import { deckInView, useVessel } from '../store'
+
+import { mulberry32 } from '@/world/random'
+import { deckInView, useVessel } from '@/world/store'
+
 import { useDeckAnchor } from './useDeckAnchor'
 
 const DEBRIS_COUNT = 46
@@ -123,7 +125,9 @@ export function Wreckage() {
       {debris.map((piece, index) => (
         <mesh
           key={index}
-          ref={(mesh) => { pieces.current[index] = mesh }}
+          ref={(mesh) => {
+            pieces.current[index] = mesh
+          }}
           geometry={piece.geometry}
           material={hullMaterial}
           position={piece.position}

@@ -59,8 +59,6 @@ function getContext() {
   return { context, master: master as GainNode, reverb: reverb as ConvolverNode }
 }
 
-
-
 // D major, gentle and open: Dadd9 → Bm7 → Gmaj7 → Asus2 (MIDI note numbers).
 const CHORDS = [
   [50, 57, 64, 66],
@@ -150,7 +148,10 @@ function playBell() {
   gain.gain.exponentialRampToValueAtTime(0.022, now + 0.02)
   gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.2)
   // Fundamental plus a soft inharmonic partial for a glassy tone.
-  for (const [ratio, level] of [[1, 1], [2.76, 0.18]] as const) {
+  for (const [ratio, level] of [
+    [1, 1],
+    [2.76, 0.18],
+  ] as const) {
     const osc = ctx.createOscillator()
     osc.type = 'sine'
     osc.frequency.value = pitch * ratio
@@ -170,10 +171,13 @@ function playBell() {
 function scheduleBells() {
   window.clearTimeout(bellTimer)
   if (mode !== 'ambient') return
-  bellTimer = window.setTimeout(() => {
-    playBell()
-    scheduleBells()
-  }, 5000 + Math.random() * 7000)
+  bellTimer = window.setTimeout(
+    () => {
+      playBell()
+      scheduleBells()
+    },
+    5000 + Math.random() * 7000,
+  )
 }
 
 export function setSoundMode(next: SoundMode) {
@@ -308,7 +312,13 @@ export function playUi(kind: 'hover' | 'click') {
   // Throttle so sweeping across a menu doesn't machine-gun.
   if (kind === 'hover' && now - lastUiSound < 0.06) return
   lastUiSound = now
-  const tones = kind === 'hover' ? [[note(88), 0, 0.06, 0.03]] : [[note(76), 0, 0.12, 0.09], [note(83), 0.06, 0.18, 0.07]]
+  const tones =
+    kind === 'hover'
+      ? [[note(88), 0, 0.06, 0.03]]
+      : [
+          [note(76), 0, 0.12, 0.09],
+          [note(83), 0.06, 0.18, 0.07],
+        ]
   for (const [frequency, offset, length, level] of tones) {
     const osc = ctx.createOscillator()
     osc.type = 'sine'

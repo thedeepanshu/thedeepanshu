@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { learning } from '../../content/beyond'
+
+import { learning } from '@/content/beyond'
 
 const SNIPPET = `const today = {
   learning: '${learning.title}',
@@ -30,7 +31,10 @@ function TypedSnippet() {
   return (
     <pre className="desk-code" aria-hidden="true">
       <code className="desk-code-ghost">{SNIPPET}▌</code>
-      <code>{SNIPPET.slice(0, length)}<span className="desk-caret">▌</span></code>
+      <code>
+        {SNIPPET.slice(0, length)}
+        <span className="desk-caret">▌</span>
+      </code>
     </pre>
   )
 }
@@ -44,18 +48,29 @@ export function LearningDesk() {
         <div>
           <p className="desk-kicker">Learning with</p>
           <h3>{learning.title}</h3>
-          <p className="desk-by">{learning.where} · by {learning.by}</p>
+          <p className="desk-by">
+            {learning.where} · by {learning.by}
+          </p>
         </div>
         <p className="desk-summary">{learning.summary}</p>
         {learning.notes.length > 0 && (
           <ul className="desk-notes" aria-label="Today I learned">
-            {learning.notes.map((item) => <li key={item}>{item}</li>)}
+            {learning.notes.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
           </ul>
         )}
-        <a className="desk-link" href={learning.url} target="_blank" rel="noreferrer">Learn along on {learning.where} <span aria-hidden="true">↗</span></a>
+        <a className="desk-link" href={learning.url} target="_blank" rel="noreferrer">
+          Learn along on {learning.where} <span aria-hidden="true">↗</span>
+        </a>
       </div>
       <div className="desk-editor">
-        <div className="desk-editor-bar" aria-hidden="true"><i /><i /><i /><span>learning.js</span></div>
+        <div className="desk-editor-bar" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <span>learning.js</span>
+        </div>
         <TypedSnippet />
       </div>
     </div>

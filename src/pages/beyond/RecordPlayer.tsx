@@ -1,7 +1,8 @@
-import { useState } from 'react'
 import { Music2, X } from 'lucide-react'
-import { listening } from '../../content/beyond'
-import { useMusicDuck } from '../../hooks/useMusicDuck'
+import { useState } from 'react'
+
+import { listening } from '@/content/beyond'
+import { useMusicDuck } from '@/hooks/useMusicDuck'
 
 /**
  * On repeat: a crate of records and a turntable. Pick a sleeve and its record
@@ -29,7 +30,9 @@ export function RecordPlayer() {
           >
             <img src={item.art} alt="" loading="lazy" width={480} height={480} />
             <span className="record-sleeve-text">
-              <small>{String(index + 1).padStart(2, '0')} · {item.scene}</small>
+              <small>
+                {String(index + 1).padStart(2, '0')} · {item.scene}
+              </small>
               <b>{item.name}</b>
             </span>
           </button>
@@ -45,21 +48,43 @@ export function RecordPlayer() {
               <span className="vinyl-spindle" />
             </div>
           </div>
-          <span className="tonearm"><i /></span>
+          <span className="tonearm">
+            <i />
+          </span>
           <span className="turntable-light" />
         </div>
 
         <div className="turntable-info">
-          <p className="turntable-kicker"><span className="eq" aria-hidden="true"><i /><i /><i /><i /></span>Now spinning</p>
+          <p className="turntable-kicker">
+            <span className="eq" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <i />
+            </span>
+            Now spinning
+          </p>
           <h3>{artist.name}</h3>
-          <p className="turntable-scene">{artist.scene} · <span>{artist.artCaption}</span></p>
+          <p className="turntable-scene">
+            {artist.scene} · <span>{artist.artCaption}</span>
+          </p>
           {artist.note && <p className="turntable-note">“{artist.note}”</p>}
           <p className="turntable-label">Popular tracks</p>
           <ol className="turntable-tracks">
-            {artist.tracks.map((track) => <li key={track}>{track}</li>)}
+            {artist.tracks.map((track) => (
+              <li key={track}>{track}</li>
+            ))}
           </ol>
           <button type="button" className="spotify-toggle" aria-expanded={spotifyOpen} onClick={() => setSpotifyOpen(!spotifyOpen)}>
-            {spotifyOpen ? <><X size={15} aria-hidden="true" /> Close player</> : <><Music2 size={15} aria-hidden="true" /> Play on Spotify</>}
+            {spotifyOpen ? (
+              <>
+                <X size={15} aria-hidden="true" /> Close player
+              </>
+            ) : (
+              <>
+                <Music2 size={15} aria-hidden="true" /> Play on Spotify
+              </>
+            )}
           </button>
         </div>
       </div>

@@ -1,7 +1,8 @@
-import { useMemo, useRef, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
+import { useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
-import { motion, useVessel, type BootPhase } from './store'
+
+import { type BootPhase, motion, useVessel } from './store'
 import { buildSwarmTargets } from './swarmTargets'
 
 const vertexShader = /* glsl */ `
@@ -115,18 +116,21 @@ export function Swarm({ count }: { count: number }) {
     return g
   }, [count, nameWidth])
 
-  const uniforms = useMemo(() => ({
-    uNameMatrix: { value: new THREE.Matrix4() },
-    uAssemble: { value: 0 },
-    uLaunch: { value: 0 },
-    uTime: { value: 0 },
-    uPixelRatio: { value: 1 },
-    uPointer: { value: new THREE.Vector2() },
-    uAspect: { value: 1 },
-    uPointerForce: { value: 0 },
-    uOpacity: { value: 0 },
-    uNameDim: { value: Math.min(1, Math.max(0.4, (nameWidth / 11) ** 1.5)) },
-  }), [nameWidth])
+  const uniforms = useMemo(
+    () => ({
+      uNameMatrix: { value: new THREE.Matrix4() },
+      uAssemble: { value: 0 },
+      uLaunch: { value: 0 },
+      uTime: { value: 0 },
+      uPixelRatio: { value: 1 },
+      uPointer: { value: new THREE.Vector2() },
+      uAspect: { value: 1 },
+      uPointerForce: { value: 0 },
+      uOpacity: { value: 0 },
+      uNameDim: { value: Math.min(1, Math.max(0.4, (nameWidth / 11) ** 1.5)) },
+    }),
+    [nameWidth],
+  )
 
   useFrame(({ camera, clock, gl, size }, delta) => {
     const u = material.current?.uniforms
@@ -153,8 +157,8 @@ export function Swarm({ count }: { count: number }) {
       u.uLaunch.value = launchTarget
       u.uOpacity.value = 1
     } else {
-      u.uAssemble.value = THREE.MathUtils.clamp(u.uAssemble.value + Math.sign(assembleTarget - u.uAssemble.value) * delta / 2.2, 0, 1)
-      u.uLaunch.value = THREE.MathUtils.clamp(u.uLaunch.value + Math.sign(launchTarget - u.uLaunch.value) * delta / 2.4, 0, 1)
+      u.uAssemble.value = THREE.MathUtils.clamp(u.uAssemble.value + (Math.sign(assembleTarget - u.uAssemble.value) * delta) / 2.2, 0, 1)
+      u.uLaunch.value = THREE.MathUtils.clamp(u.uLaunch.value + (Math.sign(launchTarget - u.uLaunch.value) * delta) / 2.4, 0, 1)
       u.uOpacity.value = Math.min(1, u.uOpacity.value + delta / 1.5)
     }
 

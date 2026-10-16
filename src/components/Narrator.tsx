@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
-import { missions, skills } from '../content/portfolio'
-import { decks, type DeckId } from '../world/decks'
-import { useVessel } from '../world/store'
-import { PALETTE_SHORTCUT } from './shortcuts'
 import './Narrator.css'
+
+import { useEffect, useRef, useState } from 'react'
+
+import { missions, skills } from '@/content/portfolio'
+import { type DeckId, decks } from '@/world/decks'
+import { useVessel } from '@/world/store'
+
+import { PALETTE_SHORTCUT } from './shortcuts'
 
 const DECK_LINES: Record<DeckId, string> = {
   bridge: 'Bridge online. All systems nominal.',
@@ -92,7 +95,10 @@ export function Narrator() {
 
   return (
     <div className={`narrator${visible ? ' is-visible' : ''}`} aria-hidden="true">
-      <span className="narrator-tag"><i />VESSEL//AI</span>
+      <span className="narrator-tag">
+        <i />
+        VESSEL//AI
+      </span>
       <span className="narrator-text" ref={text} />
     </div>
   )
