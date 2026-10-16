@@ -112,7 +112,6 @@ export function PaletteToggle() {
     <button
       type="button"
       className="palette-toggle"
-      aria-label="Open quick navigation"
       aria-keyshortcuts={IS_MAC ? 'Meta+K' : 'Control+K'}
       aria-expanded={open}
       onClick={(event) => {

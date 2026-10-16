@@ -52,19 +52,16 @@ export function WatchShelf() {
           return (
             <article className={`watch-card watch-card--${item.status}${isFlipped ? ' is-flipped' : ''}`} key={item.id}>
               <div className="watch-tilt" onPointerMove={tilt} onPointerLeave={untilt}>
-                <button
-                  type="button"
-                  className="watch-flip"
-                  aria-pressed={isFlipped}
-                  aria-label={`${isFlipped ? 'Hide' : 'Show'} details for ${item.title}`}
-                  onClick={() => flip(item.id)}
-                >
+                <button type="button" className="watch-flip" aria-pressed={isFlipped} onClick={() => flip(item.id)}>
                   <span className="watch-inner">
                     <span className="watch-face watch-front">
                       <img src={item.poster} alt="" loading="lazy" width={420} height={630} />
                       <span className="watch-status">
                         <i aria-hidden="true" />
                         {STATUS[item.status]}
+                      </span>
+                      <span className="visually-hidden">
+                        : {isFlipped ? 'hide' : 'show'} details for {item.title}
                       </span>
                       <span className="watch-glare" aria-hidden="true" />
                     </span>
