@@ -2,7 +2,7 @@ import seo from './seo.json'
 
 type PageMeta = { title: string; description: string }
 
-export const site = seo
+const site = seo
 const pages = seo.pages as Record<string, PageMeta>
 
 const NOT_FOUND: PageMeta = {
