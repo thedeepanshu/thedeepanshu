@@ -119,7 +119,7 @@ export const missions: Mission[] = [
     title: 'The Vessel',
     role: 'Design and development',
     period: '2026',
-    status: 'In progress',
+    status: 'Live',
     summary: 'This portfolio: one persistent WebGL world in which every page is a deck of a ship, connected by warp flights.',
     challenge: 'Make a portfolio feel like a cinematic, explorable place without sacrificing readability, performance on phones or accessibility.',
     approach:
@@ -397,16 +397,16 @@ export const milestones: Milestone[] = [
     websiteUrl: 'https://alecevhybrid.com',
   },
   {
-    id: 'portfolio-in-progress',
+    id: 'the-vessel-portfolio',
     period: '2026',
     dates: { start: '2026' },
-    periodNote: 'IN PROGRESS',
-    title: 'Building this portfolio',
+    periodNote: 'LIVE',
+    title: 'This portfolio',
     category: 'personal-projects',
     categoryLabel: 'Personal project',
     summary: 'The Vessel: a portfolio built as one persistent 3D world, where every page is a deck of a ship.',
     narrative:
-      'An ongoing personal project in React, TypeScript and React Three Fiber that explores how far cinematic 3D, motion and sound can go on the web while staying readable and accessible.',
+      'A personal project in React, TypeScript and React Three Fiber that explores how far cinematic 3D, motion and sound can go on the web while staying readable and accessible.',
     achievements: [
       'Built one WebGL world that persists across every route, with camera flights and warp transitions',
       'Wrote GLSL shaders for the starfield, nebula and a 42,000-particle morphing core',
@@ -415,7 +415,7 @@ export const milestones: Milestone[] = [
       'Added quality tiers for weaker devices and a reduced-motion version',
     ],
     skillsUnlocked: ['React', 'TypeScript', 'React Three Fiber', 'Three.js', 'GLSL', 'Zustand', 'Web Audio API'],
-    status: 'in progress',
+    status: 'live',
   },
   {
     id: 'btech-cse-pkg',
@@ -523,7 +523,7 @@ export const journeyRoute: RouteStop[] = [
   { id: 'diploma-cse-gp-sonepat', when: '2019', title: 'Diploma, CSE', kind: 'education' },
   { id: 'anrx-solutions-frontend-developer', when: '2021 – 2026', title: 'ANRX Solutions', kind: 'work' },
   { id: 'canadian-business-website', when: '2026', title: 'Alec EV & Hybrid', kind: 'project' },
-  { id: 'portfolio-in-progress', when: '2026', title: 'The Vessel', kind: 'project', ongoing: true },
+  { id: 'the-vessel-portfolio', when: '2026', title: 'The Vessel', kind: 'project' },
   { id: 'btech-cse-pkg', when: 'Ongoing', title: 'B.Tech, CSE', kind: 'education', ongoing: true },
 ]
 
