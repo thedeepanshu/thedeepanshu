@@ -138,6 +138,11 @@ export function MissionsPage() {
                       {mission.link.label} <span aria-hidden="true">↗</span>
                     </ExternalLink>
                   ))}
+                {mission.source && (
+                  <ExternalLink className="mission-brief-link" href={mission.source.url}>
+                    {mission.source.label} <span aria-hidden="true">↗</span>
+                  </ExternalLink>
+                )}
                 {mission.note && <p className="mission-brief-note">{mission.note}</p>}
               </footer>
             </article>

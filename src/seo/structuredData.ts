@@ -89,20 +89,21 @@ function projects() {
     name: 'Selected work',
     itemListElement: missions.map((mission, index) => {
       const url = mission.link ? (mission.link.url.startsWith('/') ? absoluteUrl(mission.link.url) : mission.link.url) : undefined
-      const isThisSite = mission.id === 'the-vessel'
+      // Projects with public code are software; the rest are described as work.
+      const language = mission.technologies.find((tech) => tech === 'TypeScript' || tech === 'JavaScript')
       return {
         '@type': 'ListItem',
         position: index + 1,
         item: {
-          '@type': isThisSite ? 'SoftwareSourceCode' : 'CreativeWork',
+          '@type': mission.source ? 'SoftwareSourceCode' : 'CreativeWork',
           name: mission.title,
           description: mission.summary,
           ...(url ? { url } : {}),
           image: absoluteUrl(mission.visual.src),
           keywords: mission.technologies.join(', '),
           author: { '@id': PERSON_ID },
-          ...(isThisSite
-            ? { codeRepository: 'https://github.com/thedeepanshu/thedeepanshu', programmingLanguage: 'TypeScript', runtimePlatform: 'Web browser' }
+          ...(mission.source
+            ? { codeRepository: mission.source.url, ...(language ? { programmingLanguage: language } : {}), runtimePlatform: 'Web browser' }
             : {}),
         },
       }

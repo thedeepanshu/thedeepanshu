@@ -16,6 +16,8 @@ export type Mission = {
   highlights: string[]
   technologies: string[]
   link?: { label: string; url: string }
+  /** Public code repository, shown beside the live link. */
+  source?: { label: string; url: string }
   /** Shown when the product itself can't be named or linked. */
   note?: string
   visual: {
@@ -113,8 +115,38 @@ export const missions: Mission[] = [
     },
   },
   {
-    id: 'the-vessel',
+    id: 'tempovolt',
     number: '04',
+    type: 'Personal / E-commerce storefront',
+    title: 'Tempovolt',
+    role: 'Design and development',
+    period: '2021 · rebuilt 2026',
+    status: 'Live',
+    summary:
+      'A responsive storefront for performance sportswear, running shoes and training gear: first built in 2021, rebuilt in 2026 as a working shop in plain HTML, CSS and JavaScript.',
+    challenge:
+      'Make a static site with no framework, build step or backend behave like a real shop: a cart that remembers, coupons with rules and filters people can share.',
+    approach:
+      'A mobile-first layout in CSS Grid and Flexbox on a small design-token system, and vanilla JavaScript that keeps the cart in localStorage, in sync across tabs.',
+    highlights: [
+      'A working cart with sizes and quantities, saved in localStorage and kept in sync across browser tabs.',
+      'Coupon codes with minimum-spend rules, tax calculated after the discount, and a demo checkout with an order number.',
+      'Filter by category and sort by price, rating or name, with filters you can link to directly.',
+      '13 product pages with image galleries, sale pricing and sizes that fit each type of product.',
+      'Responsive from 320px to 1440px, accessible (skip link, labelled forms, visible focus, reduced motion), with schema.org Product data on every product page.',
+    ],
+    technologies: ['HTML5', 'CSS3', 'JavaScript', 'CSS Grid', 'localStorage', 'Schema.org', 'Vercel'],
+    link: { label: 'tempovolt.vercel.app', url: 'https://tempovolt.vercel.app' },
+    source: { label: 'Source code', url: 'https://github.com/thedeepanshu/e-commerce-website' },
+    visual: {
+      src: '/images/missions/tempovolt.webp',
+      alt: 'The Tempovolt home page: a dark hero reading “Keep the tempo. Bring the volt.”, a Shop the collection button and two footballers mid-tackle.',
+      frameLabel: 'tempovolt.vercel.app',
+    },
+  },
+  {
+    id: 'the-vessel',
+    number: '05',
     type: 'Personal / This website',
     title: 'The Vessel',
     role: 'Design and development',
@@ -133,6 +165,7 @@ export const missions: Mission[] = [
     ],
     technologies: ['React', 'TypeScript', 'React Three Fiber', 'Three.js', 'GLSL', 'Zustand', 'Web Audio API', 'Vite'],
     link: { label: 'You are here', url: '/' },
+    source: { label: 'Source code', url: 'https://github.com/thedeepanshu/thedeepanshu' },
     visual: {
       src: '/images/missions/the-vessel.webp',
       alt: 'This portfolio’s home page: the pilot hologram with the reveal lens showing the developer’s face behind the visor.',
@@ -418,6 +451,28 @@ export const milestones: Milestone[] = [
     status: 'live',
   },
   {
+    id: 'tempovolt-storefront',
+    period: '2021',
+    dates: { start: '2021-08', end: '2026-10' },
+    periodNote: 'REBUILT 2026',
+    title: 'Tempovolt — e-commerce storefront',
+    category: 'personal-projects',
+    categoryLabel: 'Personal project',
+    summary: 'A responsive storefront for performance sportswear, running shoes and training gear.',
+    narrative:
+      'Started in 2021 as an early e-commerce project and rebuilt in 2026 as a working, responsive shop in plain HTML, CSS and JavaScript, with no framework, build step or dependencies.',
+    achievements: [
+      'Built a working cart that saves to localStorage and stays in sync across browser tabs',
+      'Added coupon codes with minimum-spend rules and a demo checkout',
+      'Made products filterable by category and sortable by price, rating or name',
+      'Created 13 product pages with galleries, sale pricing and sizes for each type of product',
+      'Made it responsive from 320px to 1440px and accessible, with schema.org Product data for search',
+    ],
+    skillsUnlocked: ['HTML5', 'CSS3', 'JavaScript', 'CSS Grid', 'localStorage', 'Responsive design', 'Schema.org'],
+    status: 'live',
+    websiteUrl: 'https://tempovolt.vercel.app',
+  },
+  {
     id: 'btech-cse-pkg',
     period: 'B.TECH',
     periodNote: 'ON-GOING',
@@ -521,6 +576,7 @@ export type RouteStop = {
 export const journeyRoute: RouteStop[] = [
   { id: 'secondary-school-ibl', when: '2016', title: 'Secondary school', kind: 'education' },
   { id: 'diploma-cse-gp-sonepat', when: '2019', title: 'Diploma, CSE', kind: 'education' },
+  { id: 'tempovolt-storefront', when: '2021', title: 'Tempovolt', kind: 'project' },
   { id: 'anrx-solutions-frontend-developer', when: '2021 – 2026', title: 'ANRX Solutions', kind: 'work' },
   { id: 'canadian-business-website', when: '2026', title: 'Alec EV & Hybrid', kind: 'project' },
   { id: 'the-vessel-portfolio', when: '2026', title: 'The Vessel', kind: 'project' },

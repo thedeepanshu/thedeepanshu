@@ -30,6 +30,8 @@
 
 .mission-brief-foot { align-items: center; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 18px 30px; justify-content: space-between; padding-top: 22px; }
 .mission-brief-foot .mission-tags { margin-top: 0; }
+/* The live and source links sit together on the right. */
+.mission-brief-foot .mission-brief-toggle { margin-right: auto; }
 .mission-brief-link { align-items: center; color: var(--ink); display: inline-flex; font-size: 1.05rem; gap: 10px; letter-spacing: -.03em; text-decoration: none; transition: color .2s ease; }
 .mission-brief-link span { color: var(--cyan); }
 .mission-brief-link:hover, .mission-brief-link:focus-visible { color: var(--cyan); }
