@@ -64,7 +64,7 @@ export type LifeStory = {
 }
 
 /** When the "now" lists were last refreshed (shown on the page). */
-export const nowUpdated = '2026-10-23'
+export const nowUpdated = '2026-10-24'
 
 /** Shelf order: what I'm in the middle of first, then what's done. */
 const STATUS_ORDER: WatchStatus[] = ['started', 'following', 'finished', 'watched']
@@ -176,6 +176,16 @@ export const listening: Artist[] = [
     artCaption: 'Dhanda Nyoliwala',
     tracks: ['Maruti', 'Kath Lagda', 'Boom Shaka', 'Russian Bandana'],
     spotifyId: '2rN8LHqK4TBI7y3d9POvJb',
+  },
+  {
+    id: 'gaamdi-aala',
+    name: 'Gaamdi Aala',
+    scene: 'Haryanvi',
+    art: '/images/beyond/gaamdi-aala.webp',
+    artCaption: 'Gaamdi Aala',
+    // Writes and composes his own songs. Nache Se Bholanath (2026) is a newer release, not yet in his Spotify top tracks.
+    tracks: ['Vanvaasi', 'Bhaang Ragad Ke Piya Karu', 'Nache Se Bholanath', 'Saans'],
+    spotifyId: '4wasuLT30nGYqYF0SVA6kf',
   },
 ]
 
