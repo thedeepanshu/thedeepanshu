@@ -64,9 +64,28 @@ export type LifeStory = {
 }
 
 /** When the "now" lists were last refreshed (shown on the page). */
-export const nowUpdated = '2026-10-16'
+export const nowUpdated = '2026-10-23'
 
-export const watching: WatchItem[] = [
+/** Shelf order: what I'm in the middle of first, then what's done. */
+const STATUS_ORDER: WatchStatus[] = ['started', 'following', 'finished', 'watched']
+
+/** Add titles in any order: `watching` sorts them by status (keeping this order within a status). */
+const watchList: WatchItem[] = [
+  {
+    id: 'raakh',
+    title: 'Raakh',
+    kind: 'Web series',
+    season: 'Season 1',
+    year: 2026,
+    platform: 'Prime Video',
+    genre: 'Crime thriller',
+    starring: ['Ali Fazal', 'Sonali Bendre', 'Aamir Bashir'],
+    logline: 'Late-1970s Delhi: Sub-Inspector Jayprakash hunts two killers, in a story inspired by a real case that shook the city.',
+    status: 'started',
+    poster: '/images/beyond/raakh.webp',
+    trailer: 'RdB_TgwLPqs',
+    trailerSource: 'Prime Video India',
+  },
   {
     id: 'awarapan-2',
     title: 'Awarapan 2',
@@ -127,6 +146,8 @@ export const watching: WatchItem[] = [
     trailerSource: 'HBO Max',
   },
 ]
+
+export const watching: WatchItem[] = [...watchList].sort((a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status))
 
 export const listening: Artist[] = [
   {

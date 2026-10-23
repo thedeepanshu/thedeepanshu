@@ -1,5 +1,5 @@
 import { Play, RotateCcw } from 'lucide-react'
-import { type PointerEvent, useState } from 'react'
+import { type CSSProperties, type PointerEvent, useState } from 'react'
 
 import { watching, type WatchItem, type WatchStatus } from '@/content/beyond'
 
@@ -46,7 +46,8 @@ export function WatchShelf() {
 
   return (
     <>
-      <div className="watch-shelf">
+      {/* One row on desktop for up to five titles, so none sits alone on a second row. */}
+      <div className="watch-shelf" style={{ '--shelf-columns': Math.min(watching.length, 5) } as CSSProperties}>
         {watching.map((item) => {
           const isFlipped = flipped.has(item.id)
           return (

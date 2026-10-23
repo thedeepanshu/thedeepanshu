@@ -24,7 +24,7 @@
 .beyond-head p:not(.section-kicker) { color: var(--muted); font-size: 1rem; line-height: 1.6; margin: 0; }
 
 /* ── Now watching: tilting, flipping posters ── */
-.watch-shelf { display: grid; gap: clamp(18px, 2.4vw, 30px); grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.watch-shelf { display: grid; gap: clamp(18px, 2.4vw, 30px); grid-template-columns: repeat(var(--shelf-columns, 4), minmax(0, 1fr)); }
 .watch-card { display: grid; gap: 16px; }
 .watch-tilt { --tilt-x: 0deg; --tilt-y: 0deg; --glare-x: 50%; --glare-y: 30%; perspective: 1100px; }
 .watch-flip { aspect-ratio: 2 / 3; background: none; border: 0; color: inherit; cursor: pointer; display: block; font: inherit; padding: 0; position: relative; width: 100%; }
