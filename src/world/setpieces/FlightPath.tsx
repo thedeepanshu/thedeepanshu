@@ -21,6 +21,7 @@ type Look = {
 const LOOKS: Record<string, Look> = {
   'secondary-school-ibl': { radius: 0.8, colors: ['#83b7ff', '#16233d'] },
   'diploma-cse-gp-sonepat': { radius: 1.05, colors: ['#7ef4db', '#0f2a2c'] },
+  'luxyvilla-real-estate': { radius: 1, colors: ['#e0a35a', '#2a1d12'] },
   'tempovolt-storefront': { radius: 0.95, colors: ['#c8f25a', '#1b2a16'] },
   'anrx-solutions-frontend-developer': { radius: 2.3, colors: ['#7ef4db', '#123a40'], ring: true, moons: ['#7ef4db', '#a17eff'] },
   'canadian-business-website': { radius: 1.35, colors: ['#a17eff', '#21183f'] },

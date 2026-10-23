@@ -145,8 +145,38 @@ export const missions: Mission[] = [
     },
   },
   {
-    id: 'the-vessel',
+    id: 'luxyvilla',
     number: '05',
+    type: 'Personal / Real estate website',
+    title: 'LUXYVILLA',
+    role: 'Design and development',
+    period: '2021 · rebuilt 2026',
+    status: 'Live',
+    summary:
+      'A responsive real estate website for luxury homes to buy or rent across India: first built in 2021, rebuilt in 2026 in React with search, filters and property pages.',
+    challenge:
+      'Make a photo-heavy listings site feel premium and stay fast on phones, with a hero slider, filters and forms that all work by keyboard and screen reader.',
+    approach:
+      'React with React Router and styled-components on a theme of design tokens, every page except home loaded on demand, and all content in data files so listings need no code changes.',
+    highlights: [
+      'Buy and Rent listings with keyword search, city and bedroom filters, sorting, and filters you can set from the URL.',
+      'Property pages with a photo gallery, key facts, amenities, an enquiry form and similar homes.',
+      'A hero slider with play/pause, arrows and dots that doesn’t autoplay when reduced motion is on.',
+      'Code splitting with React.lazy, responsive lazy-loaded images, and photos cut from about 18 MB to 2.7 MB.',
+      'A mobile menu with a focus trap and Escape to close, forms that focus the first error, and a strict Content Security Policy.',
+    ],
+    technologies: ['React', 'React Router', 'styled-components', 'JavaScript', 'Jest', 'React Testing Library', 'Vercel'],
+    link: { label: 'luxyvilla.vercel.app', url: 'https://luxyvilla.vercel.app' },
+    source: { label: 'Source code', url: 'https://github.com/thedeepanshu/responsive-react-website' },
+    visual: {
+      src: '/images/missions/luxyvilla.webp',
+      alt: 'The LUXYVILLA home page: a hero slide of The Palm Court Villa in Candolim, Goa, at ₹4.85 Cr, with a View property button over a white villa and pool.',
+      frameLabel: 'luxyvilla.vercel.app',
+    },
+  },
+  {
+    id: 'the-vessel',
+    number: '06',
     type: 'Personal / This website',
     title: 'The Vessel',
     role: 'Design and development',
@@ -473,6 +503,28 @@ export const milestones: Milestone[] = [
     websiteUrl: 'https://tempovolt.vercel.app',
   },
   {
+    id: 'luxyvilla-real-estate',
+    period: '2021',
+    dates: { start: '2021-07', end: '2026-10' },
+    periodNote: 'REBUILT 2026',
+    title: 'LUXYVILLA — real estate website',
+    category: 'personal-projects',
+    categoryLabel: 'Personal project',
+    summary: 'A responsive real estate website for buying and renting luxury homes across India.',
+    narrative:
+      'Started in 2021 with Create React App and rebuilt in 2026 into a complete site with listings, search, property pages and enquiry forms, using React Router and styled-components.',
+    achievements: [
+      'Built Buy and Rent listings with search, city and bedroom filters, sorting and filters set from the URL',
+      'Made property pages with a photo gallery, key facts, an enquiry form and similar homes',
+      'Split the code so only the home page loads up front, with responsive, lazy-loaded images',
+      'Made the menu, slider, gallery, accordion and forms work fully by keyboard and screen reader',
+      'Wrote tests with Jest and React Testing Library for filters, redirects, forms and the slider',
+    ],
+    skillsUnlocked: ['React', 'React Router', 'styled-components', 'Jest', 'React Testing Library', 'Accessibility', 'Responsive design'],
+    status: 'live',
+    websiteUrl: 'https://luxyvilla.vercel.app',
+  },
+  {
     id: 'btech-cse-pkg',
     period: 'B.TECH',
     periodNote: 'ON-GOING',
@@ -576,6 +628,7 @@ export type RouteStop = {
 export const journeyRoute: RouteStop[] = [
   { id: 'secondary-school-ibl', when: '2016', title: 'Secondary school', kind: 'education' },
   { id: 'diploma-cse-gp-sonepat', when: '2019', title: 'Diploma, CSE', kind: 'education' },
+  { id: 'luxyvilla-real-estate', when: '2021', title: 'LUXYVILLA', kind: 'project' },
   { id: 'tempovolt-storefront', when: '2021', title: 'Tempovolt', kind: 'project' },
   { id: 'anrx-solutions-frontend-developer', when: '2021 – 2026', title: 'ANRX Solutions', kind: 'work' },
   { id: 'canadian-business-website', when: '2026', title: 'Alec EV & Hybrid', kind: 'project' },

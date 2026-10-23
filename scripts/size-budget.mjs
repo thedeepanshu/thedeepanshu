@@ -10,7 +10,8 @@ import { gzipSync } from 'node:zlib'
 
 const KB = 1024
 const budgets = [
-  { label: 'main (pages, React)', match: /^index-.*\.js$/, max: 130 * KB },
+  // Raised from 130 KB when the Tempovolt and LUXYVILLA projects (content only, ~1.4 KB) arrived.
+  { label: 'main (pages, React)', match: /^index-.*\.js$/, max: 140 * KB },
   { label: '3D world (three.js, scenes)', match: /^World-.*\.js$/, max: 310 * KB },
   // Raised from 20 KB when the Beyond deck (its own page styles, ~3 KB) arrived.
   { label: 'styles', match: /^index-.*\.css$/, max: 24 * KB },
