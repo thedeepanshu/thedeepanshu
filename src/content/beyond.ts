@@ -30,6 +30,15 @@ export type WatchItem = {
   note?: string
 }
 
+/** A song on the shelf: plays in Spotify's player, or from an official YouTube upload when it isn't on Spotify. */
+export type Track = {
+  title: string
+  /** Spotify track id. */
+  spotify?: string
+  /** YouTube video id of the official upload (artist or label channel). */
+  youtube?: string
+}
+
 export type Artist = {
   id: string
   name: string
@@ -37,8 +46,8 @@ export type Artist = {
   /** Shown on the record label: an artist photo, or a release cover. */
   art: string
   artCaption: string
-  /** Popular tracks, from the artist's streaming profile. */
-  tracks: string[]
+  /** Popular tracks, from the artist's streaming profile, plus picks. */
+  tracks: Track[]
   spotifyId: string
   note?: string
 }
@@ -64,9 +73,28 @@ export type LifeStory = {
 }
 
 /** When the "now" lists were last refreshed (shown on the page). */
-export const nowUpdated = '2026-10-16'
+export const nowUpdated = '2026-10-24'
 
-export const watching: WatchItem[] = [
+/** Shelf order: what I'm in the middle of first, then what's done. */
+const STATUS_ORDER: WatchStatus[] = ['started', 'following', 'finished', 'watched']
+
+/** Add titles in any order: `watching` sorts them by status (keeping this order within a status). */
+const watchList: WatchItem[] = [
+  {
+    id: 'raakh',
+    title: 'Raakh',
+    kind: 'Web series',
+    season: 'Season 1',
+    year: 2026,
+    platform: 'Prime Video',
+    genre: 'Crime thriller',
+    starring: ['Ali Fazal', 'Sonali Bendre', 'Aamir Bashir'],
+    logline: 'Late-1970s Delhi: Sub-Inspector Jayprakash hunts two killers, in a story inspired by a real case that shook the city.',
+    status: 'started',
+    poster: '/images/beyond/raakh.webp',
+    trailer: 'RdB_TgwLPqs',
+    trailerSource: 'Prime Video India',
+  },
   {
     id: 'awarapan-2',
     title: 'Awarapan 2',
@@ -128,6 +156,8 @@ export const watching: WatchItem[] = [
   },
 ]
 
+export const watching: WatchItem[] = [...watchList].sort((a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status))
+
 export const listening: Artist[] = [
   {
     id: 'cheema-y',
@@ -135,7 +165,12 @@ export const listening: Artist[] = [
     scene: 'Punjabi',
     art: '/images/beyond/cheema-y.webp',
     artCaption: 'Cheema Y',
-    tracks: ['Jackpot', 'Snap', 'Takde Gharde', 'Young G.O.A.T'],
+    tracks: [
+      { title: 'Jackpot', spotify: '0JOAMHwHFGKbPOwfM26fL7' },
+      { title: 'Snap', youtube: 'GlotkxiPtog' },
+      { title: 'Takde Gharde', youtube: 'wJq0S4QUBAg' },
+      { title: 'Young G.O.A.T', spotify: '6xHPBEvcG0RQDfyTq7jc8P' },
+    ],
     spotifyId: '0uOUeC51AxGnP6hB8gurwt',
   },
   {
@@ -144,7 +179,12 @@ export const listening: Artist[] = [
     scene: 'Haryanvi',
     art: '/images/beyond/vikram-sarkar.webp',
     artCaption: 'Cover of “Scene”',
-    tracks: ['Champ', 'Gaadi 150', 'Falani', 'Scene'],
+    tracks: [
+      { title: 'Champ', spotify: '7rrNWWMx4rOgiJBOPaSGgA' },
+      { title: 'Gaadi 150', spotify: '0qNMptHdkQuZsWKxZ8rmW2' },
+      { title: 'Falani', spotify: '1KdTSJm0SxliAg24quxw5i' },
+      { title: 'Scene', spotify: '6qLDRFfqvBJDgA2NMZRUEy' },
+    ],
     spotifyId: '4naSOUBsPQeISuibs56w6Y',
   },
   {
@@ -153,8 +193,28 @@ export const listening: Artist[] = [
     scene: 'Haryanvi',
     art: '/images/beyond/dhanda-nyoliwala.webp',
     artCaption: 'Dhanda Nyoliwala',
-    tracks: ['Maruti', 'Kath Lagda', 'Boom Shaka', 'Russian Bandana'],
+    tracks: [
+      { title: 'Maruti', spotify: '4EellE2v4gDuZaHVIMiZKO' },
+      { title: 'Kath Lagda', spotify: '3zoM4v1qTX94ZqfPYRReJh' },
+      { title: 'Boom Shaka', spotify: '1g6nQTE5x7eLJX7tXCTiSz' },
+      { title: 'Russian Bandana', spotify: '1dFrZr9eMUsFqeag04ClqD' },
+    ],
     spotifyId: '2rN8LHqK4TBI7y3d9POvJb',
+  },
+  {
+    id: 'gaamdi-aala',
+    name: 'Gaamdi Aala',
+    scene: 'Haryanvi',
+    art: '/images/beyond/gaamdi-aala.webp',
+    artCaption: 'Gaamdi Aala',
+    // Writes and composes his own songs. Nache Se Bholanath (2026) plays from his own YouTube channel.
+    tracks: [
+      { title: 'Vanvaasi', spotify: '5GQeeraYS11eSvkFBNnOpu' },
+      { title: 'Bhaang Ragad Ke Piya Karu', spotify: '4pHbKACNY8Pdn2h2U66Z5m' },
+      { title: 'Nache Se Bholanath', youtube: 'jQugd9DsYyw' },
+      { title: 'Saans', spotify: '0C52eF65FFDeXdc9CxdWJz' },
+    ],
+    spotifyId: '4wasuLT30nGYqYF0SVA6kf',
   },
 ]
 

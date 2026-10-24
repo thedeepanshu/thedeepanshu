@@ -24,6 +24,12 @@ describe('content integrity', () => {
     for (const image of images) expect(inPublic(image), image).toBe(true)
   })
 
+  it('every track on the music shelf can be played', () => {
+    for (const artist of listening) {
+      for (const track of artist.tracks) expect(Boolean(track.spotify || track.youtube), `${artist.name}: ${track.title}`).toBe(true)
+    }
+  })
+
   it('missions have unique ids and numbers', () => {
     expect(new Set(missions.map((mission) => mission.id)).size).toBe(missions.length)
     expect(new Set(missions.map((mission) => mission.number)).size).toBe(missions.length)

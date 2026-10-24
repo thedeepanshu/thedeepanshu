@@ -22,7 +22,8 @@ const updated = new Date(`${nowUpdated}T12:00:00`).toLocaleDateString('en-GB', {
  * recommend something back. The deck has its own warm light and music.
  */
 export function BeyondPage() {
-  const nowWatching = watching.find((item) => item.status !== 'finished') ?? watching[0]
+  // `watching` is sorted with what I'm in the middle of first.
+  const nowWatching = watching[0]
 
   return (
     <PageFrame
