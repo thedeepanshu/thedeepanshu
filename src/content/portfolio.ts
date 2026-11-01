@@ -200,7 +200,7 @@ export const missions: Mission[] = [
     source: { label: 'Source code', url: 'https://github.com/thedeepanshu/project-management-app' },
     visual: {
       src: '/images/missions/twillboard.webp',
-      alt: 'The Twillboard dashboard in dark mode with sample data: a greeting with a 28% completion ring, project stat tiles, an overdue alert and the project pipeline.',
+      alt: 'The Twillboard dashboard in its light theme with sample data: a greeting with a 28% completion ring, project stat tiles, an overdue alert and the project pipeline.',
       frameLabel: 'twillboard.vercel.app',
     },
   },
